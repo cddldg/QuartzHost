@@ -19,7 +19,7 @@
 
   <ItemGroup>
     <PackageReference Include="DG.Logger" Version="1.0.2" />
-    <PackageReference Include="QuartzHost.Base" Version="1.0.6">
+    <PackageReference Include="QuartzHost.Base" Version="1.0.8">
       <ExcludeAssets>runtime</ExcludeAssets>
     </PackageReference>
     <PackageReference Include="UniqueIdGenerator" Version="2.0.0" />

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.Json;
+using System.Threading.Tasks;
 using UniqueIdGenerator.Net;
 
 namespace VIP
@@ -14,9 +15,10 @@ namespace VIP
         public static readonly short GenerID = (short)new Random().Next(0, 512);
         private static readonly Generator Generator = new Generator(GenerID, DateTime.Today);
 
-        public override void Run(TaskContext context)
+        public override async Task Run(TaskContext context)
         {
             _logger.LogInformation($"--------vip test {(long)Generator.NextLong()} {context.ToJson()} {DateTime.Now}");
+            await Task.FromResult(0);
         }
     }
 

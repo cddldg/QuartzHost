@@ -52,7 +52,7 @@ namespace QuartzHost.Core.Common
                             try
                             {
                                 stopwatch.Restart();
-                                instance.InnerRun(tctx);
+                                await instance.InnerRun(tctx);
                                 stopwatch.Stop();
                                 await _quartzDao.UpdateRunTrace(traceId, Math.Round(stopwatch.Elapsed.TotalSeconds, 3), Models.TaskRunResult.Success);
                                 _logger.LogInformation($"任务[{job.JobDataMap["name"]}({_sid})]运行成功！{traceId} 用时{stopwatch.Elapsed.TotalMilliseconds.ToString()}ms");
