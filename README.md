@@ -9,5 +9,6 @@ ASP.NET Core Blazor展现（进行中）;
 ### 特点
 任务插件式运行;
 实现Job不需要引用Quart.Net;
+任务支持异步；  
 集成NLog; 
 可多节点部署; 
