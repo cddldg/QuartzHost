@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DG.Dapper" Version="1.0.4" />
+    <PackageReference Include="DG.Logger" Version="1.0.2" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.2" />
+    <PackageReference Include="Quartz" Version="3.0.7" />
+    <PackageReference Include="QuartzHost.Base" Version="1.0.6" />
+  </ItemGroup>
+</Project>
