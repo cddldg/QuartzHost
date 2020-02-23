@@ -6,7 +6,7 @@
     <Authors>dldg</Authors>
     <Product>QuartzHost.Base</Product>
     <Description>任务调度基类 添加job实现抽象方法即可</Description>
-    <Version>1.0.6</Version>
+    <Version>1.0.8</Version>
     <Company>dldg</Company>
   </PropertyGroup>
 </Project>

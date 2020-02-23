@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace QuartzHost.Base
 {
@@ -12,7 +13,7 @@ namespace QuartzHost.Base
         /// <summary>
         /// 任务执行的方法，由具体任务去重写实现
         /// </summary>
-        public abstract void Run(TaskContext context);
+        public abstract Task Run(TaskContext context);
 
         /// <summary>
         /// 停止任务后可能需要的处理
@@ -25,14 +26,14 @@ namespace QuartzHost.Base
         /// <summary>
         /// 保证前一次运行完才开始下一次，否则就跳过本次执行
         /// </summary>
-        public void InnerRun(TaskContext context)
+        public async Task InnerRun(TaskContext context)
         {
             if (!_isRunning)
             {
                 _isRunning = true;
                 try
                 {
-                    Run(context);
+                    await Run(context);
                 }
                 //catch (Exception err)
                 //{
