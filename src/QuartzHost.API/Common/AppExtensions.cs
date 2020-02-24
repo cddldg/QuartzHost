@@ -17,26 +17,6 @@ namespace QuartzHost.API.Common
     public static class AppExtensions
     {
         /// <summary>
-        /// 自定义控制器激活，并手动注册所有控制器
-        /// </summary>
-        /// <param name="services"></param>
-        /// <param name="obj"></param>
-        public static void AddHosControllers(this IServiceCollection services, object obj)
-        {
-            //services.Replace(ServiceDescriptor.Transient<IControllerActivator, HosControllerActivator>());
-            //var assembly = obj.GetType().GetTypeInfo().Assembly;
-            //var manager = new ApplicationPartManager();
-            //manager.ApplicationParts.Add(new AssemblyPart(assembly));
-            //manager.FeatureProviders.Add(new ControllerFeatureProvider());
-            //var feature = new ControllerFeature();
-            //manager.PopulateFeature(feature);
-            //feature.Controllers.Select(ti => ti.AsType()).ToList().ForEach(t =>
-            //{
-            //    services.AddTransient(t);
-            //});
-        }
-
-        /// <summary>
         /// 注册应用中的业务service
         /// </summary>
         /// <param name="services"></param>
