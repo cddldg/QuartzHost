@@ -1,5 +1,6 @@
 # QuartzHost
 Quart.Net 在dotnetcore3.1平台的实现  
+![GitHub](https://img.shields.io/github/license/cddldg/QuartzHost)
 
 ## 主要实现
 任务管理：启动、停止、新建、暂停、恢复等;   
