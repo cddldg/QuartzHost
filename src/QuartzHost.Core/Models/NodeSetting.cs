@@ -6,9 +6,9 @@ namespace QuartzHost.Core.Models
 {
     public class NodeSetting
     {
-        public string IdentityName { get; set; }
+        public string NodeName { get; set; }
 
-        public string Role { get; set; }
+        public string NodeType { get; set; }
 
         public string Protocol { get; set; }
 

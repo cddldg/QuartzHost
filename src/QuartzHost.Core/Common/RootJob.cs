@@ -19,7 +19,7 @@ namespace QuartzHost.Core.Common
     {
         private Guid _sid;
         private readonly ILogger _logger = DG.Logger.DGLogManager.GetLogger();
-        private string node = CoreGlobal.NodeSetting.IdentityName;
+        private string node = CoreGlobal.NodeSetting.NodeName;
 
         public async Task Execute(IJobExecutionContext context)
         {

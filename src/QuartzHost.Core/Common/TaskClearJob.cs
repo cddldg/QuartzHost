@@ -25,7 +25,7 @@ namespace QuartzHost.Core.Common
             {
                 using var _quartzDao = new QuartzDao();
 
-                var stoppedList = await _quartzDao.QueryStopJobTaskIdsAsync(CoreGlobal.NodeSetting.IdentityName);
+                var stoppedList = await _quartzDao.QueryStopJobTaskIdsAsync(CoreGlobal.NodeSetting.NodeName);
 
                 foreach (var sid in stoppedList)
                 {
@@ -34,7 +34,7 @@ namespace QuartzHost.Core.Common
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"节点[{CoreGlobal.NodeSetting.IdentityName}]任务调度平台清理失败！{ex.Message}");
+                _logger.LogError(ex, $"节点[{CoreGlobal.NodeSetting.NodeName}]任务调度平台清理失败！{ex.Message}");
             }
         }
 
@@ -66,12 +66,12 @@ namespace QuartzHost.Core.Common
                     await _scheduler.UnscheduleJob(trigger);
                     await _scheduler.DeleteJob(jk);
                     _scheduler.ListenerManager.RemoveJobListener(sid.ToString());
-                    _logger.LogInformation($"节点[{CoreGlobal.NodeSetting.IdentityName}][({sid})]清理一个任务成功！");
+                    _logger.LogInformation($"节点[{CoreGlobal.NodeSetting.NodeName}][({sid})]清理一个任务成功！");
                 }
             }
             catch (Exception exp)
             {
-                _logger.LogError(exp, $"节点[{CoreGlobal.NodeSetting.IdentityName}][({sid})]清理一个任务失败！");
+                _logger.LogError(exp, $"节点[{CoreGlobal.NodeSetting.NodeName}][({sid})]清理一个任务失败！");
                 result.Data = false;
                 result.Success = false;
                 result.Message = "任务停止失败！";

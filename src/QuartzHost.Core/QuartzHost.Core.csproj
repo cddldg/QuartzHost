@@ -12,7 +12,7 @@ Quart.Net 在dotnetcore3.1平台的实现任务的启动、停止、新建、暂
     <Authors>dldg</Authors>
     <Company>dldgdldg</Company>
     <Product>QuartzHost</Product>
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
   </PropertyGroup>
 
   <ItemGroup>

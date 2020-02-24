@@ -62,16 +62,16 @@ namespace QuartzHost.Core.Services.Impl
                 await _scheduler.Start();
                 await _scheduler.Clear();
                 await MarkNodeAsync(true);
-                _logger.LogInformation($"节点[{CoreGlobal.NodeSetting.IdentityName}]任务调度平台初始化成功！");
+                _logger.LogInformation($"节点[{CoreGlobal.NodeSetting.NodeName}]任务调度平台初始化成功！");
                 await RunningRecoveryAsync();
             }
             catch (Exception ex)
             {
                 result.Data = false;
                 result.Success = false;
-                result.Message = $"节点[{CoreGlobal.NodeSetting.IdentityName}]任务调度平台初始化失败！";
+                result.Message = $"节点[{CoreGlobal.NodeSetting.NodeName}]任务调度平台初始化失败！";
                 result.ErrorDetail = ex.Message;
-                _logger.LogError(ex, $"节点[{CoreGlobal.NodeSetting.IdentityName}]任务调度平台初始化失败！");
+                _logger.LogError(ex, $"节点[{CoreGlobal.NodeSetting.NodeName}]任务调度平台初始化失败！");
             }
             return result;
         }
@@ -92,7 +92,7 @@ namespace QuartzHost.Core.Services.Impl
                     //等待任务运行完成再关闭调度
                     await _scheduler.Shutdown(true);
                     await MarkNodeAsync(false, isOnStop);
-                    _logger.LogInformation($"节点[{CoreGlobal.NodeSetting.IdentityName}]任务调度平台已经停止！");
+                    _logger.LogInformation($"节点[{CoreGlobal.NodeSetting.NodeName}]任务调度平台已经停止！");
                     _scheduler = null;
                 }
             }
@@ -100,9 +100,9 @@ namespace QuartzHost.Core.Services.Impl
             {
                 result.Data = false;
                 result.Success = false;
-                result.Message = $"节点[{CoreGlobal.NodeSetting.IdentityName}]任务调度平台停止失败！";
+                result.Message = $"节点[{CoreGlobal.NodeSetting.NodeName}]任务调度平台停止失败！";
                 result.ErrorDetail = ex.Message;
-                _logger.LogError(ex, $"节点[{CoreGlobal.NodeSetting.IdentityName}]任务调度平台停止失败！");
+                _logger.LogError(ex, $"节点[{CoreGlobal.NodeSetting.NodeName}]任务调度平台停止失败！");
             }
             return result;
         }
@@ -136,7 +136,7 @@ namespace QuartzHost.Core.Services.Impl
                     }
                     catch (SchedulerException sexp)
                     {
-                        _logger.LogError(sexp, $"节点[{CoreGlobal.NodeSetting.IdentityName}][{view.JobTask.Title}({view.JobTask.Id})]任务启动失败！开始第{i + 1}次重试...");
+                        _logger.LogError(sexp, $"节点[{CoreGlobal.NodeSetting.NodeName}][{view.JobTask.Title}({view.JobTask.Id})]任务启动失败！开始第{i + 1}次重试...");
                     }
                 }
                 //最后一次尝试
@@ -145,7 +145,7 @@ namespace QuartzHost.Core.Services.Impl
             catch (SchedulerException sexp)
             {
                 AssemblyHelper.UnLoadAssemblyLoadContext(lc);
-                _logger.LogError(sexp, $"节点[{CoreGlobal.NodeSetting.IdentityName}][{view.JobTask.Title}({view.JobTask.Id})]任务所有重试都失败了，已放弃启动！");
+                _logger.LogError(sexp, $"节点[{CoreGlobal.NodeSetting.NodeName}][{view.JobTask.Title}({view.JobTask.Id})]任务所有重试都失败了，已放弃启动！");
                 result.Data = false;
                 result.Success = false;
                 result.Message = "任务所有重试都失败了，已放弃启动！";
@@ -154,7 +154,7 @@ namespace QuartzHost.Core.Services.Impl
             catch (Exception exp)
             {
                 AssemblyHelper.UnLoadAssemblyLoadContext(lc);
-                _logger.LogError(exp, $"节点[{CoreGlobal.NodeSetting.IdentityName}][{view.JobTask.Title}({view.JobTask.Id})]任务启动失败！");
+                _logger.LogError(exp, $"节点[{CoreGlobal.NodeSetting.NodeName}][{view.JobTask.Title}({view.JobTask.Id})]任务启动失败！");
                 result.Data = false;
                 result.Success = false;
                 result.Message = "任务启动失败！";
@@ -183,7 +183,7 @@ namespace QuartzHost.Core.Services.Impl
                     {
                         await _scheduler.Interrupt(jk);
                     }
-                    _logger.LogInformation($"节点[{CoreGlobal.NodeSetting.IdentityName}][({sid})]任务已经暂停运行！");
+                    _logger.LogInformation($"节点[{CoreGlobal.NodeSetting.NodeName}][({sid})]任务已经暂停运行！");
                 }
                 else
                 {
@@ -194,7 +194,7 @@ namespace QuartzHost.Core.Services.Impl
             }
             catch (Exception exp)
             {
-                _logger.LogError(exp, $"节点[{CoreGlobal.NodeSetting.IdentityName}][({sid})]任务暂停运行失败！");
+                _logger.LogError(exp, $"节点[{CoreGlobal.NodeSetting.NodeName}][({sid})]任务暂停运行失败！");
                 result.Data = false;
                 result.Success = false;
                 result.Message = "任务暂停运行失败！";
@@ -218,7 +218,7 @@ namespace QuartzHost.Core.Services.Impl
                 {
                     //恢复任务继续执行
                     await _scheduler.ResumeJob(jk);
-                    _logger.LogInformation($"节点[{CoreGlobal.NodeSetting.IdentityName}][({sid})]任务已经恢复运行！");
+                    _logger.LogInformation($"节点[{CoreGlobal.NodeSetting.NodeName}][({sid})]任务已经恢复运行！");
                 }
                 else
                 {
@@ -229,7 +229,7 @@ namespace QuartzHost.Core.Services.Impl
             }
             catch (Exception exp)
             {
-                _logger.LogError(exp, $"节点[{CoreGlobal.NodeSetting.IdentityName}][({sid})]任务恢复运行失败！");
+                _logger.LogError(exp, $"节点[{CoreGlobal.NodeSetting.NodeName}][({sid})]任务恢复运行失败！");
                 result.Data = false;
                 result.Success = false;
                 result.Message = "任务恢复运行失败！";
@@ -267,11 +267,11 @@ namespace QuartzHost.Core.Services.Impl
                     await _scheduler.DeleteJob(jk);
                     _scheduler.ListenerManager.RemoveJobListener(sid.ToString());
                 }
-                _logger.LogInformation($"节点[{CoreGlobal.NodeSetting.IdentityName}][({sid})]任务已经停止运行！");
+                _logger.LogInformation($"节点[{CoreGlobal.NodeSetting.NodeName}][({sid})]任务已经停止运行！");
             }
             catch (Exception exp)
             {
-                _logger.LogError(exp, $"节点[{CoreGlobal.NodeSetting.IdentityName}][({sid})]任务停止失败！");
+                _logger.LogError(exp, $"节点[{CoreGlobal.NodeSetting.NodeName}][({sid})]任务停止失败！");
                 result.Data = false;
                 result.Success = false;
                 result.Message = "任务停止失败！";
@@ -293,19 +293,19 @@ namespace QuartzHost.Core.Services.Impl
                 if (await _scheduler.CheckExists(jk))
                 {
                     await _scheduler.TriggerJob(jk);
-                    _logger.LogInformation($"节点[{CoreGlobal.NodeSetting.IdentityName}][({sid})]任务立即运行成功！");
+                    _logger.LogInformation($"节点[{CoreGlobal.NodeSetting.NodeName}][({sid})]任务立即运行成功！");
                 }
                 else
                 {
                     result.Data = false;
                     result.Success = false;
                     result.Message = "任务不存在Scheduler中";
-                    _logger.LogInformation($"节点[{CoreGlobal.NodeSetting.IdentityName}][({sid})]任务立即运行失败！任务不存在Scheduler中");
+                    _logger.LogInformation($"节点[{CoreGlobal.NodeSetting.NodeName}][({sid})]任务立即运行失败！任务不存在Scheduler中");
                 }
             }
             catch (Exception exp)
             {
-                _logger.LogError(exp, $"节点[{CoreGlobal.NodeSetting.IdentityName}][({sid})]任务立即运行失败！");
+                _logger.LogError(exp, $"节点[{CoreGlobal.NodeSetting.NodeName}][({sid})]任务立即运行失败！");
                 result.Data = false;
                 result.Success = false;
                 result.Message = "任务立即运行失败！";
@@ -336,11 +336,11 @@ namespace QuartzHost.Core.Services.Impl
                 };
                 trigger.StartTimeUtc = DateTimeOffset.Now;
                 await _scheduler.ScheduleJob(job, trigger);
-                _logger.LogInformation($"节点[{CoreGlobal.NodeSetting.IdentityName}][({identity})]执行自定义任务类成功！");
+                _logger.LogInformation($"节点[{CoreGlobal.NodeSetting.NodeName}][({identity})]执行自定义任务类成功！");
             }
             catch (Exception exp)
             {
-                _logger.LogError(exp, $"节点[{CoreGlobal.NodeSetting.IdentityName}][({identity})]执行自定义任务类失败！");
+                _logger.LogError(exp, $"节点[{CoreGlobal.NodeSetting.NodeName}][({identity})]执行自定义任务类失败！");
                 result.Data = false;
                 result.Success = false;
                 result.Message = "执行自定义任务类失败！";
@@ -361,7 +361,7 @@ namespace QuartzHost.Core.Services.Impl
             using var _quartzDao = new QuartzDao();
             bool isCreate = false;
             bool isSave = false;
-            var node = await _quartzDao.QueryJobNodeByIdAsync(CoreGlobal.NodeSetting.IdentityName);
+            var node = await _quartzDao.QueryJobNodeByIdAsync(CoreGlobal.NodeSetting.NodeName);
             if (isStarted)
             {
                 if (node == null)
@@ -369,8 +369,8 @@ namespace QuartzHost.Core.Services.Impl
                     isCreate = true;
                     node = new JobNodesEntity();
                 }
-                node.NodeName = CoreGlobal.NodeSetting.IdentityName;
-                node.NodeType = CoreGlobal.NodeSetting.Role;
+                node.NodeName = CoreGlobal.NodeSetting.NodeName;
+                node.NodeType = CoreGlobal.NodeSetting.NodeType;
                 node.MachineName = Environment.MachineName;
                 node.AccessProtocol = CoreGlobal.NodeSetting.Protocol;
                 node.Host = $"{CoreGlobal.NodeSetting.IP}:{CoreGlobal.NodeSetting.Port}";
@@ -401,8 +401,8 @@ namespace QuartzHost.Core.Services.Impl
         {
             //任务恢复：查找那些绑定了本节点并且在状态是运行中的任务执行启动操作
             using var _quartzDao = new QuartzDao();
-            var list = await _quartzDao.QueryRunningJobTaskIdsAsync(CoreGlobal.NodeSetting.IdentityName);
-            _logger.LogInformation($"[{CoreGlobal.NodeSetting.IdentityName}]任务恢复 {list.ToJson()}");
+            var list = await _quartzDao.QueryRunningJobTaskIdsAsync(CoreGlobal.NodeSetting.NodeName);
+            _logger.LogInformation($"[{CoreGlobal.NodeSetting.NodeName}]任务恢复 {list.ToJson()}");
             list?.AsParallel().ForAll(async sid => await StartWithRetry(sid));
         }
 
