@@ -19,7 +19,20 @@ ASP.NET Core Blazor展现（进行中）;
 
 | Package Name |  Version | Downloads
 |--------------|  ------- | ----  
-| QuartzHost.Core | ![Nuget](https://img.shields.io/nuget/v/QuartzHost.Core) | ![Nuget](https://img.shields.io/nuget/dt/QuartzHost.Core)  
-| QuartzHost.Base | ![Nuget](https://img.shields.io/nuget/v/QuartzHost.Base) | ![Nuget](https://img.shields.io/nuget/dt/QuartzHost.Base)  
-| DG.Dapper | ![Nuget](https://img.shields.io/nuget/v/DG.Dapper) | ![Nuget](https://img.shields.io/nuget/dt/DG.Dapper)  
-| DG.Logger | ![Nuget](https://img.shields.io/nuget/v/DG.Logger) | ![Nuget](https://img.shields.io/nuget/dt/DG.Logger)  
+| QuartzHost.Core | [![QuartzHost.Core](https://img.shields.io/nuget/v/QuartzHost.Core)](https://www.nuget.org/packages/QuartzHost.Core/) | [![QuartzHost.Core](https://img.shields.io/nuget/dt/QuartzHost.Core)](https://www.nuget.org/packages/QuartzHost.Core/)  
+| QuartzHost.Base | [![QuartzHost.Base](https://img.shields.io/nuget/v/QuartzHost.Base)](https://www.nuget.org/packages/QuartzHost.Base/) | [![QuartzHost.Base](https://img.shields.io/nuget/dt/QuartzHost.Base)](https://www.nuget.org/packages/QuartzHost.Base/)  
+| DG.Dapper | [![DG.Dapper](https://img.shields.io/nuget/v/DG.Dapper)](https://www.nuget.org/packages/DG.Dapper/) | [![DG.Dapper](https://img.shields.io/nuget/dt/DG.Dapper)](https://www.nuget.org/packages/DG.Dapper/)  
+| DG.Logger | [![DG.Logger](https://img.shields.io/nuget/v/DG.Logger)](https://www.nuget.org/packages/DG.Logger/) | [![DG.Logger](https://img.shields.io/nuget/dt/DG.Logger)](https://www.nuget.org/packages/DG.Logger/)  
+
+## 基本用法 
+
+### 步骤 1 : Install the package
+
+Nuget 包安装
+
+```
+Install-Package QuartzHost.Base
+```
+
+### 步骤 2 : 配置appsettings.json
+
