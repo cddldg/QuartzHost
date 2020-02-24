@@ -14,6 +14,8 @@ ASP.NET Core Blazor展现（进行中）;
 集成NLog;   
 可多节点部署;   
 
+## 技术栈 
+Asp.Net Core3.1、Dapper2.0、MSSQL、Quartz.Net、ASP.NET Core Blazor ...
 
 ## Nuget Packages
 
@@ -26,7 +28,13 @@ ASP.NET Core Blazor展现（进行中）;
 
 ## 基本用法 
 
-### 步骤 1 : Install the package
+### 步骤 1 : 部署 QuartzHost.API  
+
+### 步骤 2 : 部署 QuartzHost.UI  
+
+### 步骤 3 : 新建任务项目  
+
+### 步骤 4 : 任务项目 Install the package
 
 Nuget 包安装
 
@@ -34,5 +42,5 @@ Nuget 包安装
 Install-Package QuartzHost.Base
 ```
 
-### 步骤 2 : 配置appsettings.json
+### 步骤 5 : 打开QuartzHost.UI添加任务
 
