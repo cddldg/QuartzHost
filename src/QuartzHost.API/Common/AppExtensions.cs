@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.ApplicationParts;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -84,6 +85,17 @@ namespace QuartzHost.API.Common
                 isAjax = request.Headers["x-requested-with"] == "XMLHttpRequest";
             }
             return isAjax;
+        }
+
+        public static string GetAuthorization(this IHeaderDictionary header)
+        {
+            if (header.TryGetValue("Authorization", out var token))
+            {
+                var tokens = token.ToString().Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                if (tokens.Length == 2) return tokens[1];
+            }
+
+            return null;
         }
     }
 

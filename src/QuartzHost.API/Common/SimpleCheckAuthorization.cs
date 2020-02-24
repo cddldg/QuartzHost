@@ -10,6 +10,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Authentication;
 
 namespace QuartzHost.API.Common
 {
@@ -29,20 +31,29 @@ namespace QuartzHost.API.Common
             {
                 return;
             }
-            var secret = context.HttpContext.Request.Headers["node_secret"].FirstOrDefault();
-            if (!CoreGlobal.NodeSetting.AccessSecret.Equals(secret))
+            var Result = new UnauthorizedResult();
+            var ret = new QuartzHost.Core.Models.Result<int>
             {
-                var Result = new UnauthorizedResult();
-                var ret = new QuartzHost.Core.Models.Result<int>
-                {
-                    Data = Result.StatusCode,
-                    Success = false,
-                    Message = "Unauthorized"
-                };
+                Data = Result.StatusCode,
+                Success = false,
+                Message = "Unauthorized"
+            };
+            var token = context.HttpContext.Request.Headers.GetAuthorization();
+            if (string.IsNullOrEmpty(token) || !CoreGlobal.NodeSetting.AccessSecret.Equals(token))
+            {
                 context.HttpContext.Response.ContentType = "application/json";
                 context.HttpContext.Response.StatusCode = Result.StatusCode;
                 context.HttpContext.Response.WriteAsync(ret.ToJson());
             }
+
+            //var authorizationService = context.HttpContext.RequestServices.GetService<IAuthenticationService>();
+            //var res = await authorizationService.AuthenticateAsync(context.HttpContext, "Bearer");
+            //if (!res.Succeeded)
+            //{
+            //    context.HttpContext.Response.ContentType = "application/json";
+            //    context.HttpContext.Response.StatusCode = Result.StatusCode;
+            //    await context.HttpContext.Response.WriteAsync(ret.ToJson());
+            //}
         }
     }
 
