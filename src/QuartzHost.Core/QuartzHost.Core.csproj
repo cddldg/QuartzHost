@@ -2,6 +2,17 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Description>QuartzHost核心部分
+Quart.Net 在dotnetcore3.1平台的实现任务的启动、停止、新建、暂停、恢复等</Description>
+    <RepositoryUrl>https://github.com/cddldg/QuartzHost.git</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/cddldg/QuartzHost</PackageProjectUrl>
+    <RepositoryType>github</RepositoryType>
+    <PackageTags>Quart.Net,.Net Core3.1,ASP.NET Core Blazor</PackageTags>
+    <Authors>dldg</Authors>
+    <Company>dldgdldg</Company>
+    <Product>QuartzHost</Product>
+    <Version>1.0.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -9,6 +20,6 @@
     <PackageReference Include="DG.Logger" Version="1.0.2" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.2" />
     <PackageReference Include="Quartz" Version="3.0.7" />
-    <PackageReference Include="QuartzHost.Base" Version="1.0.8" />
+    <PackageReference Include="QuartzHost.Base" Version="1.0.9" />
   </ItemGroup>
 </Project>

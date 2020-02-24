@@ -18,7 +18,8 @@ ASP.NET Core Blazor展现（进行中）;
 ## Nuget Packages
 
 | Package Name |  Version | Downloads
-|--------------|  ------- | ----
+|--------------|  ------- | ----  
+| QuartzHost.Core | ![Nuget](https://img.shields.io/nuget/v/QuartzHost.Core) | ![Nuget](https://img.shields.io/nuget/dt/QuartzHost.Core)  
 | QuartzHost.Base | ![Nuget](https://img.shields.io/nuget/v/QuartzHost.Base) | ![Nuget](https://img.shields.io/nuget/dt/QuartzHost.Base)  
 | DG.Dapper | ![Nuget](https://img.shields.io/nuget/v/DG.Dapper) | ![Nuget](https://img.shields.io/nuget/dt/DG.Dapper)  
 | DG.Logger | ![Nuget](https://img.shields.io/nuget/v/DG.Logger) | ![Nuget](https://img.shields.io/nuget/dt/DG.Logger)  

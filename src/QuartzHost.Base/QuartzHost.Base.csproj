@@ -4,9 +4,15 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>dldg</Authors>
-    <Product>QuartzHost.Base</Product>
-    <Description>任务调度基类 添加job实现抽象方法即可</Description>
-    <Version>1.0.8</Version>
+    <Product>QuartzHost</Product>
+    <Description>QuartzHost任务调度基类 添加job实现抽象方法即可
+Quart.Net 在dotnetcore3.1平台的实现任务的启动、停止、新建、暂停、恢复等
+</Description>
+    <Version>1.0.9</Version>
     <Company>dldg</Company>
+    <PackageProjectUrl>https://github.com/cddldg/QuartzHost</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/cddldg/QuartzHost.git</RepositoryUrl>
+    <PackageTags>Quart.Net,.Net Core3.1,ASP.NET Core Blazor</PackageTags>
+    <RepositoryType>github</RepositoryType>
   </PropertyGroup>
 </Project>
