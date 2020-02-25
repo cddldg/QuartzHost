@@ -44,3 +44,5 @@ Install-Package QuartzHost.Base
 
 ### 步骤 5 : 打开QuartzHost.UI添加任务
 
+## QQ交流群
+[![QQ](https://img.shields.io/badge/QQ-1034715153-green.svg?logo=tencent%20qq&logoColor=red)](file://shang.qq.com/wpa/qunwpa?idkey=b567ac3746463179d781b48783396be747fc5170afeb25034c640579a0499a5e)  
