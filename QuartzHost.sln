@@ -3,17 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29613.14
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuartzHost.Base", "src\QuartzHost.Base\QuartzHost.Base.csproj", "{3EE8CF46-F443-412D-9D41-73D6A58BB8C5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuartzHost.Base", "src\QuartzHost.Base\QuartzHost.Base.csproj", "{3EE8CF46-F443-412D-9D41-73D6A58BB8C5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuartzHost.Core", "src\QuartzHost.Core\QuartzHost.Core.csproj", "{546BD7E2-35C0-4426-99F2-BFE7CAECA5B3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuartzHost.Core", "src\QuartzHost.Core\QuartzHost.Core.csproj", "{546BD7E2-35C0-4426-99F2-BFE7CAECA5B3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuartzHost.API", "src\QuartzHost.API\QuartzHost.API.csproj", "{FCA8C5E4-DC01-4BCB-A585-97819EF66B34}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuartzHost.API", "src\QuartzHost.API\QuartzHost.API.csproj", "{FCA8C5E4-DC01-4BCB-A585-97819EF66B34}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{278C45F6-817B-4412-A928-BEE592C97050}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{857D4F38-C014-45B0-991A-FA54CBC51E41}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VIP", "test\VIP\VIP.csproj", "{E6CB95D5-2BCF-464D-831B-652BC74ED7CC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VIP", "test\VIP\VIP.csproj", "{E6CB95D5-2BCF-464D-831B-652BC74ED7CC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuartzHost.UI", "src\QuartzHost.UI\QuartzHost.UI.csproj", "{F518D1B3-C36F-4414-9408-9C523E533FA1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,6 +39,10 @@ Global
 		{E6CB95D5-2BCF-464D-831B-652BC74ED7CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E6CB95D5-2BCF-464D-831B-652BC74ED7CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E6CB95D5-2BCF-464D-831B-652BC74ED7CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F518D1B3-C36F-4414-9408-9C523E533FA1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F518D1B3-C36F-4414-9408-9C523E533FA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F518D1B3-C36F-4414-9408-9C523E533FA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F518D1B3-C36F-4414-9408-9C523E533FA1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -46,6 +52,7 @@ Global
 		{546BD7E2-35C0-4426-99F2-BFE7CAECA5B3} = {278C45F6-817B-4412-A928-BEE592C97050}
 		{FCA8C5E4-DC01-4BCB-A585-97819EF66B34} = {278C45F6-817B-4412-A928-BEE592C97050}
 		{E6CB95D5-2BCF-464D-831B-652BC74ED7CC} = {857D4F38-C014-45B0-991A-FA54CBC51E41}
+		{F518D1B3-C36F-4414-9408-9C523E533FA1} = {278C45F6-817B-4412-A928-BEE592C97050}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {11C3CDD3-E618-47F8-A4FA-51DCE037358F}

@@ -1,9 +1,13 @@
+using System;
 using System.Data.SqlClient;
+using System.Data.SQLite;
+using System.IO;
 using System.Text.Encodings.Web;
 using DG.Dapper;
 using DG.Logger;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -28,12 +32,20 @@ namespace QuartzHost.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var nodeSetting = Configuration.GetSection("NodeSetting").Get<NodeSetting>();
+            var sqlConnString = Configuration.GetConnectionString(nodeSetting.DbType);
             //加载注入DbContex
-            var sqlConnString = Configuration.GetConnectionString("Mssql");
-            services.AddSql(SqlClientFactory.Instance, sqlConnString);
+            if (nodeSetting.DbType == "Sqlite")
+            {
+                sqlConnString = $"{sqlConnString.Split("=")[0]}={Path.Combine(Environment.CurrentDirectory, "App_Data", sqlConnString.Split("=")[1])}";
+                services.AddSql(SQLiteFactory.Instance, sqlConnString);
+            }
+
+            if (nodeSetting.DbType == "Mssql")
+                services.AddSql(SqlClientFactory.Instance, sqlConnString);
 
             //加载注入配置
-            var nodeSetting = Configuration.GetSection("NodeSetting").Get<NodeSetting>();
+            //var nodeSetting = Configuration.GetSection("NodeSetting").Get<NodeSetting>();
             nodeSetting.ConnStr = sqlConnString;
             services.AddSingleton(nodeSetting);
 

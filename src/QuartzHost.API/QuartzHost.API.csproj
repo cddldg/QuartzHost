@@ -11,13 +11,21 @@
 
   <ItemGroup>
     <PackageReference Include="DG.Logger" Version="1.0.2" />
-    <PackageReference Include="QuartzHost.Core" Version="1.0.2" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.1" />
+    <PackageReference Include="System.Data.SQLite.Core" Version="1.0.112" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Update="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\QuartzHost.Core\QuartzHost.Core.csproj" />
   </ItemGroup>
 </Project>

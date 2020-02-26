@@ -12,7 +12,7 @@ Quart.Net 在dotnetcore3.1平台的实现任务的启动、停止、新建、暂
     <Authors>dldg</Authors>
     <Company>dldgdldg</Company>
     <Product>QuartzHost</Product>
-    <Version>1.0.2</Version>
+    <Version>1.0.3</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -21,5 +21,6 @@ Quart.Net 在dotnetcore3.1平台的实现任务的启动、停止、新建、暂
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.2" />
     <PackageReference Include="Quartz" Version="3.0.7" />
     <PackageReference Include="QuartzHost.Base" Version="1.0.9" />
+    <PackageReference Include="System.Data.SQLite.Core" Version="1.0.112" />
   </ItemGroup>
 </Project>

@@ -10,11 +10,11 @@ CREATE TABLE [dbo].[JobTasks]
 	[ClassName] [NVARCHAR](200) NOT NULL,
 	[CustomParamsJson] [NVARCHAR](2000) NULL,
 	[Status] [INT] NOT NULL,
-	[CreateTime] [DATETIME2](7) NOT NULL,
+	[CreateTime] DATETIME NOT NULL,
 	[CreateUserId] [INT] NOT NULL,
 	[CreateUserName] [NVARCHAR](300) NULL,
-	[LastRunTime] [DATETIME2](7) NULL,
-	[NextRunTime] [DATETIME2](7) NULL,
+	[LastRunTime] DATETIME NULL,
+	[NextRunTime] DATETIME NULL,
 	[TotalRunCount] [INT] NOT NULL
 	)
 GO
@@ -25,7 +25,7 @@ CREATE TABLE [dbo].[JobNodes](
 	[AccessProtocol] [NVARCHAR](500) NOT NULL,
 	[Host] [NVARCHAR](500) NOT NULL,
 	[AccessSecret] [NVARCHAR](500) NULL,
-	[LastUpdateTime] [DATETIME2](7) NULL,
+	[LastUpdateTime] DATETIME NULL,
 	[Status] [INT] NOT NULL,
 	[Priority] [INT] NOT NULL
 	)
@@ -34,8 +34,8 @@ CREATE TABLE [dbo].[JobTrace](
 	[TraceId] [UNIQUEIDENTIFIER] NOT NULL PRIMARY KEY,
 	[TaskId] [UNIQUEIDENTIFIER] NOT NULL,
 	[Node] [NVARCHAR](400) NULL,
-	[StartTime] [DATETIME2](7) NOT NULL,
-	[EndTime] [DATETIME2](7)  NULL,
+	[StartTime] DATETIME NOT NULL,
+	[EndTime] DATETIME  NULL,
 	[ElapsedTime] [FLOAT] NOT NULL,
 	[Result] [INT] NOT NULL) 
 GO

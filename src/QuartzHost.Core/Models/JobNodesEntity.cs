@@ -44,7 +44,7 @@ namespace QuartzHost.Core.Models
         /// <summary>
         /// 最后更新时间
         /// </summary>
-        public DateTime? LastUpdateTime { get; set; }
+        public DateTime? LastUpdateTime { get; set; } = DateTime.Now;
 
         /// <summary>
         /// 节点状态，0-下线，1-停机，2-运行

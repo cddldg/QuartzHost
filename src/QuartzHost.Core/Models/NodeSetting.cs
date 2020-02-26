@@ -17,6 +17,7 @@ namespace QuartzHost.Core.Models
         public int Port { get; set; }
 
         public int Priority { get; set; }
+        public string DbType { get; set; } = "Sqlite";
         public string ConnStr { get; set; }
 
         /// <summary>

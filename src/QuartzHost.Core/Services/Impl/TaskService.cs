@@ -24,7 +24,7 @@ namespace QuartzHost.Core.Services.Impl
 
         public async Task<Result<IEnumerable<JobTasksEntity>>> QueryAllAsync(JobTaskStatus? status = null)
         {
-            var result = new Result<IEnumerable<JobTasksEntity>>();
+            var result = new Result<IEnumerable<JobTasksEntity>> { Message = "查询任务成功!" };
 
             try
             {
@@ -34,14 +34,14 @@ namespace QuartzHost.Core.Services.Impl
             {
                 result.Success = false;
                 result.ErrorDetail = ex.Message;
-                _logger.LogError(ex, $"QueryAllAsync 异常");
+                _logger.LogError(ex, $"查询任务 异常:{ex.Message}");
             }
             return result;
         }
 
         public async Task<PageResult<IEnumerable<JobTasksEntity>>> QueryPagerAsync(PageInput pager)
         {
-            var result = new PageResult<IEnumerable<JobTasksEntity>>();
+            var result = new PageResult<IEnumerable<JobTasksEntity>> { Message = "查询任务成功!" };
 
             try
             {
@@ -53,14 +53,33 @@ namespace QuartzHost.Core.Services.Impl
             {
                 result.Success = false;
                 result.ErrorDetail = ex.Message;
-                _logger.LogError(ex, $"QueryPagerAsync 异常");
+                _logger.LogError(ex, $"分页查询任务 异常:{ex.Message}");
             }
             return result;
         }
 
-        public ServiceResponseMessage Add(JobTasksEntity model, List<int> keepers, List<Guid> nexts, List<string> executors = null)
+        public async Task<Result<bool>> AddAsync(JobTasksEntity model, List<int> keepers, List<Guid> nexts, List<string> executors = null)
         {
-            throw new NotImplementedException();
+            var result = new Result<bool> { Data = true, Message = "任务创建成功!" };
+
+            try
+            {
+                if ((await _taskDao.AddAsync(model)) == false)
+                {
+                    result.Data = false;
+                    result.Success = false;
+                    result.Message = "任务创建失败！";
+                    result.ErrorDetail = "添加任务失败";
+                    return result;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.ErrorDetail = ex.Message;
+                _logger.LogError(ex, $"任务创建 异常:{ex.Message}");
+            }
+            return result;
         }
 
         public ServiceResponseMessage Delete(Guid sid)

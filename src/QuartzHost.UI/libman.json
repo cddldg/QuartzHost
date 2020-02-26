@@ -1,0 +1,112 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "admin-lte@3.0.2",
+      "destination": "wwwroot/admin-lte/",
+      "files": [
+        "js/adminlte.min.js",
+        "css/adminlte.min.css",
+        "css/alt/adminlte.plugins.min.css",
+        "css/alt/adminlte.pages.min.css",
+        "css/alt/adminlte.extra-components.min.css",
+        "css/alt/adminlte.core.min.css",
+        "css/alt/adminlte.components.min.css"
+      ]
+    },
+    {
+      "provider": "jsdelivr",
+      "library": "@fortawesome/fontawesome-free@5.12.1",
+      "destination": "wwwroot/admin-lte/plugins/fontawesome-free",
+      "files": [
+        "css/all.min.css",
+        "css/brands.min.css",
+        "css/fontawesome.min.css",
+        "css/regular.min.css",
+        "css/solid.min.css",
+        "css/svg-with-js.min.css",
+        "css/v4-shims.min.css",
+        "webfonts/fa-brands-400.eot",
+        "webfonts/fa-brands-400.svg",
+        "webfonts/fa-brands-400.ttf",
+        "webfonts/fa-brands-400.woff",
+        "webfonts/fa-brands-400.woff2",
+        "webfonts/fa-regular-400.eot",
+        "webfonts/fa-regular-400.svg",
+        "webfonts/fa-regular-400.ttf",
+        "webfonts/fa-regular-400.woff",
+        "webfonts/fa-regular-400.woff2",
+        "webfonts/fa-solid-900.eot",
+        "webfonts/fa-solid-900.svg",
+        "webfonts/fa-solid-900.ttf",
+        "webfonts/fa-solid-900.woff",
+        "webfonts/fa-solid-900.woff2"
+      ]
+    },
+    {
+      "library": "jquery@3.4.1",
+      "destination": "wwwroot/admin-lte/plugins/jquery",
+      "files": [
+        "jquery.min.js"
+      ]
+    },
+    {
+      "library": "twitter-bootstrap@4.4.1",
+      "destination": "wwwroot/admin-lte/plugins/bootstrap",
+      "files": [
+        "js/bootstrap.bundle.js",
+        "js/bootstrap.bundle.min.js",
+        "js/bootstrap.js",
+        "js/bootstrap.min.js"
+      ]
+    },
+    {
+      "library": "admin-lte@3.0.2",
+      "destination": "wwwroot/admin-lte/",
+      "files": [
+        "js/adminlte.min.js",
+        "img/AdminLTELogo.png",
+        "img/avatar.png",
+        "img/avatar04.png",
+        "img/avatar2.png",
+        "img/avatar3.png",
+        "img/avatar5.png",
+        "img/boxed-bg.jpg",
+        "img/boxed-bg.png",
+        "img/default-150x150.png",
+        "img/icons.png",
+        "img/photo1.png",
+        "img/photo2.png",
+        "img/photo3.jpg",
+        "img/photo4.jpg",
+        "img/prod-1.jpg",
+        "img/prod-2.jpg",
+        "img/prod-3.jpg",
+        "img/prod-4.jpg",
+        "img/prod-5.jpg",
+        "img/user1-128x128.jpg",
+        "img/user2-160x160.jpg",
+        "img/user3-128x128.jpg",
+        "img/user4-128x128.jpg",
+        "img/user5-128x128.jpg",
+        "img/user6-128x128.jpg",
+        "img/user7-128x128.jpg",
+        "img/user8-128x128.jpg",
+        "img/credit/american-express.png",
+        "img/credit/cirrus.png",
+        "img/credit/mastercard.png",
+        "img/credit/mestro.png",
+        "img/credit/paypal.png",
+        "img/credit/paypal2.png",
+        "img/credit/visa.png",
+        "css/alt/adminlte.components.min.css",
+        "css/alt/adminlte.core.min.css",
+        "css/alt/adminlte.extra-components.min.css",
+        "css/alt/adminlte.pages.min.css",
+        "css/alt/adminlte.plugins.min.css",
+        "css/adminlte.min.css"
+      ]
+    }
+  ]
+}
