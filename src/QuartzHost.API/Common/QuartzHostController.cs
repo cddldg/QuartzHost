@@ -11,14 +11,5 @@ namespace QuartzHost.API.Common
     [ApiController]
     public class QuartzHostController : ControllerBase
     {
-        /// <summary>
-        /// 验证请求参数
-        /// </summary>
-        [NonAction]
-        protected void ValidRequest()
-        {
-            if (!ModelState.IsValid)
-                throw new BusinessException(ResultStatus.ValidateError, System.Net.HttpStatusCode.BadRequest);
-        }
     }
 }

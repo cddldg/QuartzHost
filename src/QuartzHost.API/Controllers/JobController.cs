@@ -37,7 +37,6 @@ namespace QuartzHost.API.Controllers
         [Route("pager")]
         public async Task<PageResult<List<JobTasksEntity>>> QueryPagerAsync(PageInput pager)
         {
-            //ValidRequest();
             return await _service.QueryPagerAsync(pager);
         }
 
@@ -53,7 +52,6 @@ namespace QuartzHost.API.Controllers
         [Route("add")]
         public async Task<Result<bool>> AddAsync(JobTasksInput input)
         {
-            ValidRequest();
             return await _service.AddAsync(input.JobTasks, input.Keepers, input.Nexts, input.Executors);
         }
     }

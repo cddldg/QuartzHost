@@ -87,7 +87,7 @@ namespace QuartzHost.Core.Services
         /// <param name="nexts"></param>
         /// <param name="executors"></param>
         /// <returns></returns>
-        Task<Result<bool>> AddAsync(JobTasksEntity model, List<int> keepers = null, List<long> nexts = null, List<string> executors = null);
+        Task<Result<bool>> AddAsync(JobTasksInput input);
 
         /// <summary>
         /// 编辑任务信息

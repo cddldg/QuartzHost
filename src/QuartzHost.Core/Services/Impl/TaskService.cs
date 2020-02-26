@@ -58,15 +58,15 @@ namespace QuartzHost.Core.Services.Impl
             return result;
         }
 
-        public async Task<Result<bool>> AddAsync(JobTasksEntity model, List<int> keepers = null, List<long> nexts = null, List<string> executors = null)
+        public async Task<Result<bool>> AddAsync(JobTasksInput input)
         {
             var result = new Result<bool> { Data = true, Message = "任务创建成功!" };
 
             try
             {
                 //Id,NodeName,Title,Remark,CronExpression,AssemblyName,ClassName,CustomParamsJson,Status,CreateTime,CreateUserId,CreateUserName,TotalRunCount
-                if (model == null)
-                    model = new JobTasksEntity
+                if (input.JobTasks == null)
+                    input.JobTasks = new JobTasksEntity
                     {
                         Id = CoreGlobal.SnowflakeUniqueId(),
                         NodeName = CoreGlobal.NodeSetting.NodeName,
@@ -80,7 +80,7 @@ namespace QuartzHost.Core.Services.Impl
                         CreateUserId = 1,
                         CreateUserName = "admin",
                     };
-                if ((await _taskDao.AddAsync(model)) == false)
+                if ((await _taskDao.AddAsync(input.JobTasks)) == false)
                 {
                     result.Data = false;
                     result.Success = false;
