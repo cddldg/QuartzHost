@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Quartz;
+using QuartzHost.API.Common;
 using QuartzHost.Core.Models;
 using QuartzHost.Core.Services;
 using System;
@@ -10,9 +11,8 @@ using System.Threading.Tasks;
 
 namespace QuartzHost.API.Controllers
 {
-    [ApiController]
     [Route("quartz")]
-    public class QuartzController : ControllerBase
+    public class QuartzController : QuartzHostController
     {
         private IQuartzService _service { get; set; }
 

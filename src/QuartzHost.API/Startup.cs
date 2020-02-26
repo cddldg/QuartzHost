@@ -7,12 +7,13 @@ using DG.Dapper;
 using DG.Logger;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using QuartzHost.API.Common;
+using QuartzHost.Core.Common;
 using QuartzHost.Core.Models;
 using QuartzHost.Core.Services;
 
@@ -67,6 +68,11 @@ namespace QuartzHost.API
                 //添加全局过滤器
                 config.Filters.Add(typeof(SimpleCheckAuthorization));
                 config.Filters.Add(typeof(GlobalExceptionFilter));
+            });
+            services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.InvalidModelStateResponseFactory =
+                    context => throw new BusinessException(context.ModelState);
             });
         }
 

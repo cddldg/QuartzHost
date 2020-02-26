@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using QuartzHost.API.Common;
 using QuartzHost.Core.Models;
 using QuartzHost.Core.Services;
 using System;
@@ -9,9 +10,8 @@ using System.Threading.Tasks;
 
 namespace QuartzHost.API.Controllers
 {
-    [ApiController]
     [Route("job")]
-    public class JobController : ControllerBase
+    public class JobController : QuartzHostController
     {
         private ITaskService _service { get; set; }
 
@@ -37,6 +37,7 @@ namespace QuartzHost.API.Controllers
         [Route("pager")]
         public async Task<PageResult<List<JobTasksEntity>>> QueryPagerAsync(PageInput pager)
         {
+            //ValidRequest();
             return await _service.QueryPagerAsync(pager);
         }
 
@@ -52,6 +53,7 @@ namespace QuartzHost.API.Controllers
         [Route("add")]
         public async Task<Result<bool>> AddAsync(JobTasksInput input)
         {
+            ValidRequest();
             return await _service.AddAsync(input.JobTasks, input.Keepers, input.Nexts, input.Executors);
         }
     }

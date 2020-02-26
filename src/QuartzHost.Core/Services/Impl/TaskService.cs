@@ -45,9 +45,6 @@ namespace QuartzHost.Core.Services.Impl
 
             try
             {
-                if (pager.Extens.Any())
-                {
-                }
                 var list = await _taskDao.QueryPagerAsync(pager);
                 result.Data = list;
                 result.Total = list?.FirstOrDefault()?.Total ?? 0;

@@ -18,6 +18,7 @@ Quart.Net 在dotnetcore3.1平台的实现任务的启动、停止、新建、暂
   <ItemGroup>
     <PackageReference Include="DG.Dapper" Version="1.0.4" />
     <PackageReference Include="DG.Logger" Version="1.0.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.2" />
     <PackageReference Include="Quartz" Version="3.0.7" />
     <PackageReference Include="QuartzHost.Base" Version="1.1.0" />
