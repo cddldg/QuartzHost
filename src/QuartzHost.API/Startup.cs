@@ -54,20 +54,14 @@ namespace QuartzHost.API
 
             //自动注册所有业务service
             services.AddAppServices();
-            services.AddMvc().AddJsonOptions(
-                options =>
+
+            //json配置
+            services.AddControllers()
+                .AddJsonOptions(options =>
                 {
                     options.JsonSerializerOptions.PropertyNamingPolicy = null;
                     options.JsonSerializerOptions.Converters.Add(new DateTimeConverter());
                 });
-
-            ////json配置
-            //services.AddControllers()
-            //    .AddJsonOptions(options =>
-            //    {
-            //        options.JsonSerializerOptions.PropertyNamingPolicy = null;
-            //        options.JsonSerializerOptions.Converters.Add(new DateTimeConverter());
-            //    });
             services.AddControllersWithViews(config =>
             {
                 //添加全局过滤器

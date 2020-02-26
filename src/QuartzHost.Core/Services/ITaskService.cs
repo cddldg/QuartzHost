@@ -21,7 +21,7 @@ namespace QuartzHost.Core.Services
         /// <param name="pager"></param>
         /// <returns></returns>
 
-        Task<PageResult<IEnumerable<JobTasksEntity>>> QueryPagerAsync(PageInput pager);
+        Task<PageResult<List<JobTasksEntity>>> QueryPagerAsync(PageInput pager);
 
         /// <summary>
         /// id查询任务

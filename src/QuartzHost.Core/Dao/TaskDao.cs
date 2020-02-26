@@ -1,8 +1,10 @@
-﻿using DG.Dapper;
+﻿using Dapper;
+using DG.Dapper;
 using QuartzHost.Core.Common;
 using QuartzHost.Core.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -37,10 +39,25 @@ namespace QuartzHost.Core.Dao
                 return _context.QueryAsync<JobTasksEntity>($"SELECT * FROM JobTasks {NOLOCK} Where Status<>@Status", new { Status = JobTaskStatus.Deleted });
         }
 
-        public Task<IEnumerable<JobTasksEntity>> QueryPagerAsync(int pageIndex, int pageSize)
+        public async Task<List<JobTasksEntity>> QueryPagerAsync(PageInput page)
         {
-            //Todo 分页
-            return _context.QueryAsync<JobTasksEntity>($"SELECT COUNT(1) OVER() AS Total,* FROM  JobTasks {NOLOCK} ORDER BY CreateTime {PAGESUFFIX}", new { PageIndex = pageIndex, PageSize = pageSize });
+            var orderStr = page.OrderBy ?? "CreateTime";
+            var param = new DynamicParameters();
+            param.Add("PageIndex", page.PageIndex);
+            param.Add("PageSize", page.PageSize);
+
+            var andStr = string.Empty;
+            if (page.Extens.Any())
+            {
+                page.Extens.AsList().ForEach(c => param.Add(c.Key, (c.Key.Equals("Title") ? $"%{c.Value}%" : c.Value)
+                ));
+                andStr = " AND " + string.Join(" AND ", page.Extens.Select(c => $"{c.Key} {(c.Key.Equals("Title") ? "LIKE" : "=")} @{c.Key}"));
+            }
+            var total = await _context.ExecuteScalarAsync<int>($"SELECT COUNT(1) FROM  JobTasks Where Status<>-1 {andStr}", param);
+            var list = (await _context.QueryAsync<JobTasksEntity>($"SELECT * FROM  JobTasks {NOLOCK} Where Status<>-1 {andStr} ORDER BY {orderStr} {PAGESUFFIX}", param))?.ToList();
+            if (list.Any())
+                list.ForEach(p => p.Total = total);
+            return list;
         }
 
         public async Task<bool> AddAsync(JobTasksEntity entity)

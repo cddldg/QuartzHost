@@ -136,7 +136,7 @@ namespace QuartzHost.Core.Services.Impl
         /// </summary>
         /// <param name="task"></param>
         /// <returns></returns>
-        public async Task<Result<bool>> StartWithRetry(long sid)
+        private async Task<Result<bool>> StartWithRetry(long sid)
         {
             var result = new Result<bool> { Data = true };
             var jk = new JobKey(sid.ToString().ToLower());

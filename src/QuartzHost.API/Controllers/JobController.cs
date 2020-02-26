@@ -21,10 +21,23 @@ namespace QuartzHost.API.Controllers
         }
 
         [HttpPost]
-        [Route("list")]
+        [Route("all")]
         public async Task<Result<IEnumerable<JobTasksEntity>>> QueryAllAsync()
         {
             return await _service.QueryAllAsync();
+        }
+
+        /// <summary>
+        /// 查询任务列表
+        /// </summary>
+        /// <param name="pager"></param>
+        /// <returns></returns>
+
+        [HttpPost]
+        [Route("pager")]
+        public async Task<PageResult<List<JobTasksEntity>>> QueryPagerAsync(PageInput pager)
+        {
+            return await _service.QueryPagerAsync(pager);
         }
 
         /// <summary>

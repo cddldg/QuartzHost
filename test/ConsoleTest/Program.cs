@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.Json;
 
 namespace ConsoleTest
 {
@@ -8,24 +10,68 @@ namespace ConsoleTest
     {
         private static void Main(string[] args)
         {
-            var str = "node1112";
-            var dd = str.GetHashCode();
-            short.TryParse(str, out short ps);
-
-            Console.WriteLine($"{dd} {ps} {GetSha256(str)}");
+            Ts();
             Console.ReadLine();
         }
 
-        public static string GetSha256(string str)
+        private static void Ts()
         {
-            using (var sha256 = SHA256.Create())
+            var list = new Dictionary<string, object>();
+
+            list.Add("NodeName", "node1");
+            list.Add("CreateUserId", 1);
+            PageInput ps = new PageInput
             {
-                var hash = sha256.ComputeHash(Encoding.UTF8.GetBytes(str));
-                var sb = new StringBuilder();
-                foreach (var b in hash)
-                    sb.Append(b.ToString("x2"));
-                return sb.ToString();
+                PageIndex = 1,
+                PageSize = 1,
+                Extens = list,
+                OrderBy = "TotalRunCount DESC",
+            };
+            var ss = ps.ToJson();
+            Console.WriteLine(ss);
+        }
+    }
+
+    public class PageInput
+    {
+        /// <summary>
+        ///     每页大小默认20
+        /// </summary>
+
+        public int PageSize { get; set; } = 20;
+
+        /// <summary>
+        ///     页码
+        /// </summary>
+
+        public int PageIndex { get; set; } = 1;
+
+        public Dictionary<string, object> Extens { get; set; } = new Dictionary<string, object>();
+        public string OrderBy { get; set; }
+    }
+
+    public static class JsonExtensions
+    {
+        public static string ToJson<T>(this T obj)
+        {
+            if (obj == null)
+                return null;
+            try
+            {
+                return JsonSerializer.Serialize(obj, obj.GetType());
             }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        public static T ToObj<T>(this string json)
+        {
+            if (string.IsNullOrWhiteSpace(json))
+                return default;
+
+            return JsonSerializer.Deserialize<T>(json);
         }
     }
 }

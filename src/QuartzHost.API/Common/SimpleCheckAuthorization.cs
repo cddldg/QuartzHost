@@ -41,6 +41,7 @@ namespace QuartzHost.API.Common
             var token = context.HttpContext.Request.Headers.GetAuthorization();
             if (string.IsNullOrEmpty(token) || !CoreGlobal.NodeSetting.AccessSecret.Equals(token))
             {
+                context.Result = Result;
                 context.HttpContext.Response.ContentType = "application/json";
                 context.HttpContext.Response.StatusCode = Result.StatusCode;
                 context.HttpContext.Response.WriteAsync(ret.ToJson());

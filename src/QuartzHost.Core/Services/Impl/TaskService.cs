@@ -39,13 +39,16 @@ namespace QuartzHost.Core.Services.Impl
             return result;
         }
 
-        public async Task<PageResult<IEnumerable<JobTasksEntity>>> QueryPagerAsync(PageInput pager)
+        public async Task<PageResult<List<JobTasksEntity>>> QueryPagerAsync(PageInput pager)
         {
-            var result = new PageResult<IEnumerable<JobTasksEntity>> { Message = "查询任务成功!" };
+            var result = new PageResult<List<JobTasksEntity>> { Message = "查询任务成功!" };
 
             try
             {
-                var list = await _taskDao.QueryPagerAsync(pager.PageIndex, pager.PageSize);
+                if (pager.Extens.Any())
+                {
+                }
+                var list = await _taskDao.QueryPagerAsync(pager);
                 result.Data = list;
                 result.Total = list?.FirstOrDefault()?.Total ?? 0;
             }

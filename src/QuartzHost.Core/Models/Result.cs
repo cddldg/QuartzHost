@@ -45,6 +45,7 @@ namespace QuartzHost.Core.Models
         [Range(1, int.MaxValue)]
         public int PageIndex { get; set; } = 1;
 
-        public string Extens { get; set; }
+        public Dictionary<string, string> Extens { get; set; } = new Dictionary<string, string>();
+        public string OrderBy { get; set; }
     }
 }
