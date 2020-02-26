@@ -31,23 +31,9 @@ namespace QuartzHost.Core.Dao
                 DGContext.Init(SqlClientFactory.Instance, CoreGlobal.NodeSetting.ConnStr);
         }
 
-        public async Task<JobNodesEntity> QueryJobNodeByIdAsync(string nodeName)
+        public Task<JobNodesEntity> QueryJobNodeByIdAsync(string nodeName)
         {
-            //var p = await AddAsync(new JobTasksEntity { Id = Guid.NewGuid(), NodeName = nodeName, Title = "vvip", Remark = "ttvvip", CronExpression = "0/3 * * * * ?", AssemblyName = "VIP", ClassName = "VIP.Test", Status = JobTaskStatus.Running, CreateUserId = 1, CreateUserName = "hhh" });
-            return await _context.QuerySingleAsync<JobNodesEntity>($"SELECT  * FROM JobNodes {NOLOCK} WHERE NodeName=@NodeName", new { NodeName = nodeName });
-        }
-
-        public async Task<bool> AddAsync(JobTasksEntity entity)
-        {
-            var ids = entity.Id.ToString().ToUpper();
-            var sql = $@"INSERT INTO JobTasks
-(Id,NodeName,Title,Remark,CronExpression,AssemblyName,ClassName,CustomParamsJson,Status,CreateTime,CreateUserId,CreateUserName,TotalRunCount)
-VALUES
-(@Id,@NodeName,@Title,@Remark,@CronExpression,@AssemblyName,@ClassName,@CustomParamsJson,@Status,@CreateTime,@CreateUserId,@CreateUserName,0)";
-            if (CoreGlobal.NodeSetting.DbType.Equals("Sqlite"))
-                return (await _context.ExecuteAsync(sql, new { Id = ids, entity.NodeName, entity.Title, entity.Remark, entity.CronExpression, entity.AssemblyName, entity.ClassName, entity.CustomParamsJson, entity.Status, entity.CreateTime, entity.CreateUserId, entity.CreateUserName })) > 0;
-            else
-                return (await _context.ExecuteAsync(sql, entity)) > 0;
+            return _context.QuerySingleAsync<JobNodesEntity>($"SELECT  * FROM JobNodes {NOLOCK} WHERE NodeName=@NodeName", new { NodeName = nodeName });
         }
 
         public Task<JobNodesEntity> QueryJobNodeByTypeAsync(string nodeType)

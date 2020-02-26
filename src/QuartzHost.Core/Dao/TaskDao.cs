@@ -48,10 +48,12 @@ namespace QuartzHost.Core.Dao
 (Id,NodeName,Title,Remark,CronExpression,AssemblyName,ClassName,CustomParamsJson,Status,CreateTime,CreateUserId,CreateUserName,TotalRunCount)
 VALUES
 (@Id,@NodeName,@Title,@Remark,@CronExpression,@AssemblyName,@ClassName,@CustomParamsJson,@Status,@CreateTime,@CreateUserId,@CreateUserName,0)";
+            int exeint = 0;
             if (CoreGlobal.NodeSetting.DbType.Equals("Sqlite"))
-                return (await _context.ExecuteAsync(sql, new { Id = entity.Id.ToString().ToUpper(), entity.NodeName, entity.Title, entity.Remark, entity.CronExpression, entity.AssemblyName, entity.ClassName, entity.CustomParamsJson, entity.Status, entity.CreateTime, entity.CreateUserId, entity.CreateUserName })) > 0;
+                exeint = await _context.ExecuteAsync(sql, new { Id = entity.Id.ToString().ToUpper(), entity.NodeName, entity.Title, entity.Remark, entity.CronExpression, entity.AssemblyName, entity.ClassName, entity.CustomParamsJson, entity.Status, entity.CreateTime, entity.CreateUserId, entity.CreateUserName });
             else
-                return (await _context.ExecuteAsync(sql, entity)) > 0;
+                exeint = await _context.ExecuteAsync(sql, entity);
+            return exeint > 0;
         }
     }
 }

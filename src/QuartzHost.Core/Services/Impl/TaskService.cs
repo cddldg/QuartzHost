@@ -70,12 +70,13 @@ namespace QuartzHost.Core.Services.Impl
                     result.Success = false;
                     result.Message = "任务创建失败！";
                     result.ErrorDetail = "添加任务失败";
-                    return result;
                 }
             }
             catch (Exception ex)
             {
+                result.Data = false;
                 result.Success = false;
+                result.Message = "任务创建失败！";
                 result.ErrorDetail = ex.Message;
                 _logger.LogError(ex, $"任务创建 异常:{ex.Message}");
             }
