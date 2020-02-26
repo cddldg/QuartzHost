@@ -26,5 +26,20 @@ namespace QuartzHost.API.Controllers
         {
             return await _service.QueryAllAsync();
         }
+
+        /// <summary>
+        /// 添加一个任务
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="keepers"></param>
+        /// <param name="nexts"></param>
+        /// <param name="executors"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("add")]
+        public async Task<Result<bool>> AddAsync(JobTasksInput input)
+        {
+            return await _service.AddAsync(input.JobTasks, input.Keepers, input.Nexts, input.Executors);
+        }
     }
 }

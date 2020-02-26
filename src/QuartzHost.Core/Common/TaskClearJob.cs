@@ -43,7 +43,7 @@ namespace QuartzHost.Core.Common
         /// </summary>
         /// <param name="sid"></param>
         /// <returns></returns>
-        public async Task<Result<bool>> Stop(Guid sid, IScheduler _scheduler)
+        public async Task<Result<bool>> Stop(long sid, IScheduler _scheduler)
         {
             var result = new Result<bool> { Data = true, Message = "清理一个任务成功！" };
             try

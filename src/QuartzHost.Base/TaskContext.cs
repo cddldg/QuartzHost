@@ -24,12 +24,12 @@ namespace QuartzHost.Base
         /// <summary>
         /// 任务id
         /// </summary>
-        public Guid TaskId { get; set; }
+        public long TaskId { get; set; }
 
         /// <summary>
         /// 运行轨迹
         /// </summary>
-        public Guid TraceId { get; set; }
+        public long TraceId { get; set; }
 
         /// <summary>
         /// 任务名称

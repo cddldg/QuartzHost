@@ -46,9 +46,9 @@ namespace QuartzHost.API.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("start")]
-        public async Task<Result<bool>> StartWithRetry(Guid sid)
+        public async Task<Result<bool>> Start(long sid)
         {
-            return await _service.StartWithRetry(sid);
+            return await _service.StartJobTask(sid);
         }
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace QuartzHost.API.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("pause")]
-        public async Task<Result<bool>> Pause(Guid sid)
+        public async Task<Result<bool>> Pause(long sid)
         {
             return await _service.Pause(sid);
         }
@@ -70,7 +70,7 @@ namespace QuartzHost.API.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("resume")]
-        public async Task<Result<bool>> Resume(Guid sid)
+        public async Task<Result<bool>> Resume(long sid)
         {
             return await _service.Resume(sid);
         }
@@ -82,7 +82,7 @@ namespace QuartzHost.API.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("stop")]
-        public async Task<Result<bool>> Stop(Guid sid)
+        public async Task<Result<bool>> Stop(long sid)
         {
             return await _service.Stop(sid);
         }
@@ -93,7 +93,7 @@ namespace QuartzHost.API.Controllers
         /// <param name="sid"></param>
         [HttpPost]
         [Route("runonce")]
-        public async Task<Result<bool>> RunOnce(Guid sid)
+        public async Task<Result<bool>> RunOnce(long sid)
         {
             return await _service.RunOnce(sid);
         }

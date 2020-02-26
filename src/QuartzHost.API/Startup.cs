@@ -54,14 +54,20 @@ namespace QuartzHost.API
 
             //自动注册所有业务service
             services.AddAppServices();
-
-            //json配置
-            services.AddControllers()
-                .AddJsonOptions(option =>
+            services.AddMvc().AddJsonOptions(
+                options =>
                 {
-                    option.JsonSerializerOptions.PropertyNamingPolicy = null;
-                    option.JsonSerializerOptions.Converters.Add(new DateTimeConverter());
+                    options.JsonSerializerOptions.PropertyNamingPolicy = null;
+                    options.JsonSerializerOptions.Converters.Add(new DateTimeConverter());
                 });
+
+            ////json配置
+            //services.AddControllers()
+            //    .AddJsonOptions(options =>
+            //    {
+            //        options.JsonSerializerOptions.PropertyNamingPolicy = null;
+            //        options.JsonSerializerOptions.Converters.Add(new DateTimeConverter());
+            //    });
             services.AddControllersWithViews(config =>
             {
                 //添加全局过滤器
@@ -89,11 +95,12 @@ namespace QuartzHost.API
             app.UseRouting();
 
             app.UseAuthorization();
-
+            //app.UseMvc();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
+
             var quartzService = app.ApplicationServices.GetService<IQuartzService>();
             quartzService.InitScheduler().Wait();
             quartzService.Start<Core.Common.TaskClearJob>("task-clear", "0 0/1 * * * ? *").Wait();

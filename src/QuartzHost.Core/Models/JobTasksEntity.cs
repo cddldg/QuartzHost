@@ -13,7 +13,7 @@ namespace QuartzHost.Core.Models
         /// 任务id
         /// </summary>
 
-        public Guid Id { get; set; }
+        public long Id { get; set; }
 
         /// <summary>
         /// 节点标识
@@ -93,6 +93,14 @@ namespace QuartzHost.Core.Models
         public int TotalRunCount { get; set; }
     }
 
+    public class JobTasksInput
+    {
+        public JobTasksEntity JobTasks { get; set; }
+        public List<int> Keepers { get; set; }
+        public List<long> Nexts { get; set; }
+        public List<string> Executors { get; set; }
+    }
+
     public class JobTaskView
     {
         public JobTasksEntity JobTask { get; set; }
@@ -107,7 +115,7 @@ namespace QuartzHost.Core.Models
 
         public List<KeyValuePair<string, string>> Keepers { get; set; }
 
-        public Dictionary<Guid, string> Children { get; set; }
+        public Dictionary<long, string> Children { get; set; }
 
         public List<string> Executors { get; set; }
     }

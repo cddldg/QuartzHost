@@ -16,6 +16,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using UniqueIdGenerator.Net;
 
 namespace QuartzHost.Core.Services.Impl
 {
@@ -107,12 +108,35 @@ namespace QuartzHost.Core.Services.Impl
             return result;
         }
 
+        public async Task<Result<bool>> StartJobTask(long sid)
+        {
+            var result = new Result<bool> { Data = true, Message = "启动任务成功！" };
+            try
+            {
+                result = await StartWithRetry(sid);
+                if (result.Success)
+                {
+                    using var _quartzDao = new QuartzDao();
+                    await _quartzDao.UpdateJobTaskStatusAsync(sid, JobTaskStatus.Running);
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Data = false;
+                result.Success = false;
+                result.Message = $"节点[{CoreGlobal.NodeSetting.NodeName}]任务调度平台启动任务失败！";
+                result.ErrorDetail = ex.Message;
+                _logger.LogError(ex, $"节点[{CoreGlobal.NodeSetting.NodeName}]任务调度平台启动任务失败！");
+            }
+            return result;
+        }
+
         /// <summary>
         /// 启动一个任务，带重试机制
         /// </summary>
         /// <param name="task"></param>
         /// <returns></returns>
-        public async Task<Result<bool>> StartWithRetry(Guid sid)
+        public async Task<Result<bool>> StartWithRetry(long sid)
         {
             var result = new Result<bool> { Data = true };
             var jk = new JobKey(sid.ToString().ToLower());
@@ -168,7 +192,7 @@ namespace QuartzHost.Core.Services.Impl
         /// </summary>
         /// <param name="sid"></param>
         /// <returns></returns>
-        public async Task<Result<bool>> Pause(Guid sid)
+        public async Task<Result<bool>> Pause(long sid)
         {
             var result = new Result<bool> { Data = true, Message = "任务已经暂停运行！" };
             try
@@ -208,7 +232,7 @@ namespace QuartzHost.Core.Services.Impl
         /// </summary>
         /// <param name="sid"></param>
         /// <returns></returns>
-        public async Task<Result<bool>> Resume(Guid sid)
+        public async Task<Result<bool>> Resume(long sid)
         {
             var result = new Result<bool> { Data = true, Message = "任务已经恢复运行！" };
             try
@@ -243,7 +267,7 @@ namespace QuartzHost.Core.Services.Impl
         /// </summary>
         /// <param name="sid"></param>
         /// <returns></returns>
-        public async Task<Result<bool>> Stop(Guid sid)
+        public async Task<Result<bool>> Stop(long sid)
         {
             var result = new Result<bool> { Data = true, Message = "任务已经停止运行！" };
             try
@@ -284,7 +308,7 @@ namespace QuartzHost.Core.Services.Impl
         ///立即运行一次任务
         /// </summary>
         /// <param name="sid"></param>
-        public async Task<Result<bool>> RunOnce(Guid sid)
+        public async Task<Result<bool>> RunOnce(long sid)
         {
             var result = new Result<bool> { Data = true, Message = "任务立即运行成功！" };
             try
@@ -368,6 +392,7 @@ namespace QuartzHost.Core.Services.Impl
                 {
                     isCreate = true;
                     node = new JobNodesEntity();
+                    node.GenerID = (await _quartzDao.QueryJobNodeMaxGId()) + 1;
                 }
                 node.NodeName = CoreGlobal.NodeSetting.NodeName;
                 node.NodeType = CoreGlobal.NodeSetting.NodeType;
@@ -395,6 +420,7 @@ namespace QuartzHost.Core.Services.Impl
                 AccessSecret = node.AccessSecret;
             }
             CoreGlobal.NodeSetting.AccessSecret = AccessSecret;
+            CoreGlobal.Generator = new Generator((short)node.GenerID, DateTime.Today);
         }
 
         private async Task RunningRecoveryAsync()
@@ -406,7 +432,7 @@ namespace QuartzHost.Core.Services.Impl
             list?.AsParallel().ForAll(async sid => await StartWithRetry(sid));
         }
 
-        private async Task<JobTaskView> GetJobTaskViewAsync(Guid sid)
+        private async Task<JobTaskView> GetJobTaskViewAsync(long sid)
         {
             using var _quartzDao = new QuartzDao();
             var model = await _quartzDao.QueryJobTaskAsync(sid);
@@ -484,7 +510,7 @@ namespace QuartzHost.Core.Services.Impl
             _logger.LogInformation($"任务[{view.JobTask.Title}]启动成功！", view.JobTask.Id);
         }
 
-        private async Task StartedEventAsync(Guid sid, DateTime? nextRunTime)
+        private async Task StartedEventAsync(long sid, DateTime? nextRunTime)
         {
             using var _quartzDao = new QuartzDao();
             //每次运行成功后更新任务的运行情况
@@ -517,7 +543,7 @@ namespace QuartzHost.Core.Services.Impl
     /// </summary>
     internal class JobRunListener : IJobListener
     {
-        public delegate Task SuccessEventHandler(Guid sid, DateTime? nextTime);
+        public delegate Task SuccessEventHandler(long sid, DateTime? nextTime);
 
         public string Name { get; set; }
 
@@ -550,12 +576,12 @@ namespace QuartzHost.Core.Services.Impl
             {
                 var utcDate = context.Trigger.GetNextFireTimeUtc();
                 DateTime? nextTime = utcDate.HasValue ? TimeZoneInfo.ConvertTimeFromUtc(utcDate.Value.DateTime, TimeZoneInfo.Local) : new DateTime?();
-                OnSuccess(Guid.Parse(job.Key.Name), nextTime);
+                OnSuccess(long.Parse(job.Key.Name), nextTime);
 
                 //子任务触发
                 Task.Run(async () =>
                 {
-                    var children = job.JobDataMap["children"] as Dictionary<Guid, string>;
+                    var children = job.JobDataMap["children"] as Dictionary<long, string>;
                     foreach (var item in children)
                     {
                         var jobkey = new JobKey(item.Key.ToString());

@@ -21,34 +21,34 @@ namespace QuartzHost.Core.Services
         /// </summary>
         /// <param name="task"></param>
         /// <returns></returns>
-        Task<Result<bool>> StartWithRetry(Guid sid);
+        Task<Result<bool>> StartJobTask(long sid);
 
         /// <summary>
         /// 暂停一个任务
         /// </summary>
         /// <param name="sid"></param>
         /// <returns></returns>
-        Task<Result<bool>> Pause(Guid sid);
+        Task<Result<bool>> Pause(long sid);
 
         /// <summary>
         /// 恢复运行
         /// </summary>
         /// <param name="sid"></param>
         /// <returns></returns>
-        Task<Result<bool>> Resume(Guid sid);
+        Task<Result<bool>> Resume(long sid);
 
         /// <summary>
         /// 停止一个任务
         /// </summary>
         /// <param name="sid"></param>
         /// <returns></returns>
-        Task<Result<bool>> Stop(Guid sid);
+        Task<Result<bool>> Stop(long sid);
 
         /// <summary>
         ///立即运行一次任务
         /// </summary>
         /// <param name="sid"></param>
-        Task<Result<bool>> RunOnce(Guid sid);
+        Task<Result<bool>> RunOnce(long sid);
 
         /// <summary>
         /// 执行自定义任务类

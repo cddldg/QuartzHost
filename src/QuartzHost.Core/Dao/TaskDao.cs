@@ -39,6 +39,7 @@ namespace QuartzHost.Core.Dao
 
         public Task<IEnumerable<JobTasksEntity>> QueryPagerAsync(int pageIndex, int pageSize)
         {
+            //Todo 分页
             return _context.QueryAsync<JobTasksEntity>($"SELECT COUNT(1) OVER() AS Total,* FROM  JobTasks {NOLOCK} ORDER BY CreateTime {PAGESUFFIX}", new { PageIndex = pageIndex, PageSize = pageSize });
         }
 
@@ -48,12 +49,8 @@ namespace QuartzHost.Core.Dao
 (Id,NodeName,Title,Remark,CronExpression,AssemblyName,ClassName,CustomParamsJson,Status,CreateTime,CreateUserId,CreateUserName,TotalRunCount)
 VALUES
 (@Id,@NodeName,@Title,@Remark,@CronExpression,@AssemblyName,@ClassName,@CustomParamsJson,@Status,@CreateTime,@CreateUserId,@CreateUserName,0)";
-            int exeint = 0;
-            if (CoreGlobal.NodeSetting.DbType.Equals("Sqlite"))
-                exeint = await _context.ExecuteAsync(sql, new { Id = entity.Id.ToString().ToUpper(), entity.NodeName, entity.Title, entity.Remark, entity.CronExpression, entity.AssemblyName, entity.ClassName, entity.CustomParamsJson, entity.Status, entity.CreateTime, entity.CreateUserId, entity.CreateUserName });
-            else
-                exeint = await _context.ExecuteAsync(sql, entity);
-            return exeint > 0;
+
+            return (await _context.ExecuteAsync(sql, entity)) > 0;
         }
     }
 }

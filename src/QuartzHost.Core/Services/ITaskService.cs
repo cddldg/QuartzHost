@@ -28,14 +28,14 @@ namespace QuartzHost.Core.Services
         /// </summary>
         /// <param name="sid"></param>
         /// <returns></returns>
-        JobTasksEntity QueryById(Guid sid);
+        JobTasksEntity QueryById(long sid);
 
         /// <summary>
         /// 查询任务详细信息
         /// </summary>
         /// <param name="sid"></param>
         /// <returns></returns>
-        JobTaskView QueryScheduleView(Guid sid);
+        JobTaskView QueryScheduleView(long sid);
 
         /// <summary>
         /// 查看指定用户的监护任务
@@ -87,7 +87,7 @@ namespace QuartzHost.Core.Services
         /// <param name="nexts"></param>
         /// <param name="executors"></param>
         /// <returns></returns>
-        Task<Result<bool>> AddAsync(JobTasksEntity model, List<int> keepers, List<Guid> nexts, List<string> executors = null);
+        Task<Result<bool>> AddAsync(JobTasksEntity model, List<int> keepers = null, List<long> nexts = null, List<string> executors = null);
 
         /// <summary>
         /// 编辑任务信息
@@ -108,34 +108,34 @@ namespace QuartzHost.Core.Services
         /// </summary>
         /// <param name="sid"></param>
         /// <returns></returns>
-        ServiceResponseMessage Pause(Guid sid);
+        ServiceResponseMessage Pause(long sid);
 
         /// <summary>
         /// 恢复一个任务
         /// </summary>
         /// <param name="sid"></param>
         /// <returns></returns>
-        ServiceResponseMessage Resume(Guid sid);
+        ServiceResponseMessage Resume(long sid);
 
         /// <summary>
         /// 执行一次任务
         /// </summary>
         /// <param name="sid"></param>
         /// <returns></returns>
-        ServiceResponseMessage RunOnce(Guid sid);
+        ServiceResponseMessage RunOnce(long sid);
 
         /// <summary>
         /// 停止一个任务
         /// </summary>
         /// <param name="sid"></param>
         /// <returns></returns>
-        ServiceResponseMessage Stop(Guid sid);
+        ServiceResponseMessage Stop(long sid);
 
         /// <summary>
         /// 删除一个任务
         /// </summary>
         /// <param name="sid"></param>
         /// <returns></returns>
-        ServiceResponseMessage Delete(Guid sid);
+        ServiceResponseMessage Delete(long sid);
     }
 }

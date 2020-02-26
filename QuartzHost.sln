@@ -17,6 +17,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VIP", "test\VIP\VIP.csproj"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuartzHost.UI", "src\QuartzHost.UI\QuartzHost.UI.csproj", "{F518D1B3-C36F-4414-9408-9C523E533FA1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleTest", "test\ConsoleTest\ConsoleTest.csproj", "{B4273691-4C8F-4872-8F13-3AA3B7FDC0EE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,6 +45,10 @@ Global
 		{F518D1B3-C36F-4414-9408-9C523E533FA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F518D1B3-C36F-4414-9408-9C523E533FA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F518D1B3-C36F-4414-9408-9C523E533FA1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B4273691-4C8F-4872-8F13-3AA3B7FDC0EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4273691-4C8F-4872-8F13-3AA3B7FDC0EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4273691-4C8F-4872-8F13-3AA3B7FDC0EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4273691-4C8F-4872-8F13-3AA3B7FDC0EE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -53,6 +59,7 @@ Global
 		{FCA8C5E4-DC01-4BCB-A585-97819EF66B34} = {278C45F6-817B-4412-A928-BEE592C97050}
 		{E6CB95D5-2BCF-464D-831B-652BC74ED7CC} = {857D4F38-C014-45B0-991A-FA54CBC51E41}
 		{F518D1B3-C36F-4414-9408-9C523E533FA1} = {278C45F6-817B-4412-A928-BEE592C97050}
+		{B4273691-4C8F-4872-8F13-3AA3B7FDC0EE} = {857D4F38-C014-45B0-991A-FA54CBC51E41}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {11C3CDD3-E618-47F8-A4FA-51DCE037358F}

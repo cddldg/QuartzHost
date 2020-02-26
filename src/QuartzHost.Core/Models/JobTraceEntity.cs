@@ -9,9 +9,9 @@ namespace QuartzHost.Core.Models
     public class JobTraceEntity : IEntity
     {
         [Key]
-        public Guid TraceId { get; set; }
+        public long TraceId { get; set; }
 
-        public Guid TaskId { get; set; }
+        public long TaskId { get; set; }
 
         /// <summary>
         /// 所在节点

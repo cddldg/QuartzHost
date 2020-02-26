@@ -55,5 +55,7 @@ namespace QuartzHost.Core.Models
         /// 权重
         /// </summary>
         public int Priority { get; set; }
+
+        public int GenerID { get; set; }
     }
 }

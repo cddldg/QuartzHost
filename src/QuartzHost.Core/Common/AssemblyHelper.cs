@@ -39,7 +39,7 @@ namespace QuartzHost.Core.Common
             }
         }
 
-        public static TaskBase CreateTaskInstance(TaskLoadContext context, Guid sid, string assemblyName, string className)
+        public static TaskBase CreateTaskInstance(TaskLoadContext context, long sid, string assemblyName, string className)
         {
             try
             {
@@ -58,7 +58,7 @@ namespace QuartzHost.Core.Common
             }
         }
 
-        public static string GetTaskAssemblyPath(Guid sid, string assemblyName)
+        public static string GetTaskAssemblyPath(long sid, string assemblyName)
         {
             return Path.Combine(Environment.CurrentDirectory, "wwwroot", "tasks", assemblyName, $"{assemblyName}.dll");
         }
@@ -68,7 +68,7 @@ namespace QuartzHost.Core.Common
         /// </summary>
         /// <param name="assemblyName"></param>
         /// <returns></returns>
-        public static TaskLoadContext LoadAssemblyContext(Guid sid, string assemblyName)
+        public static TaskLoadContext LoadAssemblyContext(long sid, string assemblyName)
         {
             try
             {

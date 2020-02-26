@@ -17,13 +17,13 @@ namespace QuartzHost.Core.Common
     [DisallowConcurrentExecution]
     public class RootJob : IJob
     {
-        private Guid _sid;
+        private long _sid;
         private readonly ILogger _logger = DG.Logger.DGLogManager.GetLogger();
         private string node = CoreGlobal.NodeSetting.NodeName;
 
         public async Task Execute(IJobExecutionContext context)
         {
-            _sid = Guid.Parse(context.JobDetail.Key.Name);
+            _sid = long.Parse(context.JobDetail.Key.Name);
             using (var _quartzDao = new QuartzDao())
             {
                 var getLocked = true;
@@ -35,7 +35,7 @@ namespace QuartzHost.Core.Common
                     {
                         if (job.JobDataMap["instance"] is TaskBase instance)
                         {
-                            Guid traceId = await _quartzDao.GreateRunTrace(_sid, node);
+                            long traceId = await _quartzDao.GreateRunTrace(_sid, node);
                             Stopwatch stopwatch = new Stopwatch();
                             TaskContext tctx = new TaskContext(instance)
                             {

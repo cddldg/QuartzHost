@@ -58,12 +58,28 @@ namespace QuartzHost.Core.Services.Impl
             return result;
         }
 
-        public async Task<Result<bool>> AddAsync(JobTasksEntity model, List<int> keepers, List<Guid> nexts, List<string> executors = null)
+        public async Task<Result<bool>> AddAsync(JobTasksEntity model, List<int> keepers = null, List<long> nexts = null, List<string> executors = null)
         {
             var result = new Result<bool> { Data = true, Message = "任务创建成功!" };
 
             try
             {
+                //Id,NodeName,Title,Remark,CronExpression,AssemblyName,ClassName,CustomParamsJson,Status,CreateTime,CreateUserId,CreateUserName,TotalRunCount
+                if (model == null)
+                    model = new JobTasksEntity
+                    {
+                        Id = CoreGlobal.SnowflakeUniqueId(),
+                        NodeName = CoreGlobal.NodeSetting.NodeName,
+                        Title = "TT",
+                        Remark = "TTVIP",
+                        CronExpression = "0/30 * * * * ?",
+                        AssemblyName = "VIP",
+                        ClassName = "VIP.Test",
+                        CustomParamsJson = "",
+                        Status = JobTaskStatus.Stop,
+                        CreateUserId = 1,
+                        CreateUserName = "admin",
+                    };
                 if ((await _taskDao.AddAsync(model)) == false)
                 {
                     result.Data = false;
@@ -83,7 +99,7 @@ namespace QuartzHost.Core.Services.Impl
             return result;
         }
 
-        public ServiceResponseMessage Delete(Guid sid)
+        public ServiceResponseMessage Delete(long sid)
         {
             throw new NotImplementedException();
         }
@@ -93,12 +109,12 @@ namespace QuartzHost.Core.Services.Impl
             throw new NotImplementedException();
         }
 
-        public ServiceResponseMessage Pause(Guid sid)
+        public ServiceResponseMessage Pause(long sid)
         {
             throw new NotImplementedException();
         }
 
-        public JobTasksEntity QueryById(Guid sid)
+        public JobTasksEntity QueryById(long sid)
         {
             throw new NotImplementedException();
         }
@@ -108,7 +124,7 @@ namespace QuartzHost.Core.Services.Impl
             throw new NotImplementedException();
         }
 
-        public JobTaskView QueryScheduleView(Guid sid)
+        public JobTaskView QueryScheduleView(long sid)
         {
             throw new NotImplementedException();
         }
@@ -138,12 +154,12 @@ namespace QuartzHost.Core.Services.Impl
             throw new NotImplementedException();
         }
 
-        public ServiceResponseMessage Resume(Guid sid)
+        public ServiceResponseMessage Resume(long sid)
         {
             throw new NotImplementedException();
         }
 
-        public ServiceResponseMessage RunOnce(Guid sid)
+        public ServiceResponseMessage RunOnce(long sid)
         {
             throw new NotImplementedException();
         }
@@ -153,7 +169,7 @@ namespace QuartzHost.Core.Services.Impl
             throw new NotImplementedException();
         }
 
-        public ServiceResponseMessage Stop(Guid sid)
+        public ServiceResponseMessage Stop(long sid)
         {
             throw new NotImplementedException();
         }

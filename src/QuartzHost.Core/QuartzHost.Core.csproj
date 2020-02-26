@@ -20,7 +20,8 @@ Quart.Net 在dotnetcore3.1平台的实现任务的启动、停止、新建、暂
     <PackageReference Include="DG.Logger" Version="1.0.2" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.2" />
     <PackageReference Include="Quartz" Version="3.0.7" />
-    <PackageReference Include="QuartzHost.Base" Version="1.0.9" />
+    <PackageReference Include="QuartzHost.Base" Version="1.1.0" />
     <PackageReference Include="System.Data.SQLite.Core" Version="1.0.112" />
+    <PackageReference Include="UniqueIdGenerator" Version="2.0.0" />
   </ItemGroup>
 </Project>
