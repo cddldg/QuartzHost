@@ -31,12 +31,25 @@ namespace QuartzHost.Core.Dao
             }
         }
 
-        public Task<IEnumerable<JobTasksEntity>> QueryAllAsync(JobTaskStatus? status)
+        public async Task<List<JobTasksEntity>> QueryAllAsync(JobTaskStatus? status)
         {
             if (status.HasValue)
-                return _context.QueryAsync<JobTasksEntity>($"SELECT * FROM JobTasks {NOLOCK} Where Status=@Status", new { Status = status });
+                return (await _context.QueryAsync<JobTasksEntity>($"SELECT * FROM JobTasks {NOLOCK} Where Status=@Status", new { Status = status }))?.ToList();
             else
-                return _context.QueryAsync<JobTasksEntity>($"SELECT * FROM JobTasks {NOLOCK} Where Status<>@Status", new { Status = JobTaskStatus.Deleted });
+                return (await _context.QueryAsync<JobTasksEntity>($"SELECT * FROM JobTasks {NOLOCK} Where Status<>@Status", new { Status = JobTaskStatus.Deleted }))?.ToList();
+        }
+
+        public async Task<List<JobNodesEntity>> QueryNodesAllAsync()
+        {
+            return (await _context.QueryAsync<JobNodesEntity>($"SELECT * FROM JobNodes {NOLOCK} ORDER BY Status DESC,LastUpdateTime  "))?.ToList();
+        }
+
+        public Task<int> QueryAllCountAsync(JobTaskStatus? status)
+        {
+            if (status.HasValue)
+                return _context.QuerySingleAsync<int>($"SELECT Count(1) FROM JobTasks {NOLOCK} Where Status=@Status", new { Status = status });
+            else
+                return _context.QuerySingleAsync<int>($"SELECT Count(1) FROM JobTasks {NOLOCK} Where Status<>@Status", new { Status = JobTaskStatus.Deleted });
         }
 
         public async Task<List<JobTasksEntity>> QueryPagerAsync(PageInput page)
@@ -65,12 +78,27 @@ namespace QuartzHost.Core.Dao
             return _context.QuerySingleAsync<JobTasksEntity>($"SELECT * FROM JobTasks {NOLOCK} Where  Id=@Id", new { Id = sid });
         }
 
+        public async Task<bool> UpdateJobTaskAsync(JobTasksEntity entity)
+        {
+            return (await _context.ExecuteAsync("UPDATE JobTasks SET AssemblyName=@AssemblyName, ClassName=@ClassName,CronExpression=@CronExpression,CustomParamsJson=@CustomParamsJson,Remark=@Remark,Title=@Title,Children=@Children  WHERE Id=@Id", entity)) > 0;
+        }
+
+        /// <summary>
+        /// 逻辑删除
+        /// </summary>
+        /// <param name="sid"></param>
+        /// <returns></returns>
+        public async Task<bool> DeleteJobTaskAsync(long sid)
+        {
+            return (await _context.ExecuteAsync("UPDATE JobTasks SET Status=-1, NextRunTime=NULL  WHERE Id=@Id", new { Id = sid })) > 0;
+        }
+
         public async Task<bool> AddAsync(JobTasksEntity entity)
         {
             var sql = $@"INSERT INTO JobTasks
-(Id,NodeName,Title,Remark,CronExpression,AssemblyName,ClassName,CustomParamsJson,Status,CreateTime,CreateUserId,CreateUserName,TotalRunCount)
+(Id,NodeName,Title,Remark,CronExpression,AssemblyName,ClassName,CustomParamsJson,Status,CreateTime,CreateUserId,CreateUserName,TotalRunCount,Children)
 VALUES
-(@Id,@NodeName,@Title,@Remark,@CronExpression,@AssemblyName,@ClassName,@CustomParamsJson,@Status,@CreateTime,@CreateUserId,@CreateUserName,0)";
+(@Id,@NodeName,@Title,@Remark,@CronExpression,@AssemblyName,@ClassName,@CustomParamsJson,@Status,@CreateTime,@CreateUserId,@CreateUserName,0,@Children)";
 
             return (await _context.ExecuteAsync(sql, entity)) > 0;
         }

@@ -118,7 +118,7 @@ namespace QuartzHost.Core.Services.Impl
                 {
                     using var _quartzDao = new QuartzDao();
                     var isOk = await _quartzDao.UpdateJobTaskStatusAsync(sid, JobTaskStatus.Running);
-                    result.Data = isOk > 0 ? JobTaskStatus.Running : result.Data;
+                    result.Data = isOk ? JobTaskStatus.Running : result.Data;
                 }
             }
             catch (Exception ex)
@@ -193,7 +193,51 @@ namespace QuartzHost.Core.Services.Impl
         /// </summary>
         /// <param name="sid"></param>
         /// <returns></returns>
-        public async Task<Result<bool>> Pause(long sid)
+        public async Task<Result<JobTaskStatus>> PauseTask(long sid)
+        {
+            var result = new Result<JobTaskStatus>();
+            try
+            {
+                using var _quartzDao = new QuartzDao();
+                var task = await _quartzDao.QueryJobTaskAsync(sid);
+                result.Data = task.Status;
+                if (task == null)
+                {
+                    result.Success = false;
+                    result.Message = $"任务不存在!";
+                    return result;
+                }
+                if (task.Status != JobTaskStatus.Running)
+                {
+                    result.Success = false;
+                    result.Message = "在运行状态下才能暂停任务!";
+                    return result;
+                }
+
+                var ret = await Pause(sid);
+                if (ret.Success)
+                {
+                    var isOk = await _quartzDao.UpdateJobTaskStatusAsync(sid, JobTaskStatus.Paused, true);
+                    result.Data = isOk ? JobTaskStatus.Paused : result.Data;
+                    result.Message = $"暂停成功!任务状态:[{result.Data.GetDescription()}]";
+                }
+            }
+            catch (Exception exp)
+            {
+                _logger.LogError(exp, $"节点[{CoreGlobal.NodeSetting.NodeName}][({sid})]任务暂停运行失败！");
+                result.Success = false;
+                result.Message = $"暂停失败!任务状态:[{result.Data.GetDescription()}]";
+                result.ErrorDetail = exp.Message;
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// 暂停一个任务
+        /// </summary>
+        /// <param name="sid"></param>
+        /// <returns></returns>
+        private async Task<Result<bool>> Pause(long sid)
         {
             var result = new Result<bool> { Data = true, Message = "任务已经暂停运行！" };
             try
@@ -233,7 +277,51 @@ namespace QuartzHost.Core.Services.Impl
         /// </summary>
         /// <param name="sid"></param>
         /// <returns></returns>
-        public async Task<Result<bool>> Resume(long sid)
+        public async Task<Result<JobTaskStatus>> ResumeTask(long sid)
+        {
+            var result = new Result<JobTaskStatus>();
+            try
+            {
+                using var _quartzDao = new QuartzDao();
+                var task = await _quartzDao.QueryJobTaskAsync(sid);
+                result.Data = task.Status;
+                if (task == null)
+                {
+                    result.Success = false;
+                    result.Message = $"任务不存在!";
+                    return result;
+                }
+                if (task.Status != JobTaskStatus.Paused)
+                {
+                    result.Success = false;
+                    result.Message = "在暂停状态下才能恢复运行!";
+                    return result;
+                }
+
+                var ret = await Resume(sid);
+                if (ret.Success)
+                {
+                    var isOk = await _quartzDao.UpdateJobTaskStatusAsync(sid, JobTaskStatus.Running);
+                    result.Data = isOk ? JobTaskStatus.Running : result.Data;
+                    result.Message = $"恢复运行成功!任务状态:[{result.Data.GetDescription()}]";
+                }
+            }
+            catch (Exception exp)
+            {
+                _logger.LogError(exp, $"节点[{CoreGlobal.NodeSetting.NodeName}][({sid})]恢复运行失败！");
+                result.Success = false;
+                result.Message = $"恢复运行失败!任务状态:[{result.Data.GetDescription()}]";
+                result.ErrorDetail = exp.Message;
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// 恢复运行
+        /// </summary>
+        /// <param name="sid"></param>
+        /// <returns></returns>
+        private async Task<Result<bool>> Resume(long sid)
         {
             var result = new Result<bool> { Data = true, Message = "任务已经恢复运行！" };
             try
@@ -268,7 +356,51 @@ namespace QuartzHost.Core.Services.Impl
         /// </summary>
         /// <param name="sid"></param>
         /// <returns></returns>
-        public async Task<Result<bool>> Stop(long sid)
+        public async Task<Result<JobTaskStatus>> StopTask(long sid)
+        {
+            var result = new Result<JobTaskStatus>();
+            try
+            {
+                using var _quartzDao = new QuartzDao();
+                var task = await _quartzDao.QueryJobTaskAsync(sid);
+                result.Data = task.Status;
+                if (task == null)
+                {
+                    result.Success = false;
+                    result.Message = $"任务不存在!";
+                    return result;
+                }
+                if (task.Status <= JobTaskStatus.Stop)
+                {
+                    result.Success = false;
+                    result.Message = "大于停止状态下才能恢复运行!";
+                    return result;
+                }
+
+                var ret = await Stop(sid);
+                if (ret.Success)
+                {
+                    var isOk = await _quartzDao.UpdateJobTaskStatusAsync(sid, JobTaskStatus.Stop, true);
+                    result.Data = isOk ? JobTaskStatus.Stop : result.Data;
+                    result.Message = $"停止运行任务成功!任务状态:[{result.Data.GetDescription()}]";
+                }
+            }
+            catch (Exception exp)
+            {
+                _logger.LogError(exp, $"节点[{CoreGlobal.NodeSetting.NodeName}][({sid})]停止运行任务失败！");
+                result.Success = false;
+                result.Message = $"停止运行任务失败!任务状态:[{result.Data.GetDescription()}]";
+                result.ErrorDetail = exp.Message;
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// 停止一个任务
+        /// </summary>
+        /// <param name="sid"></param>
+        /// <returns></returns>
+        private async Task<Result<bool>> Stop(long sid)
         {
             var result = new Result<bool> { Data = true, Message = "任务已经停止运行！" };
             try
@@ -309,7 +441,50 @@ namespace QuartzHost.Core.Services.Impl
         ///立即运行一次任务
         /// </summary>
         /// <param name="sid"></param>
-        public async Task<Result<bool>> RunOnce(long sid)
+        public async Task<Result<ResultStatus>> RunOnceTask(long sid)
+        {
+            var result = new Result<ResultStatus> { Data = ResultStatus.Success, Message = $"运行一次成功!" };
+            try
+            {
+                using var _quartzDao = new QuartzDao();
+                var task = await _quartzDao.QueryJobTaskAsync(sid);
+                if (task == null)
+                {
+                    result.Data = ResultStatus.Failed;
+                    result.Success = false;
+                    result.Message = "任务不存在!";
+                    return result;
+                }
+                if (task.Status != JobTaskStatus.Running)
+                {
+                    result.Data = ResultStatus.Failed;
+                    result.Success = false;
+                    result.Message = "在运行状态下才能运行一次任务!";
+                    return result;
+                }
+                var ret = await RunOnce(sid);
+                if (ret.Success)
+                {
+                    var isOk = await _quartzDao.UpdateJobTaskStatusAsync(sid, JobTaskStatus.Paused, count: 1);
+                    result.Data = isOk ? ResultStatus.Success : ResultStatus.Failed;
+                    result.Message = $"运行一次任务{(isOk ? "成功" : "失败")}!";
+                }
+            }
+            catch (Exception exp)
+            {
+                _logger.LogError(exp, $"节点[{CoreGlobal.NodeSetting.NodeName}][({sid})]运行一次任务失败！");
+                result.Success = false;
+                result.Message = $"运行一次任务失败";
+                result.ErrorDetail = exp.Message;
+            }
+            return result;
+        }
+
+        /// <summary>
+        ///立即运行一次任务
+        /// </summary>
+        /// <param name="sid"></param>
+        private async Task<Result<bool>> RunOnce(long sid)
         {
             var result = new Result<bool> { Data = true, Message = "任务立即运行成功！" };
             try
@@ -403,6 +578,7 @@ namespace QuartzHost.Core.Services.Impl
                 node.Priority = CoreGlobal.NodeSetting.Priority;
                 node.Status = 2;
                 node.AccessSecret = Guid.NewGuid().ToString("n");
+                node.LastUpdateTime = DateTime.Now;
                 isSave = await _quartzDao.UpdateJobNodeStatusAsync(node) > 0;
                 if (isCreate)
                     await _quartzDao.AddJobNodeAsync(node);

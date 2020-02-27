@@ -16,6 +16,7 @@ namespace ConsoleTest
 
         private static void Ts()
         {
+            long[] v = new long[] { 222222, 55555, 7777 };
             var list = new Dictionary<string, object>();
 
             list.Add("NodeName", "node1");
@@ -27,7 +28,7 @@ namespace ConsoleTest
                 Extens = list,
                 OrderBy = "TotalRunCount DESC",
             };
-            var ss = ps.ToJson();
+            var ss = v.ToJson();
             Console.WriteLine(ss);
         }
     }

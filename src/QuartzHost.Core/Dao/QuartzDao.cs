@@ -76,9 +76,9 @@ namespace QuartzHost.Core.Dao
             return _context.ExecuteAsync("UPDATE JobTasks SET LastRunTime=@LastRunTime,NextRunTime=@NextRunTime,TotalRunCount=@TotalRunCount,Status=@Status WHERE Id=@Id", entity);
         }
 
-        public Task<int> UpdateJobTaskStatusAsync(long sid, JobTaskStatus status)
+        public async Task<bool> UpdateJobTaskStatusAsync(long sid, JobTaskStatus status, bool clearNextRunTime = false, int count = 0)
         {
-            return _context.ExecuteAsync("UPDATE JobTasks SET Status=@Status WHERE Id=@Id", new { Status = status, Id = sid });
+            return (await _context.ExecuteAsync($"UPDATE JobTasks SET Status=@Status {(clearNextRunTime ? ",NextRunTime=NULL" : "")} {(count > 1 ? ",TotalRunCount=TotalRunCount+1,LastRunTime=@LastRunTime" : "")} WHERE Id=@Id", new { Status = status, Id = sid, LastRunTime = DateTime.Now })) > 0;
         }
 
         public async Task<long> GreateRunTrace(long tid, string node)

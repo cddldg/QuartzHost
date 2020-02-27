@@ -60,7 +60,7 @@ namespace QuartzHost.Core.Common
 
         public static string GetTaskAssemblyPath(long sid, string assemblyName)
         {
-            return Path.Combine(Environment.CurrentDirectory, "wwwroot", "tasks", assemblyName, $"{assemblyName}.dll");
+            return Path.Combine(AppContext.BaseDirectory, "wwwroot", "tasks", assemblyName, $"{assemblyName}.dll");
         }
 
         /// <summary>

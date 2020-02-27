@@ -27,10 +27,23 @@
             job
             </summary>
         </member>
-        <member name="M:QuartzHost.API.Controllers.JobController.QueryAllAsync">
+        <member name="M:QuartzHost.API.Controllers.JobController.QueryNodesAll">
+            <summary>
+            查询所有node列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:QuartzHost.API.Controllers.JobController.QueryAllAsync(System.Nullable{QuartzHost.Core.Models.JobTaskStatus})">
             <summary>
             查询全部
             </summary>
+            <returns></returns>
+        </member>
+        <member name="M:QuartzHost.API.Controllers.JobController.QueryAllCountAsync(System.Nullable{QuartzHost.Core.Models.JobTaskStatus})">
+            <summary>
+            查询指定状态的任务数量
+            </summary>
+            <param name="status"></param>
             <returns></returns>
         </member>
         <member name="M:QuartzHost.API.Controllers.JobController.QueryPagerAsync(QuartzHost.Core.Models.PageInput)">
@@ -54,45 +67,66 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:QuartzHost.API.Controllers.QuartzController.Shutdown">
-            <summary>
-            关闭调度系统
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:QuartzHost.API.Controllers.QuartzController.Start(System.Int64)">
+        <member name="M:QuartzHost.API.Controllers.JobController.Start(System.Int64)">
             <summary>
             启动一个任务，带重试3机制
             </summary>
             <param name="sid"></param>
             <returns></returns>
         </member>
-        <member name="M:QuartzHost.API.Controllers.QuartzController.Pause(System.Int64)">
+        <member name="M:QuartzHost.API.Controllers.JobController.EditAsync(QuartzHost.Core.Models.JobTasksInput)">
+            <summary>
+            编辑任务
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:QuartzHost.API.Controllers.JobController.PauseAsync(System.Int64)">
             <summary>
             暂停一个任务
             </summary>
-            <param name="sid"></param>
+            <param name="sid">任务编号</param>
             <returns></returns>
         </member>
-        <member name="M:QuartzHost.API.Controllers.QuartzController.Resume(System.Int64)">
+        <member name="M:QuartzHost.API.Controllers.JobController.RunOnce(System.Int64)">
             <summary>
-            恢复运行一个任务
+            立即运行一次
             </summary>
-            <param name="sid"></param>
+            <param name="sid">任务编号</param>
             <returns></returns>
         </member>
-        <member name="M:QuartzHost.API.Controllers.QuartzController.Stop(System.Int64)">
+        <member name="M:QuartzHost.API.Controllers.JobController.Resume(System.Int64)">
+            <summary>
+            恢复一个任务
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:QuartzHost.API.Controllers.JobController.Stop(System.Int64)">
             <summary>
             停止一个任务
             </summary>
-            <param name="sid"></param>
+            <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:QuartzHost.API.Controllers.QuartzController.RunOnce(System.Int64)">
-             <summary>
-            立即运行一次任务
-             </summary>
-             <param name="sid"></param>
+        <member name="M:QuartzHost.API.Controllers.JobController.Delete(System.Int64)">
+            <summary>
+            删除一个任务
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:QuartzHost.API.Controllers.QuartzController.Start">
+            <summary>
+            启动调度系统
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:QuartzHost.API.Controllers.QuartzController.Shutdown">
+            <summary>
+            关闭调度系统
+            </summary>
+            <returns></returns>
         </member>
         <member name="M:QuartzHost.API.Startup.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IWebHostEnvironment,Microsoft.Extensions.Hosting.IHostApplicationLifetime)">
              <summary>

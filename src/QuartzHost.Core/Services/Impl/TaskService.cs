@@ -22,9 +22,9 @@ namespace QuartzHost.Core.Services.Impl
             _logger = logger;
         }
 
-        public async Task<Result<IEnumerable<JobTasksEntity>>> QueryAllAsync(JobTaskStatus? status = null)
+        public async Task<Result<List<JobTasksEntity>>> QueryAllAsync(JobTaskStatus? status = null)
         {
-            var result = new Result<IEnumerable<JobTasksEntity>> { Message = "查询任务成功!" };
+            var result = new Result<List<JobTasksEntity>> { Message = "查询任务成功!" };
 
             try
             {
@@ -33,6 +33,7 @@ namespace QuartzHost.Core.Services.Impl
             catch (Exception ex)
             {
                 result.Success = false;
+                result.Message = "查询任务失败!";
                 result.ErrorDetail = ex.Message;
                 _logger.LogError(ex, $"查询任务 异常:{ex.Message}");
             }
@@ -85,20 +86,6 @@ namespace QuartzHost.Core.Services.Impl
                 input.JobTasks.Id = CoreGlobal.SnowflakeUniqueId();
                 input.JobTasks.Status = JobTaskStatus.Stop;
                 result.Data = input.JobTasks.Id;
-                if (input.JobTasks == null)
-                    input.JobTasks = new JobTasksEntity
-                    {
-                        NodeName = CoreGlobal.NodeSetting.NodeName,
-                        Title = "TT",
-                        Remark = "TTVIP",
-                        CronExpression = "0/30 * * * * ?",
-                        AssemblyName = "VIP",
-                        ClassName = "VIP.Test",
-                        CustomParamsJson = "",
-                        Status = JobTaskStatus.Stop,
-                        CreateUserId = 1,
-                        CreateUserName = "admin",
-                    };
                 var isOk = await _taskDao.AddAsync(input.JobTasks);
                 if (isOk)
                 {
@@ -120,42 +107,118 @@ namespace QuartzHost.Core.Services.Impl
             return result;
         }
 
-        public ServiceResponseMessage Delete(long sid)
+        public async Task<Result<ResultStatus>> EditAsync(JobTasksInput input)
         {
-            throw new NotImplementedException();
+            var result = new Result<ResultStatus> { Data = ResultStatus.Success, Message = $"编辑任务成功!" };
+
+            try
+            {
+                var task = await _taskDao.QueryByIdAsync(input.JobTasks.Id);
+                if (task == null)
+                {
+                    result.Data = ResultStatus.Failed;
+                    result.Success = false;
+                    result.Message = "任务不存在!";
+                    return result;
+                }
+                if (task.Status != JobTaskStatus.Stop)
+                {
+                    result.Data = ResultStatus.Failed;
+                    result.Success = false;
+                    result.Message = "在停止状态下才能编辑任务信息!";
+                    return result;
+                }
+                if (!await _taskDao.UpdateJobTaskAsync(task))
+                {
+                    result.Data = ResultStatus.Failed;
+                    result.Success = false;
+                    result.Message = "编辑任务失败!";
+                    return result;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Data = ResultStatus.Failed;
+                result.Success = false;
+                result.Message = "编辑任务失败！";
+                result.ErrorDetail = ex.Message;
+                _logger.LogError(ex, $"编辑任务 异常:{ex.Message}");
+            }
+            return result;
         }
 
-        public ServiceResponseMessage Edit(JobTasksEntity model)
+        /// <summary>
+        /// 删除任务
+        /// </summary>
+        /// <param name="sid"></param>
+        /// <returns></returns>
+        public async Task<Result<ResultStatus>> DeleteTask(long sid)
         {
-            throw new NotImplementedException();
+            var result = new Result<ResultStatus> { Data = ResultStatus.Success, Message = $"删除任务成功!" };
+
+            try
+            {
+                var task = await _taskDao.QueryByIdAsync(sid);
+                if (task == null)
+                {
+                    result.Data = ResultStatus.Failed;
+                    result.Success = false;
+                    result.Message = "任务不存在!";
+                    return result;
+                }
+                if (task.Status == JobTaskStatus.Deleted)
+                {
+                    result.Data = ResultStatus.Failed;
+                    result.Success = false;
+                    result.Message = "任务已经是删除状态!";
+                    return result;
+                }
+                if (task.Status != JobTaskStatus.Stop)
+                {
+                    result.Data = ResultStatus.Failed;
+                    result.Success = false;
+                    result.Message = "在停止状态下才能删除任务!";
+                    return result;
+                }
+
+                if (!await _taskDao.DeleteJobTaskAsync(sid))
+                {
+                    result.Data = ResultStatus.Failed;
+                    result.Success = false;
+                    result.Message = "删除任务失败!";
+                    return result;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Data = ResultStatus.Failed;
+                result.Success = false;
+                result.Message = "删除任务失败！";
+                result.ErrorDetail = ex.Message;
+                _logger.LogError(ex, $"删除任务 异常:{ex.Message}");
+            }
+            return result;
         }
 
-        public ServiceResponseMessage Pause(long sid)
+        public async Task<Result<int>> QueryAllCountAsync(JobTaskStatus? status)
         {
-            throw new NotImplementedException();
-        }
+            var result = new Result<int> { Message = $"获取数量成功!" };
 
-        public int QueryScheduleCount(int? status)
-        {
-            throw new NotImplementedException();
-        }
-
-        public JobTaskView QueryScheduleView(long sid)
-        {
-            throw new NotImplementedException();
+            try
+            {
+                result.Data = await _taskDao.QueryAllCountAsync(status);
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.Message = "获取数量失败！";
+                result.ErrorDetail = ex.Message;
+                _logger.LogError(ex, $"获取数量 异常:{ex.Message}");
+            }
+            return result;
         }
 
         public int QueryTraceCount(int? status)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<KeyValuePair<long, int>> QueryTraceWeeklyReport(int? status)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<JobTasksEntity> QueryUserSchedule(int userId, int takeSize)
         {
             throw new NotImplementedException();
         }
@@ -165,29 +228,22 @@ namespace QuartzHost.Core.Services.Impl
             throw new NotImplementedException();
         }
 
-        public List<JobNodesEntity> QueryWorkerList()
+        public async Task<Result<List<JobNodesEntity>>> QueryNodesAll()
         {
-            throw new NotImplementedException();
-        }
+            var result = new Result<List<JobNodesEntity>> { Message = "查询所有工作节点成功!" };
 
-        public ServiceResponseMessage Resume(long sid)
-        {
-            throw new NotImplementedException();
-        }
-
-        public ServiceResponseMessage RunOnce(long sid)
-        {
-            throw new NotImplementedException();
-        }
-
-        public ServiceResponseMessage Start(JobTasksEntity task)
-        {
-            throw new NotImplementedException();
-        }
-
-        public ServiceResponseMessage Stop(long sid)
-        {
-            throw new NotImplementedException();
+            try
+            {
+                result.Data = await _taskDao.QueryNodesAllAsync();
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.Message = "查询所有工作节点失败！";
+                result.ErrorDetail = ex.Message;
+                _logger.LogError(ex, $"查询所有工作节点 异常:{ex.Message}");
+            }
+            return result;
         }
     }
 }

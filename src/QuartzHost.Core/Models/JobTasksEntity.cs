@@ -91,6 +91,16 @@ namespace QuartzHost.Core.Models
         /// 总运行成功次数
         /// </summary>
         public int TotalRunCount { get; set; }
+
+        /// <summary>
+        ///
+        /// </summary>
+        public string Children { get; set; }
+
+        /// <summary>
+        /// 子任务Id
+        /// </summary>
+        public long[] Nexts { get; set; }
     }
 
     /// <summary>
