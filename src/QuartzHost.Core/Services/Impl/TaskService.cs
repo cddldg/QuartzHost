@@ -58,17 +58,36 @@ namespace QuartzHost.Core.Services.Impl
             return result;
         }
 
-        public async Task<Result<bool>> AddAsync(JobTasksInput input)
+        public async Task<Result<JobTasksEntity>> QueryById(long sid)
         {
-            var result = new Result<bool> { Data = true, Message = "任务创建成功!" };
+            var result = new Result<JobTasksEntity>();
 
             try
             {
-                //Id,NodeName,Title,Remark,CronExpression,AssemblyName,ClassName,CustomParamsJson,Status,CreateTime,CreateUserId,CreateUserName,TotalRunCount
+                result.Data = await _taskDao.QueryByIdAsync(sid);
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.Message = "获取任务失败！";
+                result.ErrorDetail = ex.Message;
+                _logger.LogError(ex, $"获取任务 异常:{ex.Message}");
+            }
+            return result;
+        }
+
+        public async Task<Result<long>> AddAsync(JobTasksInput input)
+        {
+            var result = new Result<long> { Message = $"任务创建成功!任务状态:[{JobTaskStatus.Stop.GetDescription()}]" };
+
+            try
+            {
+                input.JobTasks.Id = CoreGlobal.SnowflakeUniqueId();
+                input.JobTasks.Status = JobTaskStatus.Stop;
+                result.Data = input.JobTasks.Id;
                 if (input.JobTasks == null)
                     input.JobTasks = new JobTasksEntity
                     {
-                        Id = CoreGlobal.SnowflakeUniqueId(),
                         NodeName = CoreGlobal.NodeSetting.NodeName,
                         Title = "TT",
                         Remark = "TTVIP",
@@ -80,9 +99,12 @@ namespace QuartzHost.Core.Services.Impl
                         CreateUserId = 1,
                         CreateUserName = "admin",
                     };
-                if ((await _taskDao.AddAsync(input.JobTasks)) == false)
+                var isOk = await _taskDao.AddAsync(input.JobTasks);
+                if (isOk)
                 {
-                    result.Data = false;
+                }
+                else
+                {
                     result.Success = false;
                     result.Message = "任务创建失败！";
                     result.ErrorDetail = "添加任务失败";
@@ -90,7 +112,6 @@ namespace QuartzHost.Core.Services.Impl
             }
             catch (Exception ex)
             {
-                result.Data = false;
                 result.Success = false;
                 result.Message = "任务创建失败！";
                 result.ErrorDetail = ex.Message;
@@ -110,11 +131,6 @@ namespace QuartzHost.Core.Services.Impl
         }
 
         public ServiceResponseMessage Pause(long sid)
-        {
-            throw new NotImplementedException();
-        }
-
-        public JobTasksEntity QueryById(long sid)
         {
             throw new NotImplementedException();
         }

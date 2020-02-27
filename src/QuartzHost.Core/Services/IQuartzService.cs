@@ -21,7 +21,7 @@ namespace QuartzHost.Core.Services
         /// </summary>
         /// <param name="task"></param>
         /// <returns></returns>
-        Task<Result<bool>> StartJobTask(long sid);
+        Task<Result<JobTaskStatus>> StartJobTask(long sid);
 
         /// <summary>
         /// 暂停一个任务

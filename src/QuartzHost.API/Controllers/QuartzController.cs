@@ -46,7 +46,7 @@ namespace QuartzHost.API.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("start")]
-        public async Task<Result<bool>> Start(long sid)
+        public async Task<Result<JobTaskStatus>> Start(long sid)
         {
             return await _service.StartJobTask(sid);
         }

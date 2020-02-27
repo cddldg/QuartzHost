@@ -108,21 +108,21 @@ namespace QuartzHost.Core.Services.Impl
             return result;
         }
 
-        public async Task<Result<bool>> StartJobTask(long sid)
+        public async Task<Result<JobTaskStatus>> StartJobTask(long sid)
         {
-            var result = new Result<bool> { Data = true, Message = "启动任务成功！" };
+            var result = new Result<JobTaskStatus> { Message = "启动任务成功！" };
             try
             {
                 result = await StartWithRetry(sid);
-                if (result.Success)
+                if (result.Success && result.Data != JobTaskStatus.Running)
                 {
                     using var _quartzDao = new QuartzDao();
-                    await _quartzDao.UpdateJobTaskStatusAsync(sid, JobTaskStatus.Running);
+                    var isOk = await _quartzDao.UpdateJobTaskStatusAsync(sid, JobTaskStatus.Running);
+                    result.Data = isOk > 0 ? JobTaskStatus.Running : result.Data;
                 }
             }
             catch (Exception ex)
             {
-                result.Data = false;
                 result.Success = false;
                 result.Message = $"节点[{CoreGlobal.NodeSetting.NodeName}]任务调度平台启动任务失败！";
                 result.ErrorDetail = ex.Message;
@@ -136,9 +136,9 @@ namespace QuartzHost.Core.Services.Impl
         /// </summary>
         /// <param name="task"></param>
         /// <returns></returns>
-        private async Task<Result<bool>> StartWithRetry(long sid)
+        private async Task<Result<JobTaskStatus>> StartWithRetry(long sid)
         {
-            var result = new Result<bool> { Data = true };
+            var result = new Result<JobTaskStatus>();
             var jk = new JobKey(sid.ToString().ToLower());
             if (await _scheduler.CheckExists(jk))
             {
@@ -146,6 +146,7 @@ namespace QuartzHost.Core.Services.Impl
                 return result;
             }
             JobTaskView view = await GetJobTaskViewAsync(sid);
+            result.Data = view.JobTask.Status;
             TaskLoadContext lc = null;
             try
             {
@@ -170,7 +171,7 @@ namespace QuartzHost.Core.Services.Impl
             {
                 AssemblyHelper.UnLoadAssemblyLoadContext(lc);
                 _logger.LogError(sexp, $"节点[{CoreGlobal.NodeSetting.NodeName}][{view.JobTask.Title}({view.JobTask.Id})]任务所有重试都失败了，已放弃启动！");
-                result.Data = false;
+
                 result.Success = false;
                 result.Message = "任务所有重试都失败了，已放弃启动！";
                 result.ErrorDetail = sexp.Message;
@@ -179,7 +180,7 @@ namespace QuartzHost.Core.Services.Impl
             {
                 AssemblyHelper.UnLoadAssemblyLoadContext(lc);
                 _logger.LogError(exp, $"节点[{CoreGlobal.NodeSetting.NodeName}][{view.JobTask.Title}({view.JobTask.Id})]任务启动失败！");
-                result.Data = false;
+
                 result.Success = false;
                 result.Message = "任务启动失败！";
                 result.ErrorDetail = exp.Message;

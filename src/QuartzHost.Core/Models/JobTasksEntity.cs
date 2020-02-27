@@ -93,12 +93,32 @@ namespace QuartzHost.Core.Models
         public int TotalRunCount { get; set; }
     }
 
+    /// <summary>
+    /// 添加任务接收参数
+    /// </summary>
     public class JobTasksInput
     {
         public JobTasksEntity JobTasks { get; set; }
+
+        /// <summary>
+        /// Todo 监护人 提醒
+        /// </summary>
         public List<int> Keepers { get; set; }
+
+        /// <summary>
+        /// 子任务
+        /// </summary>
         public List<long> Nexts { get; set; }
+
+        /// <summary>
+        /// Todo 多节点运行
+        /// </summary>
         public List<string> Executors { get; set; }
+
+        /// <summary>
+        /// 创建并运行
+        /// </summary>
+        public bool RunNow { get; set; }
     }
 
     public class JobTaskView

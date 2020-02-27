@@ -50,7 +50,7 @@ namespace QuartzHost.Core.Common
         public BusinessException(ModelStateDictionary modelState)
         {
             ResultStatus = ResultStatus.ValidateError;
-            HttpStatusCode = HttpStatusCode.BadRequest;
+            //HttpStatusCode = HttpStatusCode.BadRequest;
             var state = modelState.FirstOrDefault();
             Message = string.Join(",",
                 state.Value.Errors.Select(x =>

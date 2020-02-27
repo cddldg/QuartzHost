@@ -28,7 +28,7 @@ namespace QuartzHost.Core.Services
         /// </summary>
         /// <param name="sid"></param>
         /// <returns></returns>
-        JobTasksEntity QueryById(long sid);
+        Task<Result<JobTasksEntity>> QueryById(long sid);
 
         /// <summary>
         /// 查询任务详细信息
@@ -87,7 +87,7 @@ namespace QuartzHost.Core.Services
         /// <param name="nexts"></param>
         /// <param name="executors"></param>
         /// <returns></returns>
-        Task<Result<bool>> AddAsync(JobTasksInput input);
+        Task<Result<long>> AddAsync(JobTasksInput input);
 
         /// <summary>
         /// 编辑任务信息

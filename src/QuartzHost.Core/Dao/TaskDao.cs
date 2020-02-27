@@ -60,6 +60,11 @@ namespace QuartzHost.Core.Dao
             return list;
         }
 
+        public Task<JobTasksEntity> QueryByIdAsync(long sid)
+        {
+            return _context.QuerySingleAsync<JobTasksEntity>($"SELECT * FROM JobTasks {NOLOCK} Where  Id=@Id", new { Id = sid });
+        }
+
         public async Task<bool> AddAsync(JobTasksEntity entity)
         {
             var sql = $@"INSERT INTO JobTasks
