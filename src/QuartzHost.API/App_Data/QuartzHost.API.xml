@@ -27,26 +27,34 @@
             job
             </summary>
         </member>
+        <member name="M:QuartzHost.API.Controllers.JobController.QueryDictAllAsync(System.Nullable{QuartzHost.Contract.Models.DictType})">
+            <summary>
+            查询所有Dict
+            </summary>
+            <param name="type">类型 可选</param>
+            <returns></returns>
+        </member>
         <member name="M:QuartzHost.API.Controllers.JobController.QueryNodesAll">
             <summary>
             查询所有node列表
             </summary>
             <returns></returns>
         </member>
-        <member name="M:QuartzHost.API.Controllers.JobController.QueryAllAsync(System.Nullable{QuartzHost.Core.Models.JobTaskStatus})">
+        <member name="M:QuartzHost.API.Controllers.JobController.QueryAllAsync(System.Nullable{QuartzHost.Contract.Models.JobTaskStatus})">
             <summary>
             查询全部
             </summary>
+            <param name="status">状态 可选</param>
             <returns></returns>
         </member>
-        <member name="M:QuartzHost.API.Controllers.JobController.QueryAllCountAsync(System.Nullable{QuartzHost.Core.Models.JobTaskStatus})">
+        <member name="M:QuartzHost.API.Controllers.JobController.QueryAllCountAsync(System.Nullable{QuartzHost.Contract.Models.JobTaskStatus})">
             <summary>
             查询指定状态的任务数量
             </summary>
-            <param name="status"></param>
+            <param name="status">状态 可选</param>
             <returns></returns>
         </member>
-        <member name="M:QuartzHost.API.Controllers.JobController.QueryPagerAsync(QuartzHost.Core.Models.PageInput)">
+        <member name="M:QuartzHost.API.Controllers.JobController.QueryPagerAsync(QuartzHost.Contract.Models.PageInput)">
             <summary>
             查询任务列表
             </summary>
@@ -60,7 +68,7 @@
             <param name="sid">任务编号</param>
             <returns></returns>
         </member>
-        <member name="M:QuartzHost.API.Controllers.JobController.AddAsync(QuartzHost.Core.Models.JobTasksInput)">
+        <member name="M:QuartzHost.API.Controllers.JobController.AddAsync(QuartzHost.Contract.Models.JobTasksInput)">
             <summary>
             添加一个任务
             </summary>
@@ -74,7 +82,7 @@
             <param name="sid"></param>
             <returns></returns>
         </member>
-        <member name="M:QuartzHost.API.Controllers.JobController.EditAsync(QuartzHost.Core.Models.JobTasksInput)">
+        <member name="M:QuartzHost.API.Controllers.JobController.EditAsync(QuartzHost.Contract.Models.JobTasksInput)">
             <summary>
             编辑任务
             </summary>

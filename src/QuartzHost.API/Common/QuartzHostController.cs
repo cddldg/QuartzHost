@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using QuartzHost.Core.Common;
-using QuartzHost.Core.Models;
+using QuartzHost.Contract.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

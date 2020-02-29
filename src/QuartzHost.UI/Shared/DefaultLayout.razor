@@ -1,0 +1,17 @@
+﻿@inherits DefaultLayoutBase
+@inject IJSRuntime JSRuntime
+<Header LeftNavbars="LeftNavbars" />
+<Sidebar />
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    @Body
+</div>
+<!-- /.content-wrapper -->
+<Footer />
+
+@code{
+    protected override async Task OnInitializedAsync()
+    {
+        await JSRuntime.InvokeVoidAsync("QuartzHostUI.init", "base");
+    }
+}

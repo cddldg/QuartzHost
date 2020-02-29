@@ -12,7 +12,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication;
-using QuartzHost.Core.Models;
+using QuartzHost.Contract.Models;
+using QuartzHost.Contract.Common;
 using System.Net;
 
 namespace QuartzHost.API.Common
@@ -65,7 +66,7 @@ namespace QuartzHost.API.Common
         {
             var ex = context.Exception;
             _logger.LogError(ex, ex.Message);
-            var ret = new QuartzHost.Core.Models.Result<int>
+            var ret = new QuartzHost.Contract.Models.Result<int>
             {
                 Data = (int)System.Net.HttpStatusCode.ServiceUnavailable,
                 Success = false,

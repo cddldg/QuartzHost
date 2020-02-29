@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Logging;
 using Quartz;
 using QuartzHost.API.Common;
-using QuartzHost.Core.Models;
+using QuartzHost.Contract.Models;
 using QuartzHost.Core.Services;
 using System;
 using System.Collections.Generic;

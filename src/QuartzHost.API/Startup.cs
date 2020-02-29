@@ -15,7 +15,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using QuartzHost.API.Common;
 using QuartzHost.Core.Common;
-using QuartzHost.Core.Models;
+using QuartzHost.Contract.Models;
 using QuartzHost.Core.Services;
 
 namespace QuartzHost.API
@@ -55,6 +55,7 @@ namespace QuartzHost.API
 
             //注册所有业务service
             services.AddAppServices();
+
             //json
             services.AddControllers()
                 .AddJsonOptions(options =>
@@ -62,6 +63,17 @@ namespace QuartzHost.API
                     options.JsonSerializerOptions.PropertyNamingPolicy = null;
                     options.JsonSerializerOptions.Converters.Add(new DateTimeConverter());
                 });
+
+            //Cors
+            services.AddCors(options =>
+            {
+                options.AddPolicy("qz", p =>
+                {
+                    p.AllowAnyOrigin();
+                    p.AllowAnyHeader();
+                    p.AllowAnyMethod();
+                });
+            });
 
             #region Swagger
 
@@ -156,7 +168,7 @@ namespace QuartzHost.API
             });
 
             app.UseRouting();
-
+            app.UseCors("qz");
             app.UseAuthorization();
             //app.UseMvc();
             app.UseEndpoints(endpoints =>

@@ -7,16 +7,15 @@ using Quartz.Impl.Triggers;
 using QuartzHost.Base;
 using QuartzHost.Core.Common;
 using QuartzHost.Core.Dao;
-using QuartzHost.Core.Models;
+using QuartzHost.Contract.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using UniqueIdGenerator.Net;
+using QuartzHost.Contract.Common;
 
 namespace QuartzHost.Core.Services.Impl
 {

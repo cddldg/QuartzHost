@@ -1,4 +1,4 @@
-﻿using QuartzHost.Core.Models;
+﻿using QuartzHost.Contract.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,6 +8,13 @@ namespace QuartzHost.Core.Services
 {
     public interface ITaskService
     {
+        /// <summary>
+        /// 查询所有Dict
+        /// </summary>
+        /// <param name="status">默认查询非删除的</param>
+        /// <returns></returns>
+        Task<Result<List<JobDictEntity>>> QueryDictAllAsync(DictType? type);
+
         /// <summary>
         /// 查询所有任务
         /// </summary>

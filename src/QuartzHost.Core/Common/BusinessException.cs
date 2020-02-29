@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
-using QuartzHost.Core.Models;
+using QuartzHost.Contract.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

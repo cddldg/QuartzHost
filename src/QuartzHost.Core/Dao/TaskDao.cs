@@ -1,7 +1,7 @@
 ﻿using Dapper;
 using DG.Dapper;
 using QuartzHost.Core.Common;
-using QuartzHost.Core.Models;
+using QuartzHost.Contract.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,6 +29,14 @@ namespace QuartzHost.Core.Dao
                 PAGESUFFIX = "LIMIT @PageSize OFFSET (@PageIndex-1)*@PageSize";
                 NOLOCK = "";
             }
+        }
+
+        public async Task<List<JobDictEntity>> QueryDictAllAsync(DictType? type)
+        {
+            if (type.HasValue)
+                return (await _context.QueryAsync<JobDictEntity>($"SELECT * FROM JobDict WHERE Type=@Type ORDER BY Type ASC,Sort ASC", new { Type = type }))?.ToList();
+            else
+                return (await _context.QueryAsync<JobDictEntity>($"SELECT * FROM JobDict  ORDER BY Type ASC,Sort ASC"))?.ToList();
         }
 
         public async Task<List<JobTasksEntity>> QueryAllAsync(JobTaskStatus? status)

@@ -1,5 +1,5 @@
 ﻿using Quartz;
-using QuartzHost.Core.Models;
+using QuartzHost.Contract.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;

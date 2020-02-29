@@ -1,12 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using QuartzHost.API.Common;
-using QuartzHost.Core.Common;
-using QuartzHost.Core.Models;
+using QuartzHost.Contract.Common;
+using QuartzHost.Contract.Models;
 using QuartzHost.Core.Services;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace QuartzHost.API.Controllers
@@ -27,6 +25,19 @@ namespace QuartzHost.API.Controllers
         }
 
         /// <summary>
+        /// 查询所有Dict
+        /// </summary>
+        /// <param name="type">类型 可选</param>
+        /// <returns></returns>
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("dict/all")]
+        public async Task<Result<List<JobDictEntity>>> QueryDictAllAsync(DictType? type)
+        {
+            return await _taskService.QueryDictAllAsync(type);
+        }
+
+        /// <summary>
         /// 查询所有node列表
         /// </summary>
         /// <returns></returns>
@@ -40,6 +51,7 @@ namespace QuartzHost.API.Controllers
         /// <summary>
         /// 查询全部
         /// </summary>
+        /// <param name="status">状态 可选</param>
         /// <returns></returns>
         [HttpPost]
         [Route("task/all")]
@@ -51,7 +63,7 @@ namespace QuartzHost.API.Controllers
         /// <summary>
         /// 查询指定状态的任务数量
         /// </summary>
-        /// <param name="status"></param>
+        /// <param name="status">状态 可选</param>
         /// <returns></returns>
         [HttpPost]
         [Route("task/allcount")]
@@ -65,7 +77,6 @@ namespace QuartzHost.API.Controllers
         /// </summary>
         /// <param name="pager"></param>
         /// <returns></returns>
-
         [HttpPost]
         [Route("task/pager")]
         public async Task<PageResult<List<JobTasksEntity>>> QueryPagerAsync(PageInput pager)

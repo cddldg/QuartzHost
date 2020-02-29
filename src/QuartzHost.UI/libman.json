@@ -3,29 +3,23 @@
   "defaultProvider": "cdnjs",
   "libraries": [
     {
-      "library": "admin-lte@3.0.2",
-      "destination": "wwwroot/admin-lte/",
-      "files": [
-        "js/adminlte.min.js",
-        "css/adminlte.min.css",
-        "css/alt/adminlte.plugins.min.css",
-        "css/alt/adminlte.pages.min.css",
-        "css/alt/adminlte.extra-components.min.css",
-        "css/alt/adminlte.core.min.css",
-        "css/alt/adminlte.components.min.css"
-      ]
-    },
-    {
       "provider": "jsdelivr",
       "library": "@fortawesome/fontawesome-free@5.12.1",
-      "destination": "wwwroot/admin-lte/plugins/fontawesome-free",
+      "destination": "wwwroot/adminlte/plugins/fontawesome-free/",
       "files": [
+        "css/all.css",
         "css/all.min.css",
+        "css/brands.css",
         "css/brands.min.css",
+        "css/fontawesome.css",
         "css/fontawesome.min.css",
+        "css/regular.css",
         "css/regular.min.css",
+        "css/solid.css",
         "css/solid.min.css",
+        "css/svg-with-js.css",
         "css/svg-with-js.min.css",
+        "css/v4-shims.css",
         "css/v4-shims.min.css",
         "webfonts/fa-brands-400.eot",
         "webfonts/fa-brands-400.svg",
@@ -45,27 +39,34 @@
       ]
     },
     {
-      "library": "jquery@3.4.1",
-      "destination": "wwwroot/admin-lte/plugins/jquery",
-      "files": [
-        "jquery.min.js"
-      ]
-    },
-    {
-      "library": "twitter-bootstrap@4.4.1",
-      "destination": "wwwroot/admin-lte/plugins/bootstrap",
-      "files": [
-        "js/bootstrap.bundle.js",
-        "js/bootstrap.bundle.min.js",
-        "js/bootstrap.js",
-        "js/bootstrap.min.js"
-      ]
-    },
-    {
       "library": "admin-lte@3.0.2",
-      "destination": "wwwroot/admin-lte/",
+      "destination": "wwwroot/adminlte/",
       "files": [
-        "js/adminlte.min.js",
+        "js/pages/dashboard3.min.js.map",
+        "css/alt/adminlte.components.css",
+        "css/alt/adminlte.components.css.map",
+        "css/alt/adminlte.components.min.css",
+        "css/alt/adminlte.components.min.css.map",
+        "css/alt/adminlte.core.css",
+        "css/alt/adminlte.core.css.map",
+        "css/alt/adminlte.core.min.css",
+        "css/alt/adminlte.core.min.css.map",
+        "css/alt/adminlte.extra-components.css",
+        "css/alt/adminlte.extra-components.css.map",
+        "css/alt/adminlte.extra-components.min.css",
+        "css/alt/adminlte.extra-components.min.css.map",
+        "css/alt/adminlte.pages.css",
+        "css/alt/adminlte.pages.css.map",
+        "css/alt/adminlte.pages.min.css",
+        "css/alt/adminlte.pages.min.css.map",
+        "css/alt/adminlte.plugins.css",
+        "css/alt/adminlte.plugins.css.map",
+        "css/alt/adminlte.plugins.min.css",
+        "css/alt/adminlte.plugins.min.css.map",
+        "css/adminlte.css",
+        "css/adminlte.css.map",
+        "css/adminlte.min.css",
+        "css/adminlte.min.css.map",
         "img/AdminLTELogo.png",
         "img/avatar.png",
         "img/avatar04.png",
@@ -100,12 +101,73 @@
         "img/credit/paypal.png",
         "img/credit/paypal2.png",
         "img/credit/visa.png",
-        "css/alt/adminlte.components.min.css",
-        "css/alt/adminlte.core.min.css",
-        "css/alt/adminlte.extra-components.min.css",
-        "css/alt/adminlte.pages.min.css",
-        "css/alt/adminlte.plugins.min.css",
-        "css/adminlte.min.css"
+        "js/pages/dashboard3.min.js",
+        "js/pages/dashboard3.js",
+        "js/pages/dashboard2.min.js.map",
+        "js/pages/dashboard2.min.js",
+        "js/pages/dashboard2.js",
+        "js/pages/dashboard.min.js.map",
+        "js/pages/dashboard.min.js",
+        "js/pages/dashboard.js",
+        "js/adminlte.js",
+        "js/adminlte.js.map",
+        "js/adminlte.min.js",
+        "js/adminlte.min.js.map",
+        "js/demo.js",
+        "js/demo.min.js",
+        "js/demo.min.js.map"
+      ]
+    },
+    {
+      "library": "jquery@3.4.1",
+      "destination": "wwwroot/adminlte/plugins/jquery",
+      "files": [
+        "jquery.min.js"
+      ]
+    },
+    {
+      "library": "twitter-bootstrap@4.4.1",
+      "destination": "wwwroot/adminlte/plugins/bootstrap/",
+      "files": [
+        "js/bootstrap.min.js",
+        "css/bootstrap.min.css",
+        "js/bootstrap.bundle.min.js"
+      ]
+    },
+    {
+      "library": "lazyload@2.0.3",
+      "destination": "wwwroot/adminlte/plugins/lazyload/",
+      "files": [
+        "lazyload-min.js"
+      ]
+    },
+    {
+      "library": "datatables@1.10.19",
+      "destination": "wwwroot/adminlte/plugins/datatables/",
+      "files": [
+        "js/jquery.dataTables.min.js",
+        "images/sort_asc.png",
+        "images/sort_asc_disabled.png",
+        "images/sort_both.png",
+        "images/sort_desc.png",
+        "images/sort_desc_disabled.png",
+        "css/dataTables.bootstrap.min.css",
+        "css/dataTables.bootstrap4.min.css",
+        "css/dataTables.foundation.min.css",
+        "css/dataTables.jqueryui.min.css",
+        "css/dataTables.material.min.css",
+        "css/dataTables.semanticui.min.css",
+        "css/dataTables.uikit.min.css",
+        "css/jquery.dataTables.min.css",
+        "js/dataTables.bootstrap.min.js",
+        "js/dataTables.bootstrap4.min.js",
+        "js/dataTables.dataTables.min.js",
+        "js/dataTables.foundation.min.js",
+        "js/dataTables.jqueryui.min.js",
+        "js/dataTables.material.min.js",
+        "js/dataTables.semanticui.min.js",
+        "js/dataTables.uikit.min.js",
+        "css/jquery.dataTables_themeroller.css"
       ]
     }
   ]

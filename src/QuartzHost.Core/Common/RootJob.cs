@@ -5,7 +5,6 @@ using QuartzHost.Core.Dao;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace QuartzHost.Core.Common
@@ -54,7 +53,7 @@ namespace QuartzHost.Core.Common
                                 stopwatch.Restart();
                                 await instance.InnerRun(tctx);
                                 stopwatch.Stop();
-                                await _quartzDao.UpdateRunTrace(traceId, Math.Round(stopwatch.Elapsed.TotalSeconds, 3), Models.TaskRunResult.Success);
+                                await _quartzDao.UpdateRunTrace(traceId, Math.Round(stopwatch.Elapsed.TotalSeconds, 3), Contract.Models.TaskRunResult.Success);
                                 _logger.LogInformation($"任务[{job.JobDataMap["name"]}({_sid})]运行成功！{traceId} 用时{stopwatch.Elapsed.TotalMilliseconds.ToString()}ms");
                                 //保存运行结果用于子任务触发
                                 context.Result = tctx.Result;
@@ -62,13 +61,13 @@ namespace QuartzHost.Core.Common
                             catch (RunConflictException conflict)
                             {
                                 stopwatch.Stop();
-                                await _quartzDao.UpdateRunTrace(traceId, Math.Round(stopwatch.Elapsed.TotalSeconds, 3), Models.TaskRunResult.Conflict);
+                                await _quartzDao.UpdateRunTrace(traceId, Math.Round(stopwatch.Elapsed.TotalSeconds, 3), Contract.Models.TaskRunResult.Conflict);
                                 throw conflict;
                             }
                             catch (Exception e)
                             {
                                 stopwatch.Stop();
-                                await _quartzDao.UpdateRunTrace(traceId, Math.Round(stopwatch.Elapsed.TotalSeconds, 3), Models.TaskRunResult.Failed);
+                                await _quartzDao.UpdateRunTrace(traceId, Math.Round(stopwatch.Elapsed.TotalSeconds, 3), Contract.Models.TaskRunResult.Failed);
                                 _logger.LogError(e, $"任务[{job.JobDataMap["name"]}({_sid})]运行失败！{traceId} ");
                                 //这里抛出的异常会在JobListener的JobWasExecuted事件中接住
                                 //如果吃掉异常会导致程序误以为本次任务执行成功

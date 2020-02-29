@@ -1,9 +1,9 @@
 ﻿using QuartzHost.Core.Common;
+using QuartzHost.Contract.Common;
 using QuartzHost.Core.Dao;
-using QuartzHost.Core.Models;
+using QuartzHost.Contract.Models;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using System.Linq;
 using Microsoft.Extensions.Logging;
@@ -20,6 +20,24 @@ namespace QuartzHost.Core.Services.Impl
         {
             _taskDao = taskDao;
             _logger = logger;
+        }
+
+        public async Task<Result<List<JobDictEntity>>> QueryDictAllAsync(DictType? type)
+        {
+            var result = new Result<List<JobDictEntity>> { Message = "查询Dict成功!" };
+
+            try
+            {
+                result.Data = await _taskDao.QueryDictAllAsync(type);
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.Message = "查询Dict失败!";
+                result.ErrorDetail = ex.Message;
+                _logger.LogError(ex, $"查询Dict 异常:{ex.Message}");
+            }
+            return result;
         }
 
         public async Task<Result<List<JobTasksEntity>>> QueryAllAsync(JobTaskStatus? status = null)

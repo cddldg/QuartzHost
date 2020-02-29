@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 using Quartz;
 using QuartzHost.Base;
 using QuartzHost.Core.Dao;
-using QuartzHost.Core.Models;
+using QuartzHost.Contract.Models;
 using QuartzHost.Core.Services;
 using System;
 using System.Collections.Generic;
