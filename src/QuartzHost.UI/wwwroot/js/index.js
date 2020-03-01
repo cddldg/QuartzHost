@@ -8,19 +8,16 @@ var _this;
 
 var QuartzHostUI =
 {
-    basejs: ["/adminlte/plugins/jquery/jquery.min.js", "/adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js", "/adminlte/js/adminlte.min.js"],
-    init: function (pulugtype) {
-        _this = QuartzHostUI;
-        if (pulugtype === "base") {
-            LazyLoad.css("/adminlte/plugins/datatables/css/dataTables.bootstrap4.min.css", function () { console.log("Loadcss:" + pulugtype); });
-            LazyLoad.js(QuartzHostUI.basejs, function () { console.log("Load:" + pulugtype); });
-            LazyLoad.js(["/adminlte/plugins/jquery/jquery.min.js", "/adminlte/plugins/datatables/js/jquery.dataTables.min.js", "/adminlte/plugins/datatables/js/dataTables.bootstrap4.min.js"], function () { console.log("Load:" + pulugtype); });
-        }
-
-        if (pulugtype === "table") {
-            //LazyLoad.css("/adminlte/plugins/datatables/css/dataTables.bootstrap4.min.css", function () { console.log("Loadcss:" + pulugtype); });
-            //LazyLoad.js(["/adminlte/plugins/jquery/jquery.min.js", "/adminlte/plugins/datatables/js/jquery.dataTables.min.js", "/adminlte/plugins/datatables/js/dataTables.bootstrap4.min.js"], function () { console.log("Load:" + pulugtype); });
-        }
+    init: function (ltype) {
+        $(function () {
+            _this = QuartzHostUI;
+            if (ltype === "base") {
+                //LazyLoad.js("/adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js", function () { console.log(ltype); });
+                LazyLoad.js("/adminlte/js/adminlte.min.js", function () { console.log(ltype); });
+                //LazyLoad.js("/adminlte/plugins/datatables/js/jquery.dataTables.min.js", function () { console.log(ltype); });
+                //LazyLoad.js("/adminlte/plugins/datatables/js/dataTables.bootstrap4.min.js", function () { console.log(ltype); });
+            }
+        });
     },
     dataTableLang: {
         "sProcessing": "处理中...",
@@ -57,5 +54,8 @@ var QuartzHostUI =
         $(function () {
             $(name).DataTable().destroy();
         });
+    },
+    onnav: function () {
+        alert(1);
     }
 };
