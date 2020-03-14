@@ -13,7 +13,7 @@ var QuartzHostUI =
             _this = QuartzHostUI;
             if (ltype === "base") {
                 //LazyLoad.js("/adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js", function () { console.log(ltype); });
-                LazyLoad.js("/adminlte/js/adminlte.min.js", function () { console.log(ltype); });
+                //LazyLoad.js("/adminlte/js/adminlte.min.js", function () { console.log(ltype); });
                 //LazyLoad.js("/adminlte/plugins/datatables/js/jquery.dataTables.min.js", function () { console.log(ltype); });
                 //LazyLoad.js("/adminlte/plugins/datatables/js/dataTables.bootstrap4.min.js", function () { console.log(ltype); });
             }
