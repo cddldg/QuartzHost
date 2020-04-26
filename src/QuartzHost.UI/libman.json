@@ -169,6 +169,14 @@
         "js/dataTables.uikit.min.js",
         "css/jquery.dataTables_themeroller.css"
       ]
+    },
+    {
+      "library": "toastr.js@2.1.4",
+      "destination": "wwwroot/adminlte/plugins/toastr.js/",
+      "files": [
+        "toastr.min.js",
+        "toastr.min.css"
+      ]
     }
   ]
 }

@@ -63,13 +63,13 @@
                                         <td>@task.TotalRunCount</td>
                                         <td>@task.CreateUserName</td>
                                         <td>
-                                            <button type="button" class="btn btn-outline-success btn-xs @(task.Status==JobTaskStatus.Running?"disabled":"")" @onclick="async ()=>await SingleSetting(SingleType.start,task.Id)">启动</button>
-                                            <button type="button" class="btn btn-outline-secondary btn-xs @(task.Status==JobTaskStatus.Running?"":"disabled")" @onclick="async ()=>await SingleSetting(SingleType.pause,task.Id)">暂停</button>
-                                            <button type="button" class="btn btn-outline-info btn-xs @(task.Status==JobTaskStatus.Paused?"":"disabled")" @onclick="async ()=>await SingleSetting(SingleType.resume,task.Id)">恢复</button>
+                                            <button type="button" class="btn btn-outline-success btn-xs @(task.Status==JobTaskStatus.Running?"disabled":"")" @onclick="async ()=>await SingleSetting(SingleType.start,task.Title,task.Id)">启动</button>
+                                            <button type="button" class="btn btn-outline-secondary btn-xs @(task.Status==JobTaskStatus.Running?"":"disabled")" @onclick="async ()=>await SingleSetting(SingleType.pause,task.Title,task.Id)">暂停</button>
+                                            <button type="button" class="btn btn-outline-info btn-xs @(task.Status==JobTaskStatus.Paused?"":"disabled")" @onclick="async ()=>await SingleSetting(SingleType.resume,task.Title,task.Id)">恢复</button>
                                             <br />
-                                            <button type="button" class="btn btn-outline-danger btn-xs" @onclick="async ()=>await SingleSetting(SingleType.stop,task.Id)">停止</button>
-                                            <button type="button" class="btn btn-outline-warning btn-xs @(task.Status==JobTaskStatus.Running?"":"disabled")" @onclick="async ()=>await SingleSetting(SingleType.runonce,task.Id)">运行</button>
-                                            <button type="button" class="btn btn-outline-danger btn-xs" @onclick="async ()=>await SingleSetting(SingleType.delete,task.Id)">删除</button>
+                                            <button type="button" class="btn btn-outline-danger btn-xs" @onclick="async ()=>await SingleSetting(SingleType.stop,task.Title,task.Id)">停止</button>
+                                            <button type="button" class="btn btn-outline-warning btn-xs @(task.Status==JobTaskStatus.Running?"":"disabled")" @onclick="async ()=>await SingleSetting(SingleType.runonce,task.Title,task.Id)">运行</button>
+                                            <button type="button" class="btn btn-outline-danger btn-xs" @onclick="async ()=>await SingleSetting(SingleType.delete,task.Title,task.Id)">删除</button>
                                         </td>
                                     </tr>
                                 }

@@ -37,10 +37,17 @@ namespace QuartzHost.UI.Components
             return await Http.PostHttpAsync<PageResult<List<JobTasksEntity>>>($"{ApiHost}/job/task/pager", pager);
         }
 
-        public async Task<Result<JobTaskStatus>> SingleSetting(SingleType type, long sid)
+        public async Task<Result<JobTaskStatus>> SingleSetting(SingleType type, string name, long sid)
         {
             var re = await Http.PostHttpAsync<Result<JobTaskStatus>>($"{ApiHost}/job/task/{type}/{sid}");
-            await Load();
+            if (re.Success)
+            {
+                await JSRuntime.DoVoidAsync("toastrs", new[] { "success", name, re.Message });
+                await Load();
+            }
+            else
+                await JSRuntime.DoVoidAsync("toastrs", new[] { "error", name, re.Message });
+
             return re;
         }
 
