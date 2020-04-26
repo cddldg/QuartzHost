@@ -65,7 +65,7 @@
             <summary>
             id查询任务
             </summary>
-            <param name="sid">任务编号</param>
+            <param name="id">任务编号</param>
             <returns></returns>
         </member>
         <member name="M:QuartzHost.API.Controllers.JobController.AddAsync(QuartzHost.Contract.Models.JobTasksInput)">
@@ -79,7 +79,7 @@
             <summary>
             启动一个任务，带重试3机制
             </summary>
-            <param name="sid"></param>
+            <param name="id"></param>
             <returns></returns>
         </member>
         <member name="M:QuartzHost.API.Controllers.JobController.EditAsync(QuartzHost.Contract.Models.JobTasksInput)">
@@ -100,7 +100,7 @@
             <summary>
             立即运行一次
             </summary>
-            <param name="sid">任务编号</param>
+            <param name="id">任务编号</param>
             <returns></returns>
         </member>
         <member name="M:QuartzHost.API.Controllers.JobController.Resume(System.Int64)">

@@ -199,13 +199,14 @@ namespace QuartzHost.Core.Services.Impl
             {
                 using var _quartzDao = new QuartzDao();
                 var task = await _quartzDao.QueryJobTaskAsync(sid);
-                result.Data = task.Status;
+
                 if (task == null)
                 {
                     result.Success = false;
                     result.Message = $"任务不存在!";
                     return result;
                 }
+                result.Data = task.Status;
                 if (task.Status != JobTaskStatus.Running)
                 {
                     result.Success = false;
@@ -283,13 +284,14 @@ namespace QuartzHost.Core.Services.Impl
             {
                 using var _quartzDao = new QuartzDao();
                 var task = await _quartzDao.QueryJobTaskAsync(sid);
-                result.Data = task.Status;
+
                 if (task == null)
                 {
                     result.Success = false;
                     result.Message = $"任务不存在!";
                     return result;
                 }
+                result.Data = task.Status;
                 if (task.Status != JobTaskStatus.Paused)
                 {
                     result.Success = false;

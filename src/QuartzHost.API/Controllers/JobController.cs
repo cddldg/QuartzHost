@@ -87,7 +87,7 @@ namespace QuartzHost.API.Controllers
         /// <summary>
         /// id查询任务
         /// </summary>
-        /// <param name="sid">任务编号</param>
+        /// <param name="id">任务编号</param>
         /// <returns></returns>
         [HttpPost]
         [Route("task/one/{id}")]
@@ -119,7 +119,7 @@ namespace QuartzHost.API.Controllers
         /// <summary>
         /// 启动一个任务，带重试3机制
         /// </summary>
-        /// <param name="sid"></param>
+        /// <param name="id"></param>
         /// <returns></returns>
         [HttpPost]
         [Route("task/start/{id}")]
@@ -143,25 +143,25 @@ namespace QuartzHost.API.Controllers
         /// <summary>
         /// 暂停一个任务
         /// </summary>
-        /// <param name="sid">任务编号</param>
+        /// <param name="id">任务编号</param>
         /// <returns></returns>
         [HttpPost]
         [Route("task/pause/{id}")]
-        public async Task<Result<JobTaskStatus>> PauseAsync(long sid)
+        public async Task<Result<JobTaskStatus>> PauseAsync(long id)
         {
-            return await _quartzService.PauseTask(sid);
+            return await _quartzService.PauseTask(id);
         }
 
         /// <summary>
         /// 立即运行一次
         /// </summary>
-        /// <param name="sid">任务编号</param>
+        /// <param name="id">任务编号</param>
         /// <returns></returns>
         [HttpPost]
         [Route("task/runonce/{id}")]
-        public async Task<Result<ResultStatus>> RunOnce(long sid)
+        public async Task<Result<ResultStatus>> RunOnce(long id)
         {
-            return await _quartzService.RunOnceTask(sid);
+            return await _quartzService.RunOnceTask(id);
         }
 
         /// <summary>

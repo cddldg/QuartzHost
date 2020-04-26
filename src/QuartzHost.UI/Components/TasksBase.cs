@@ -32,19 +32,19 @@ namespace QuartzHost.UI.Components
             return await Http.PostHttpAsync<PageResult<List<JobTasksEntity>>>($"{ApiHost}/job/task/pager", pager);
         }
 
-        public async Task<Result<JobTaskStatus>> Start(long sid)
+        public async Task<Result<JobTaskStatus>> SingleSetting(SingleType type, long sid)
         {
-            return await Http.PostHttpAsync<Result<JobTaskStatus>>($"{ApiHost}/job/task/start/{sid}");
+            return await Http.PostHttpAsync<Result<JobTaskStatus>>($"{ApiHost}/job/task/{type}/{sid}");
         }
 
-        /// <summary>
-        /// 停止一个任务
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public async Task<Result<JobTaskStatus>> Stop(long id)
+        public enum SingleType
         {
-            return await Http.PostHttpAsync<Result<JobTaskStatus>>($"{ApiHost}/job/task/stop/{id}");
+            start,
+            pause,
+            runonce,
+            resume,
+            stop,
+            delete
         }
     }
 }
