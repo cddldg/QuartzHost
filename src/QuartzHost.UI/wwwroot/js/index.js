@@ -6,18 +6,10 @@
 
 var _this;
 
-var QuartzHostUI =
+var QHUI =
 {
-    init: function (ltype) {
-        $(function () {
-            _this = QuartzHostUI;
-            if (ltype === "base") {
-                //LazyLoad.js("/adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js", function () { console.log(ltype); });
-                LazyLoad.js("/adminlte/js/adminlte.min.js", function () { console.log(ltype); });
-                //LazyLoad.js("/adminlte/plugins/datatables/js/jquery.dataTables.min.js", function () { console.log(ltype); });
-                //LazyLoad.js("/adminlte/plugins/datatables/js/dataTables.bootstrap4.min.js", function () { console.log(ltype); });
-            }
-        });
+    init: function () {
+        QHUI.menu();
     },
     dataTableLang: {
         "sProcessing": "处理中...",
@@ -47,7 +39,7 @@ var QuartzHostUI =
     initDataTable: function (name) {
         $(function () {
             console.log(name);
-            $(name).DataTable({ language: QuartzHostUI.dataTableLang });
+            $(name).DataTable({ language: QHUI.dataTableLang });
         });
     },
     removeDataTable: function (name) {
@@ -55,7 +47,6 @@ var QuartzHostUI =
             $(name).DataTable().destroy();
         });
     },
-    onnav: function () {
-        alert(1);
+    menu: function () {
     }
 };

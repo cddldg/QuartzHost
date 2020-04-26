@@ -63,6 +63,11 @@ namespace QuartzHost.Contract.Models
         public JobTaskStatus Status { get; set; }
 
         /// <summary>
+        /// 任务状态
+        /// </summary>
+        public string StatusName { get => Status.GetDescription(); }
+
+        /// <summary>
         /// 创建时间
         /// </summary>
         public DateTime CreateTime { get; set; } = DateTime.Now;

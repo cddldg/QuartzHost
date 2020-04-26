@@ -362,13 +362,14 @@ namespace QuartzHost.Core.Services.Impl
             {
                 using var _quartzDao = new QuartzDao();
                 var task = await _quartzDao.QueryJobTaskAsync(sid);
-                result.Data = task.Status;
+
                 if (task == null)
                 {
                     result.Success = false;
                     result.Message = $"任务不存在!";
                     return result;
                 }
+                result.Data = task.Status;
                 if (task.Status <= JobTaskStatus.Stop)
                 {
                     result.Success = false;
@@ -758,15 +759,18 @@ namespace QuartzHost.Core.Services.Impl
                 Task.Run(async () =>
                 {
                     var children = job.JobDataMap["children"] as Dictionary<long, string>;
-                    foreach (var item in children)
+                    if (children != null)
                     {
-                        var jobkey = new JobKey(item.Key.ToString());
-                        if (await context.Scheduler.CheckExists(jobkey))
+                        foreach (var item in children)
                         {
-                            JobDataMap map = new JobDataMap{
+                            var jobkey = new JobKey(item.Key.ToString());
+                            if (await context.Scheduler.CheckExists(jobkey))
+                            {
+                                JobDataMap map = new JobDataMap{
                                  new KeyValuePair<string, object>("PreviousResult", context.Result)
                              };
-                            await context.Scheduler.TriggerJob(jobkey, map);
+                                await context.Scheduler.TriggerJob(jobkey, map);
+                            }
                         }
                     }
                 });

@@ -42,7 +42,7 @@
         </member>
         <member name="M:QuartzHost.API.Controllers.JobController.QueryAllAsync(System.Nullable{QuartzHost.Contract.Models.JobTaskStatus})">
             <summary>
-            查询全部
+            查询全部任务
             </summary>
             <param name="status">状态 可选</param>
             <returns></returns>

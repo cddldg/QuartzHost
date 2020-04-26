@@ -49,7 +49,7 @@ namespace QuartzHost.API.Controllers
         }
 
         /// <summary>
-        /// 查询全部
+        /// 查询全部任务
         /// </summary>
         /// <param name="status">状态 可选</param>
         /// <returns></returns>
@@ -90,10 +90,10 @@ namespace QuartzHost.API.Controllers
         /// <param name="sid">任务编号</param>
         /// <returns></returns>
         [HttpPost]
-        [Route("task/one")]
-        public async Task<Result<JobTasksEntity>> QueryById(long sid)
+        [Route("task/one/{id}")]
+        public async Task<Result<JobTasksEntity>> QueryById(long id)
         {
-            return await _taskService.QueryById(sid);
+            return await _taskService.QueryById(id);
         }
 
         /// <summary>
@@ -122,10 +122,10 @@ namespace QuartzHost.API.Controllers
         /// <param name="sid"></param>
         /// <returns></returns>
         [HttpPost]
-        [Route("task/start")]
-        public async Task<Result<JobTaskStatus>> Start(long sid)
+        [Route("task/start/{id}")]
+        public async Task<Result<JobTaskStatus>> Start(long id)
         {
-            return await _quartzService.StartJobTask(sid);
+            return await _quartzService.StartJobTask(id);
         }
 
         /// <summary>
@@ -146,7 +146,7 @@ namespace QuartzHost.API.Controllers
         /// <param name="sid">任务编号</param>
         /// <returns></returns>
         [HttpPost]
-        [Route("task/pause")]
+        [Route("task/pause/{id}")]
         public async Task<Result<JobTaskStatus>> PauseAsync(long sid)
         {
             return await _quartzService.PauseTask(sid);
@@ -158,7 +158,7 @@ namespace QuartzHost.API.Controllers
         /// <param name="sid">任务编号</param>
         /// <returns></returns>
         [HttpPost]
-        [Route("task/runonce")]
+        [Route("task/runonce/{id}")]
         public async Task<Result<ResultStatus>> RunOnce(long sid)
         {
             return await _quartzService.RunOnceTask(sid);
@@ -170,7 +170,7 @@ namespace QuartzHost.API.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpPost]
-        [Route("task/resume")]
+        [Route("task/resume/{id}")]
         public async Task<Result<JobTaskStatus>> Resume(long id)
         {
             return await _quartzService.ResumeTask(id);
@@ -182,7 +182,7 @@ namespace QuartzHost.API.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpPost]
-        [Route("task/stop")]
+        [Route("task/stop/{id}")]
         public async Task<Result<JobTaskStatus>> Stop(long id)
         {
             return await _quartzService.StopTask(id);
@@ -195,7 +195,7 @@ namespace QuartzHost.API.Controllers
         /// <returns></returns>
         [HttpPost]
         [HttpDelete]
-        [Route("task/delete")]
+        [Route("task/delete/{id}")]
         public async Task<Result<ResultStatus>> Delete(long id)
         {
             return await _taskService.DeleteTask(id);

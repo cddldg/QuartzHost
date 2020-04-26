@@ -8,10 +8,3 @@
 </div>
 <!-- /.content-wrapper -->
 <Footer />
-
-@code{
-    protected override async Task OnInitializedAsync()
-    {
-        await JSRuntime.InvokeVoidAsync("QuartzHostUI.init", "base");
-    }
-}
