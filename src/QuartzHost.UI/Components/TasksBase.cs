@@ -20,6 +20,11 @@ namespace QuartzHost.UI.Components
             await JSRuntime.DoVoidAsync("initDataTable", new[] { "#task" });
         }
 
+        public async Task Load()
+        {
+            Results = await Http.PostHttpAsync<Result<List<JobTasksEntity>>>($"{ApiHost}/job/task/all");
+        }
+
         public async Task<PageResult<List<JobTasksEntity>>> Pager()
         {
             var pager = new PageInput
@@ -34,7 +39,9 @@ namespace QuartzHost.UI.Components
 
         public async Task<Result<JobTaskStatus>> SingleSetting(SingleType type, long sid)
         {
-            return await Http.PostHttpAsync<Result<JobTaskStatus>>($"{ApiHost}/job/task/{type}/{sid}");
+            var re = await Http.PostHttpAsync<Result<JobTaskStatus>>($"{ApiHost}/job/task/{type}/{sid}");
+            await Load();
+            return re;
         }
 
         public enum SingleType

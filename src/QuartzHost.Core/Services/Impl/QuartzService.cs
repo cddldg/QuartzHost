@@ -467,7 +467,7 @@ namespace QuartzHost.Core.Services.Impl
                 var ret = await RunOnce(sid);
                 if (ret.Success)
                 {
-                    var isOk = await _quartzDao.UpdateJobTaskStatusAsync(sid, JobTaskStatus.Paused, count: 1);
+                    var isOk = await _quartzDao.UpdateJobTaskStatusAsync(sid, task.Status, count: 1);
                     result.Data = isOk ? ResultStatus.Success : ResultStatus.Failed;
                     result.Message = $"运行一次任务{(isOk ? "成功" : "失败")}!";
                 }
