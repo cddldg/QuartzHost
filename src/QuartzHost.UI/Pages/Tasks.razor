@@ -26,10 +26,13 @@
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">所有任务列表</h3>
+                    <a class="btn btn-outline-success btn-xs float-right" @onclick="async ()=> await Load()">
+                        <i class="fas fa-sync-alt"></i> 刷新
+                    </a>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                    <table id="task" class="table table-bordered table-hover">
+                    <table id="task" class="table table-bordered table-hover compact">
                         <thead>
                             <tr>
                                 <th>节点</th>
@@ -51,7 +54,12 @@
                                 {
                                     <tr>
                                         <td>@task.NodeName</td>
-                                        <td>@task.Title</td>
+                                        <td>
+                                            <a class="btn btn-outline-primary btn-xs" @onclick="async ()=> await Load()">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            @task.Title
+                                        </td>
                                         <td>@task.CronExpression</td>
                                         <td>
                                             @task.AssemblyName/
@@ -63,7 +71,7 @@
                                         <td>@task.TotalRunCount</td>
                                         <td>@task.CreateUserName</td>
                                         <td>
-                                            <button type="button" class="btn btn-outline-success btn-xs @(task.Status==JobTaskStatus.Running?"disabled":"")" @onclick="async ()=>await SingleSetting(SingleType.start,task.Title,task.Id)">启动</button>
+                                            <button type="button" class="btn btn-outline-success btn-xs @((task.Status==JobTaskStatus.Running||task.Status==JobTaskStatus.Paused)?"disabled":"")" @onclick="async ()=>await SingleSetting(SingleType.start,task.Title,task.Id)">启动</button>
                                             <button type="button" class="btn btn-outline-secondary btn-xs @(task.Status==JobTaskStatus.Running?"":"disabled")" @onclick="async ()=>await SingleSetting(SingleType.pause,task.Title,task.Id)">暂停</button>
                                             <button type="button" class="btn btn-outline-info btn-xs @(task.Status==JobTaskStatus.Paused?"":"disabled")" @onclick="async ()=>await SingleSetting(SingleType.resume,task.Title,task.Id)">恢复</button>
                                             <br />

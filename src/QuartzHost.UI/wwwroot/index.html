@@ -9,11 +9,26 @@
     <link href="/adminlte/plugins/toastr.js/toastr.min.css" rel="stylesheet" />
     <link href="/adminlte/plugins/datatables/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet" />
+    <style>
+        .loading {
+            position: absolute;
+            margin-top: 20%;
+            left: 45%;
+        }
+    </style>
     <title>QuartzHost</title>
 </head>
 <body class="hold-transition sidebar-mini">
+
     <div class="wrapper">
-        <app>Loading...</app>
+        <app>
+
+            <div class="container-fluid loading">
+                <div class=col-lg-4 col-lg-offset-4 col-sm-6 col-sm-offset-3 col-xs-8 col-xs-offset-2 ">
+                    <div class="overlay"><i class="fas fa-3x fa-sync-alt fa-spin"></i><div class="text-bold pt-2">Loading...</div></div>
+                </div>
+            </div>
+        </app>
     </div>
     <script src="_framework/blazor.webassembly.js"></script>
     <script src="/adminlte/plugins/jquery/jquery.min.js"></script>

@@ -142,6 +142,7 @@ namespace QuartzHost.Core.Services.Impl
             if (await _scheduler.CheckExists(jk))
             {
                 result.Message = "任务已存在Scheduler中";
+                result.Success = false;
                 return result;
             }
             JobTaskView view = await GetJobTaskViewAsync(sid);

@@ -14,7 +14,7 @@ namespace QuartzHost.UI.Common
 {
     public static class HttpJsonExtensions
     {
-        public const string TOKEN = "f2be064d46c14e609b0806fe51589365";
+        public const string TOKEN = "1b90cc15da954bd9b35ec712846dc193";
 
         public static async Task<T> GetHttpJsonAsync<T>(this HttpClient Http, string requestUri, bool isAuth = true)
         {
