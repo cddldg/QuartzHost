@@ -101,10 +101,11 @@ namespace QuartzHost.Core.Dao
 
         public Task<int> UpdateRunTrace(long traceId, double elapsed, TaskRunResult result)
         {
-            var ttid = traceId.ToString().ToUpper();
+            var de = decimal.Parse(elapsed.ToString("f4"));
+
             if (traceId == 0) return default;
 
-            return _context.ExecuteAsync("UPDATE JobTrace SET Result=@Result,ElapsedTime=@ElapsedTime,EndTime=@EndTime WHERE TraceId=@TraceId", new { Result = result, ElapsedTime = elapsed, TraceId = traceId, EndTime = DateTime.Now });
+            return _context.ExecuteAsync("UPDATE JobTrace SET Result=@Result,ElapsedTime=@ElapsedTime,EndTime=@EndTime WHERE TraceId=@TraceId", new { Result = result, ElapsedTime = de, TraceId = traceId, EndTime = DateTime.Now });
         }
 
         public void Dispose()

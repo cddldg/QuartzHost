@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QuartzHost.Contract.Common;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -6,7 +7,7 @@ using System.Text;
 
 namespace QuartzHost.Contract.Models
 {
-    public class JobTraceEntity : IEntity
+    public class JobTraceEntity : BaseEntity, IEntity
     {
         [Key]
         public long TraceId { get; set; }
@@ -31,12 +32,17 @@ namespace QuartzHost.Contract.Models
         /// <summary>
         /// 执行耗时，单位是秒
         /// </summary>
-        public double ElapsedTime { get; set; }
+        public decimal ElapsedTime { get; set; }
 
         /// <summary>
         /// 运行结果 0-无结果 1-运行成功 2-运行失败 3- 互斥取消
         /// </summary>
         public TaskRunResult Result { get; set; }
+
+        /// <summary>
+        /// 运行结果Name
+        /// </summary>
+        public string ResultName { get => Result.GetDescription(); }
     }
 
     /// <summary>

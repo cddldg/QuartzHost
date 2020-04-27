@@ -77,6 +77,25 @@ namespace QuartzHost.Core.Services.Impl
             return result;
         }
 
+        public async Task<PageResult<List<JobTraceEntity>>> QueryTracesAsync(PageInput pager)
+        {
+            var result = new PageResult<List<JobTraceEntity>> { Message = "查询日志成功!" };
+
+            try
+            {
+                var list = await _taskDao.QueryTracesAsync(pager);
+                result.Data = list;
+                result.Total = list?.FirstOrDefault()?.Total ?? 0;
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.ErrorDetail = ex.Message;
+                _logger.LogError(ex, $"分页查询任务日志 异常:{ex.Message}");
+            }
+            return result;
+        }
+
         public async Task<Result<JobTasksEntity>> QueryById(long sid)
         {
             var result = new Result<JobTasksEntity>();

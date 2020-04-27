@@ -68,7 +68,12 @@
                                         <td>@task.StatusName</td>
                                         <td>@task.LastRunTime</td>
                                         <td>@task.NextRunTime</td>
-                                        <td>@task.TotalRunCount</td>
+                                        <td>
+                                            <a class="btn btn-outline-primary btn-xs" href="/task/logs/@($"{task.Id}|{task.Title}")">
+                                                <i class="fas fa-bars"></i>
+                                            </a>
+                                            @task.TotalRunCount
+                                        </td>
                                         <td>@task.CreateUserName</td>
                                         <td>
                                             <button type="button" class="btn btn-outline-success btn-xs @((task.Status==JobTaskStatus.Running||task.Status==JobTaskStatus.Paused)?"disabled":"")" @onclick="async ()=>await SingleSetting(SingleType.start,task.Title,task.Id)">启动</button>

@@ -81,6 +81,26 @@ namespace QuartzHost.Core.Dao
             return list;
         }
 
+        public async Task<List<JobTraceEntity>> QueryTracesAsync(PageInput page)
+        {
+            var orderStr = page.OrderBy ?? "StartTime DESC";
+            var param = new DynamicParameters();
+            param.Add("PageIndex", page.PageIndex);
+            param.Add("PageSize", page.PageSize);
+
+            var andStr = string.Empty;
+            if (page.Extens.Any())
+            {
+                page.Extens.AsList().ForEach(c => param.Add(c.Key, c.Value));
+                andStr = " AND " + string.Join(" AND ", page.Extens.Select(c => $"{c.Key} = @{c.Key}"));
+            }
+            var total = await _context.ExecuteScalarAsync<int>($"SELECT COUNT(1) FROM  JobTrace {NOLOCK} Where 1=1 {andStr}", param);
+            var list = (await _context.QueryAsync<JobTraceEntity>($"SELECT * FROM  JobTrace {NOLOCK} Where 1=1 {andStr} ORDER BY {orderStr} {PAGESUFFIX}", param))?.ToList();
+            if (list.Any())
+                list.ForEach(p => p.Total = total);
+            return list;
+        }
+
         public Task<JobTasksEntity> QueryByIdAsync(long sid)
         {
             return _context.QuerySingleAsync<JobTasksEntity>($"SELECT * FROM JobTasks {NOLOCK} Where  Id=@Id", new { Id = sid });

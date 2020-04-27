@@ -580,7 +580,7 @@ namespace QuartzHost.Core.Services.Impl
                 node.Host = $"{CoreGlobal.NodeSetting.IP}:{CoreGlobal.NodeSetting.Port}";
                 node.Priority = CoreGlobal.NodeSetting.Priority;
                 node.Status = 2;
-                node.AccessSecret = Guid.NewGuid().ToString("n");
+                node.AccessSecret = "7e07d2b6c1444d6bb94c87547916b18d";// Guid.NewGuid().ToString("n");
                 node.LastUpdateTime = DateTime.Now;
                 isSave = await _quartzDao.UpdateJobNodeStatusAsync(node) > 0;
                 if (isCreate)

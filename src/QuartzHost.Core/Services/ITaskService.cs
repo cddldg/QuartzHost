@@ -87,5 +87,7 @@ namespace QuartzHost.Core.Services
         /// <param name="sid"></param>
         /// <returns></returns>
         Task<Result<ResultStatus>> DeleteTask(long sid);
+
+        Task<PageResult<List<JobTraceEntity>>> QueryTracesAsync(PageInput pager);
     }
 }

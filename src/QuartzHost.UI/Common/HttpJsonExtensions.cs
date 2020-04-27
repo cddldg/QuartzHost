@@ -14,20 +14,21 @@ namespace QuartzHost.UI.Common
 {
     public static class HttpJsonExtensions
     {
-        public const string TOKEN = "1b90cc15da954bd9b35ec712846dc193";
+        public const string TOKEN = "7e07d2b6c1444d6bb94c87547916b18d";
+        public const string ApiHost = "http://localhost:60000/";
 
         public static async Task<T> GetHttpJsonAsync<T>(this HttpClient Http, string requestUri, bool isAuth = true)
         {
             //using (httpClient){}
             if (isAuth) Http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", TOKEN);
-            var content = await Http.GetStringAsync(requestUri);
+            var content = await Http.GetStringAsync($"{ApiHost}{requestUri}");
             return content.ToObj<T>();
         }
 
         public static async Task<T> PostHttpAsync<T>(this HttpClient Http, string requestUri, object content = null, bool isAuth = true)
         {
             if (isAuth) Http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", TOKEN);
-            return await Http.PostJsonAsync<T>(requestUri, content);
+            return await Http.PostJsonAsync<T>($"{ApiHost}{requestUri}", content);
         }
     }
 }

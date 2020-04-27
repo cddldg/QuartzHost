@@ -1,0 +1,83 @@
+﻿@page "/task/logs/{info}"
+@inject IJSRuntime JSRuntime
+@inject HttpClient Http
+@inherits TaskLogsBase
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>任务日志</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="/">首页</a></li>
+                    <li class="breadcrumb-item"><a href="/task/all">任务列表</a></li>
+                    <li class="breadcrumb-item active">任务日志</li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">任务日志列表</h3>
+                    <a class="btn btn-outline-success btn-xs float-right" @onclick="async ()=> await Pager()">
+                        <i class="fas fa-sync-alt"></i> 刷新
+                    </a>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                    <table id="logs" class="table table-bordered table-hover compact">
+                        <thead>
+                            <tr>
+                                <th>编号</th>
+                                <th>名称</th>
+                                <th>开始运行时间</th>
+                                <th>结束运行时间</th>
+                                <th>执行耗时(秒)</th>
+                                <th>运行结果</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Results != null && Results.Data != null)
+                            {
+                                foreach (var log in Results.Data)
+                                {
+                                    <tr>
+                                        <td>@Id</td>
+                                        <td>@Name</td>
+                                        <td>@log.StartTime</td>
+                                        <td>@log.EndTime</td>
+                                        <td>@log.ElapsedTime</td>
+                                        <td>@log.ResultName</td>
+                                    </tr>
+                                }
+
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="7" align="center">Loading...</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</section>
+<!-- /.content -->
+@code{
+
+}

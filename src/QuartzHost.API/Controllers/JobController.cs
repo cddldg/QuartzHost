@@ -117,6 +117,18 @@ namespace QuartzHost.API.Controllers
         }
 
         /// <summary>
+        /// 查询任务日志
+        /// </summary>
+        /// <param name="pager"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("task/trace")]
+        public async Task<PageResult<List<JobTraceEntity>>> QueryTracesAsync(PageInput pager)
+        {
+            return await _taskService.QueryTracesAsync(pager);
+        }
+
+        /// <summary>
         /// 启动一个任务，带重试3机制
         /// </summary>
         /// <param name="id"></param>

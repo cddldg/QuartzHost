@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+using QuartzHost.Contract.Common;
 using QuartzHost.Contract.Models;
 using QuartzHost.UI.Common;
 using System;
@@ -12,17 +13,15 @@ namespace QuartzHost.UI.Components
 {
     public class TasksBase : PageBase<List<JobTasksEntity>>
     {
-        public const string ApiHost = "http://localhost:60000";
-
         protected override async Task OnInitializedAsync()
         {
-            Results = await Http.PostHttpAsync<Result<List<JobTasksEntity>>>($"{ApiHost}/job/task/all");
+            Results = await Http.PostHttpAsync<Result<List<JobTasksEntity>>>($"job/task/all");
             await JSRuntime.DoVoidAsync("initDataTable", new[] { "#task" });
         }
 
         public async Task Load()
         {
-            Results = await Http.PostHttpAsync<Result<List<JobTasksEntity>>>($"{ApiHost}/job/task/all");
+            Results = await Http.PostHttpAsync<Result<List<JobTasksEntity>>>($"job/task/all");
         }
 
         public async Task<PageResult<List<JobTasksEntity>>> Pager()
@@ -34,12 +33,35 @@ namespace QuartzHost.UI.Components
                 Extens = new Dictionary<string, string> { { "Title", "b" } },
                 OrderBy = "TotalRunCount DESC"
             };
-            return await Http.PostHttpAsync<PageResult<List<JobTasksEntity>>>($"{ApiHost}/job/task/pager", pager);
+            return await Http.PostHttpAsync<PageResult<List<JobTasksEntity>>>($"job/task/pager", pager);
+        }
+
+        public async Task<PageResult<List<JobTasksEntity>>> LogPager(long id, int pageIndex = 1, int pageSize = 20)
+        {
+            var pager = new PageInput
+            {
+                PageSize = pageSize,
+                PageIndex = pageIndex,
+                Extens = new Dictionary<string, string> { { "TaskId", id.ToString() } }
+            };
+            return await Http.PostHttpAsync<PageResult<List<JobTasksEntity>>>($"job/task/trace", pager);
+        }
+
+        public async Task ShowLog(long id, int pageIndex = 1, int pageSize = 20)
+        {
+            var pager = new PageInput
+            {
+                PageSize = pageSize,
+                PageIndex = pageIndex,
+                Extens = new Dictionary<string, string> { { "TaskId", id.ToString() } }
+            };
+            var logs = await Http.PostHttpAsync<PageResult<List<JobTasksEntity>>>($"job/task/trace", pager);
+            Console.WriteLine(logs.ToJson());
         }
 
         public async Task<Result<JobTaskStatus>> SingleSetting(SingleType type, string name, long sid)
         {
-            var re = await Http.PostHttpAsync<Result<JobTaskStatus>>($"{ApiHost}/job/task/{type}/{sid}");
+            var re = await Http.PostHttpAsync<Result<JobTaskStatus>>($"job/task/{type}/{sid}");
             if (re.Success)
             {
                 await JSRuntime.DoVoidAsync("toastrs", new[] { "success", name, re.Message });
