@@ -19,11 +19,16 @@ namespace QuartzHost.UI.Components
 
         protected override async Task OnInitializedAsync()
         {
-            Results = await Pager();
+            await Load();
             await JSRuntime.DoVoidAsync("initDataTable", new[] { "#logs" });
         }
 
-        public async Task<PageResult<List<JobTraceEntity>>> Pager(int pageIndex = 1, int pageSize = 20)
+        public async Task Load(int pageIndex = 1, int pageSize = 10)
+        {
+            Results = await Pager(pageIndex, pageSize);
+        }
+
+        public async Task<PageResult<List<JobTraceEntity>>> Pager(int pageIndex = 1, int pageSize = 10)
         {
             Id = Info.Split('|')[0];
             Name = Info.Split('|')[1];
@@ -34,10 +39,7 @@ namespace QuartzHost.UI.Components
                 Extens = new Dictionary<string, string> { { "TaskId", Id } }
             };
 
-            var logs = await Http.PostHttpAsync<PageResult<List<JobTraceEntity>>>($"job/task/trace", pager);
-            Console.WriteLine("logs:" + logs.ToJson());
-            Results = logs;
-            return logs;
+            return await Http.PostHttpAsync<PageResult<List<JobTraceEntity>>>($"job/task/trace", pager);
         }
     }
 }

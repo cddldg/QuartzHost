@@ -27,9 +27,7 @@
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">任务日志列表</h3>
-                    <a class="btn btn-outline-success btn-xs float-right" @onclick="async ()=> await Pager()">
-                        <i class="fas fa-sync-alt"></i> 刷新
-                    </a>
+                    <button type="button" class="btn btn-default btn-sm float-right" @onclick="async ()=> await Load()"><i class="fas fa-sync-alt"></i></button>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
@@ -52,8 +50,8 @@
                                     <tr>
                                         <td>@Id</td>
                                         <td>@Name</td>
-                                        <td>@log.StartTime</td>
-                                        <td>@log.EndTime</td>
+                                        <td>@log.StartTime.ToString("yyyy-MM-dd HH:mm:ss fff")</td>
+                                        <td>@log.EndTime.Value.ToString("yyyy-MM-dd HH:mm:ss fff")</td>
                                         <td>@log.ElapsedTime</td>
                                         <td>@log.ResultName</td>
                                     </tr>
@@ -67,6 +65,7 @@
                                 </tr>
                             }
                         </tbody>
+                        <PagerInfo Colspan="7" Total="Results?.Data?.FirstOrDefault()?.Total??0" PageIndex="1" PageSize="10" />
                     </table>
                 </div>
                 <!-- /.card-body -->
