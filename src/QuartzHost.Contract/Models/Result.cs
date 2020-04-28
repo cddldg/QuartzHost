@@ -30,7 +30,12 @@ namespace QuartzHost.Contract.Models
         public int Total { get; set; }
     }
 
-    public class PageInput
+    public class Input
+    {
+        public Dictionary<string, string> Extens { get; set; } = new Dictionary<string, string>();
+    }
+
+    public class PageInput : Input
     {
         /// <summary>
         ///     每页大小默认20
@@ -45,7 +50,6 @@ namespace QuartzHost.Contract.Models
         [Range(1, int.MaxValue)]
         public int PageIndex { get; set; } = 1;
 
-        public Dictionary<string, string> Extens { get; set; } = new Dictionary<string, string>();
         public string OrderBy { get; set; }
     }
 }

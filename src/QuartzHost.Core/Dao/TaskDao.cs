@@ -31,6 +31,21 @@ namespace QuartzHost.Core.Dao
             }
         }
 
+        public Task<JobUserEntity> QueryUserAsync(string name, string pwd)
+        {
+            return _context.QuerySingleAsync<JobUserEntity>($"SELECT  * FROM JobUser {NOLOCK} WHERE UserName=@UserName AND Password=@Password", new { UserName = name, Password = pwd });
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="sid"></param>
+        /// <returns></returns>
+        public async Task<bool> LastLoginTimeAsync(long sid)
+        {
+            return (await _context.ExecuteAsync("UPDATE JobUser SET LastLoginTime=@LastLoginTime where Id=@Id", new { Id = sid, LastLoginTime = DateTime.Now })) > 0;
+        }
+
         public async Task<List<JobDictEntity>> QueryDictAllAsync(DictType? type)
         {
             if (type.HasValue)

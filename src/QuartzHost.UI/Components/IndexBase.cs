@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace QuartzHost.UI.Components
 {
-    public class IndexBase : ComponentBase
+    public class IndexBase : PageBase<string>
     {
-        protected override Task OnInitializedAsync()
+        protected override async Task OnInitializedAsync()
         {
-            return base.OnInitializedAsync();
+            await UserCheckAsync();
         }
     }
 }

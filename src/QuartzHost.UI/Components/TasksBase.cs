@@ -1,12 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
-using QuartzHost.Contract.Common;
 using QuartzHost.Contract.Models;
 using QuartzHost.UI.Common;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace QuartzHost.UI.Components
@@ -15,6 +10,7 @@ namespace QuartzHost.UI.Components
     {
         protected override async Task OnInitializedAsync()
         {
+            await UserCheckAsync();
             await Load();
             await JSRuntime.DoVoidAsync("initDataTable", new[] { "#task" });
         }

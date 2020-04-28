@@ -8,6 +8,10 @@ namespace QuartzHost.Core.Services
 {
     public interface ITaskService
     {
+        Task<Result<JobUserEntity>> QueryUserAsync(Input input);
+
+        Task<Result<JobUserEntity>> LoginAsync(Input input);
+
         /// <summary>
         /// 查询所有Dict
         /// </summary>

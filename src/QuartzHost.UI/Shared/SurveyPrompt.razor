@@ -1,8 +1,4 @@
-﻿@using System.Net.Http
-@using QuartzHost.Contract.Models;
-@using QuartzHost.Contract.Common;
-@inject IJSRuntime JSRuntime
-@inject HttpClient Http
+﻿@inject HttpClient Http
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <div class="container-fluid">
@@ -919,12 +915,4 @@
 <!-- /.content -->
 @code {
 
-    [Parameter]
-    public string Title { get; set; }
-    [Parameter]
-    public Result<List<JobDictEntity>> Dict { get; set; }
-    protected override async Task OnInitializedAsync()
-    {
-        await JSRuntime.InvokeAsync<object>("QuartzHostUI.initDataTable", "#example2");
-    }
 }

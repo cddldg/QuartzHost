@@ -24,6 +24,32 @@ namespace QuartzHost.API.Controllers
             _quartzService = quartzService;
         }
 
+        ///// <summary>
+        /////
+        ///// </summary>
+        ///// <param name="input"></param>
+        ///// <returns></returns>
+        //[HttpPost]
+        //[AllowAnonymous]
+        //[Route("user")]
+        //public async Task<Result<JobUserEntity>> QueryUserAsync(Input input)
+        //{
+        //    return await _taskService.QueryUserAsync(input);
+        //}
+
+        /// <summary>
+        /// 登录
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [AllowAnonymous]
+        [Route("login")]
+        public async Task<Result<JobUserEntity>> LoginAsync(Input input)
+        {
+            return await _taskService.LoginAsync(input);
+        }
+
         /// <summary>
         /// 查询所有Dict
         /// </summary>

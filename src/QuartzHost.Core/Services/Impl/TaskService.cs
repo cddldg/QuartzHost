@@ -22,6 +22,50 @@ namespace QuartzHost.Core.Services.Impl
             _logger = logger;
         }
 
+        public async Task<Result<JobUserEntity>> QueryUserAsync(Input input)
+        {
+            var result = new Result<JobUserEntity> { Message = "查询用户成功！" };
+            try
+            {
+                input.Extens.TryGetValue("UserName", out string name);
+                input.Extens.TryGetValue("Password", out string pwd);
+                result.Data = await _taskDao.QueryUserAsync(name.Trim(), Secret.GetMd5(pwd.Trim()));
+                if (result.Data == null || result.Data.Id <= 0)
+                    throw new Exception("查无此人！");
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.Message = $"查无此人！";
+                result.ErrorDetail = ex.Message;
+                _logger.LogError(ex, $"input:{input.ToJson()} 查询用户失败！");
+            }
+            return result;
+        }
+
+        public async Task<Result<JobUserEntity>> LoginAsync(Input input)
+        {
+            var result = new Result<JobUserEntity> { Message = "查询用户成功！" };
+            try
+            {
+                input.Extens.TryGetValue("UserName", out string name);
+                input.Extens.TryGetValue("Password", out string pwd);
+                result.Data = await _taskDao.QueryUserAsync(name.Trim(), Secret.GetMd5(pwd.Trim()));
+                result.Message = $"{result.Data.RealName ?? name} 欢迎你！";
+                if (result.Data == null || result.Data.Id <= 0)
+                    throw new Exception("查无此人！");
+                await _taskDao.LastLoginTimeAsync(result.Data.Id);
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.Message = $"查无此人！";
+                result.ErrorDetail = ex.Message;
+                _logger.LogError(ex, $"input:{input.ToJson()} 查询用户失败！");
+            }
+            return result;
+        }
+
         public async Task<Result<List<JobDictEntity>>> QueryDictAllAsync(DictType? type)
         {
             var result = new Result<List<JobDictEntity>> { Message = "查询Dict成功!" };

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Reflection;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -37,6 +38,25 @@ namespace QuartzHost.Contract.Common
                 return default;
 
             return JsonSerializer.Deserialize<T>(json, op);
+        }
+    }
+
+    public static class Secret
+    {
+        public static string GetMd5(string str, string salt = null)
+        {
+            salt ??= "QuartzHost";
+            using (var md5 = MD5.Create())
+            {
+                var input = str;
+                if (!string.IsNullOrEmpty(salt))
+                    input = $"{input}:{salt}";
+                var hash = md5.ComputeHash(Encoding.UTF8.GetBytes(input));
+                var sb = new StringBuilder();
+                foreach (var b in hash)
+                    sb.Append(b.ToString("x2"));
+                return sb.ToString().ToUpperInvariant();
+            }
         }
     }
 

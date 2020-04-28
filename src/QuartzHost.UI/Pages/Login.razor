@@ -1,0 +1,53 @@
+﻿@layout NormalLayout
+@page "/login"
+@inherits LoginBase
+<div class="hold-transition login-page">
+    <div class="login-box">
+        <div class="login-logo">
+            <a href="/"><b>Quartz</b>Host</a>
+        </div>
+        <!-- /.login-logo -->
+        <div class="card">
+            <div class="card-body login-card-body">
+                <p class="login-box-msg">请先登录</p>
+
+                <div class="input-group mb-3">
+                    <input type="email" class="form-control" placeholder="用户名" @bind="UserName">
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-user"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <input type="password" class="form-control" placeholder="密码" @bind="Password">
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-lock"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-8">
+                        <div class="icheck-primary">
+                            <input type="checkbox" @bind="Remember">
+                            <label for="remember">
+                                记住
+                            </label>
+                        </div>
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-4">
+                        <button type="submit" class="btn btn-primary btn-block" @onclick="async ()=>await UserLoginAsync()">登录</button>
+                    </div>
+                    <!-- /.col -->
+                </div>
+            </div>
+            <!-- /.login-card-body -->
+        </div>
+    </div>
+</div>
+
+@code {
+
+}
