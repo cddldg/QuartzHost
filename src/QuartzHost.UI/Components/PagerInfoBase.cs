@@ -25,7 +25,7 @@ namespace QuartzHost.UI.Components
 
         public Next Nexts { get; set; } = new Next();
 
-        public int[] PageSplit { get; set; } = new int[] { };
+        public int[] PageSplit { get; set; }
 
         protected override async Task OnInitializedAsync()
         {

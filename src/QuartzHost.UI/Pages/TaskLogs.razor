@@ -26,7 +26,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">任务日志列表</h3>
+                    <h3 class="card-title">任务 @Name 日志列表 @Id</h3>
                     <button type="button" class="btn btn-default btn-sm float-right" @onclick="async ()=> await Load()"><i class="fas fa-sync-alt"></i></button>
                 </div>
                 <!-- /.card-header -->
@@ -35,7 +35,7 @@
                         <thead>
                             <tr>
                                 <th>编号</th>
-                                <th>名称</th>
+
                                 <th>开始运行时间</th>
                                 <th>结束运行时间</th>
                                 <th>执行耗时(秒)</th>
@@ -48,8 +48,7 @@
                                 foreach (var log in Results.Data)
                                 {
                                     <tr>
-                                        <td>@Id</td>
-                                        <td>@Name</td>
+                                        <td>@log.TraceId</td>
                                         <td>@log.StartTime.ToString("yyyy-MM-dd HH:mm:ss fff")</td>
                                         <td>@log.EndTime.Value.ToString("yyyy-MM-dd HH:mm:ss fff")</td>
                                         <td>@log.ElapsedTime</td>

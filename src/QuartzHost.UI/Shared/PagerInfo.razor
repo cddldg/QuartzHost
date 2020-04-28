@@ -2,7 +2,6 @@
 <tfoot>
     <tr>
         <td colspan="@Colspan">
-
             <div class="row">
                 <div class="col-sm-12 col-md-5">
                     <div class="dataTables_info" aria-live="polite">共 @Total 条数据</div>
@@ -10,18 +9,16 @@
                 <div class="col-sm-12 col-md-7">
                     <div class="dataTables_paginate paging_simple_numbers">
                         <ul class="pagination">
-                            <li class="paginate_button page-item previous @Previous.Disabled" id="example2_previous"><a href="#" aria-controls="example2" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li>
+                            <li class="paginate_button page-item previous @Previous.Disabled"><a href="/task/all/@(PageIndex-1)|@PageSize" class="page-link">上页</a></li>
 
                             @if (PageSplit.Length > 0)
                             {
                                 foreach (var item in PageSplit)
                                 {
-                                    <li class="paginate_button page-item @(PageIndex==item?"active":"")"><a href="#" class="page-link">@item</a></li>
+                                    <li class="paginate_button page-item @(PageIndex==item?"active":"")"><a href="/task/all/@item|@PageSize" class="page-link">@item</a></li>
                                 }
-
                             }
-
-                            <li class="paginate_button page-item next @Nexts.Disabled" id="example2_next"><a href="#" aria-controls="example2" data-dt-idx="7" tabindex="0" class="page-link">Next</a></li>
+                            <li class="paginate_button page-item next @Nexts.Disabled" id="example2_next"><a href="/task/all/@(PageIndex+1)|@PageSize" class="page-link">下页</a></li>
                         </ul>
                     </div>
                 </div>
