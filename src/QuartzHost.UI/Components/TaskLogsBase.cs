@@ -39,7 +39,7 @@ namespace QuartzHost.UI.Components
                 Extens = new Dictionary<string, string> { { "TaskId", Id } }
             };
 
-            return await Http.PostHttpAsync<PageResult<List<JobTraceEntity>>>($"job/task/trace", pager);
+            return await Http.PostHttpAsync<PageResult<List<JobTraceEntity>>>($"job/task/trace", pager, nodeName: await SessionStorage.GetItemAsync<string>("nodename"));
         }
     }
 }

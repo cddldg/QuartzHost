@@ -1,4 +1,5 @@
-﻿@inherits SidebarBase
+﻿@inject NavigationManager Nav
+@inherits SidebarBase
 <!-- Main Sidebar Container -->
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
@@ -16,7 +17,7 @@
                 <img src="@UserInfo.Img" class="img-circle elevation-2" alt="@UserInfo.Name">
             </div>
             <div class="info">
-                <a href="/" class="d-block">@UserInfo.Name</a>
+                <a href="javascript:void()" @onclick="@(e=> Nav.NavigateTo("/"))" class="d-block">@UserInfo.Name</a>
             </div>
         </div>
 

@@ -67,7 +67,8 @@ namespace QuartzHost.API.Controllers
         /// 查询所有node列表
         /// </summary>
         /// <returns></returns>
-        [HttpPost]
+        [HttpGet]
+        [AllowAnonymous]
         [Route("node/all")]
         public async Task<Result<List<JobNodesEntity>>> QueryNodesAll()
         {

@@ -5,79 +5,87 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0 text-dark">Starter Page</h1>
-            </div><!-- /.col -->
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a @onclick="@(e => Nav.NavigateTo("/"))">Home</a></li>
-                    <li class="breadcrumb-item active">Starter Page</li>
-                </ol>
+                <h1 class="m-0 text-dark">节点</h1>
             </div><!-- /.col -->
         </div><!-- /.row -->
     </div><!-- /.container-fluid -->
 </div>
 <!-- /.content-header -->
 <!-- Main content -->
-<div class="content">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-lg-6">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-
-                        <p class="card-text">
-                            Some quick example text to build on the card title and make up the bulk of the card's
-                            content.
-                        </p>
-
-                        <a href="#" class="card-link">Card link</a>
-                        <a href="#" class="card-link">Another link</a>
+<section class="content">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">所有任务列表</h3>
+                    <div class="float-right">
+                        <button type="button" class="btn btn-default btn-sm " @onclick="async ()=> await Load()"><i class="fas fa-plus"></i></button>
+                        <button type="button" class="btn btn-default btn-sm " @onclick="async ()=> await Load()"><i class="fas fa-sync-alt"></i></button>
                     </div>
                 </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                    <table id="task" class="table table-bordered table-hover compact">
+                        <thead>
+                            <tr>
+                                <th>节点</th>
+                                <th>节点类型</th>
+                                <th>所在机器</th>
+                                <th>访问协议</th>
+                                <th>节点主机</th>
+                                <th>最后更新时间</th>
+                                <th>节点状态</th>
+                                <th>权重</th>
+                                <th>GenerID</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Results != null && Results.Data != null)
+                            {
+                                foreach (var item in Results.Data)
+                                {
+                                    <tr>
+                                        <td>@item.NodeName</td>
+                                        <td>@item.NodeType</td>
+                                        <td>@item.MachineName</td>
+                                        <td>@item.AccessProtocol</td>
+                                        <td>@item.Host</td>
+                                        <td>@item.LastUpdateTime</td>
+                                        <td>@item.Status</td>
+                                        <td>@item.Priority</td>
+                                        <td>@item.GenerID</td>
+                                        <td class="center">
+                                            <input class="" type="radio" name="radio1" @onchange="@(async e=>await Startd(item.NodeName))">
+                                        </td>
+                                    </tr>
+                                }
 
-                <div class="card card-primary card-outline">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-
-                        <p class="card-text">
-                            Some quick example text to build on the card title and make up the bulk of the card's
-                            content.
-                        </p>
-                        <a href="#" class="card-link">Card link</a>
-                        <a href="#" class="card-link">Another link</a>
-                    </div>
-                </div><!-- /.card -->
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="10" align="center">Loading...</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.card-body -->
             </div>
-            <!-- /.col-md-6 -->
-            <div class="col-lg-6">
-                <div class="card">
-                    <div class="card-header">
-                        <h5 class="m-0">Featured</h5>
-                    </div>
-                    <div class="card-body">
-                        <h6 class="card-title">Special title treatment</h6>
-
-                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
-                    </div>
-                </div>
-
-                <div class="card card-primary card-outline">
-                    <div class="card-header">
-                        <h5 class="m-0">Featured</h5>
-                    </div>
-                    <div class="card-body">
-                        <h6 class="card-title">Special title treatment</h6>
-
-                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
-                    </div>
-                </div>
-            </div>
-            <!-- /.col-md-6 -->
+            <!-- /.card -->
         </div>
-        <!-- /.row -->
-    </div><!-- /.container-fluid -->
-</div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</section>
 <!-- /.content -->
+@code{
+
+    public async Task Startd(string name)
+    {
+
+        await SessionStorage.SetItemAsync("nodename", name);
+        await JSRuntime.DoVoidAsync("toastrs", new[] { "success", "节点选择", $"已选节点：{name}" });
+    }
+}
