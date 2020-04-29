@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using QuartzHost.UI.Common;
+using QuartzHost.Contract.Models;
 
 namespace QuartzHost.UI.Components
 {
@@ -16,6 +17,12 @@ namespace QuartzHost.UI.Components
         /// </summary>
         [Inject]
         protected IJSRuntime JSRuntime { get; set; }
+
+        /// <summary>
+        /// 获得 SessionStorage 实例
+        /// </summary>
+        [Inject]
+        protected ISessionStorage SessionStorage { get; set; }
 
         /// <summary>
         /// 侧边栏
@@ -34,7 +41,21 @@ namespace QuartzHost.UI.Components
         /// <summary>
         /// 用户信息
         /// </summary>
-        public UserInfo UserInfo { get; set; } = new UserInfo { Name = "抵拢倒拐", Img = "img/lbxx.jpg" };
+        public JobUserEntity UserInfo { get; set; } //= new JobUserEntity { Name = "抵拢倒拐", Img = "img/lbxx.jpg" };
+
+        protected override async Task OnInitializedAsync()
+        {
+            var user = await SessionStorage.GetItemAsync<JobUserEntity>(SessionStorage.GetId());
+            if (user != null)
+            {
+                user.Img = "img/lbxx.jpg";
+                UserInfo = user;
+            }
+            else
+            {
+                UserInfo = new JobUserEntity { RealName = "小秘密", Img = "img/lbxx.jpg" };
+            }
+        }
 
         public void MenuClick()
         {

@@ -14,6 +14,7 @@ namespace QuartzHost.UI
         {
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.Services.AddSessionStorage();
+            builder.Services.AddLocalStorage();
             builder.RootComponents.Add<App>("app");
 
             await builder.Build().RunAsync();

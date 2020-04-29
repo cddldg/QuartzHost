@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.JSInterop;
 using QuartzHost.Contract.Common;
-using QuartzHost.Contract.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +8,8 @@ using System.Threading.Tasks;
 
 namespace QuartzHost.UI.Common
 {
-    public interface ISessionStorage
+    public interface ILocalStorage
     {
-        string GetId();
-
         Task SetItemAsync(string key, object data);
 
         Task<T> GetItemAsync<T>(string key);
@@ -22,25 +19,21 @@ namespace QuartzHost.UI.Common
         Task RemoveItemAsync(string key);
     }
 
-    public class SessionStorage : ISessionStorage
+    public class LocalStorage : ILocalStorage
     {
         private readonly IJSRuntime _jSRuntime;
 
-        public static readonly string SessionId = Guid.NewGuid().ToString("n");
-
-        public SessionStorage(IJSRuntime jSRuntime)
+        public LocalStorage(IJSRuntime jSRuntime)
         {
             _jSRuntime = jSRuntime;
         }
-
-        public string GetId() => SessionId;
 
         public async Task SetItemAsync(string key, object data)
         {
             if (string.IsNullOrEmpty(key))
                 throw new ArgumentNullException(nameof(key));
 
-            await _jSRuntime.InvokeAsync<object>("sessionStorage.setItem", key, data.ToJson());
+            await _jSRuntime.InvokeAsync<object>("localStorage.setItem", key, data.ToJson());
         }
 
         public async Task<T> GetItemAsync<T>(string key)
@@ -48,7 +41,7 @@ namespace QuartzHost.UI.Common
             if (string.IsNullOrEmpty(key))
                 throw new ArgumentNullException(nameof(key));
 
-            var serialisedData = await _jSRuntime.InvokeAsync<string>("sessionStorage.getItem", key);
+            var serialisedData = await _jSRuntime.InvokeAsync<string>("localStorage.getItem", key);
 
             if (serialisedData == null)
                 return default(T);
@@ -61,17 +54,17 @@ namespace QuartzHost.UI.Common
             if (string.IsNullOrEmpty(key))
                 throw new ArgumentNullException(nameof(key));
 
-            await _jSRuntime.InvokeAsync<object>("sessionStorage.removeItem", key);
+            await _jSRuntime.InvokeAsync<object>("localStorage.removeItem", key);
         }
 
-        public async Task ClearAsync() => await _jSRuntime.InvokeAsync<object>("sessionStorage.clear");
+        public async Task ClearAsync() => await _jSRuntime.InvokeAsync<object>("localStorage.clear");
     }
 
-    public static class SessionServiceCollectionExtensions
+    public static class LocalStorageServiceCollectionExtensions
     {
-        public static IServiceCollection AddSessionStorage(this IServiceCollection services)
+        public static IServiceCollection AddLocalStorage(this IServiceCollection services)
         {
-            return services.AddScoped<ISessionStorage, SessionStorage>();
+            return services.AddScoped<ILocalStorage, LocalStorage>();
         }
     }
 }

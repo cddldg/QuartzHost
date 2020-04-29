@@ -50,6 +50,7 @@ namespace QuartzHost.Core.Services.Impl
             {
                 input.Extens.TryGetValue("UserName", out string name);
                 input.Extens.TryGetValue("Password", out string pwd);
+                pwd = Secret.DesDecrypt(pwd);
                 result.Data = await _taskDao.QueryUserAsync(name.Trim(), Secret.GetMd5(pwd.Trim()));
                 result.Message = $"{result.Data.RealName ?? name} 欢迎你！";
                 if (result.Data == null || result.Data.Id <= 0)

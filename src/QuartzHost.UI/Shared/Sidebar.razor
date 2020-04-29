@@ -1,5 +1,4 @@
-﻿@inject NavigationManager Nav
-@inherits SidebarBase
+﻿@inherits SidebarBase
 <!-- Main Sidebar Container -->
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
@@ -14,10 +13,16 @@
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
-                <img src="@UserInfo.Img" class="img-circle elevation-2" alt="@UserInfo.Name">
+                @if (UserInfo != null)
+                {
+                    <img src="@UserInfo.Img" class="img-circle elevation-2" alt="@(UserInfo.RealName??UserInfo.UserName)">
+                }
             </div>
             <div class="info">
-                <a href="javascript:void()" @onclick="@(e=> Nav.NavigateTo("/"))" class="d-block">@UserInfo.Name</a>
+                @if (UserInfo != null)
+                {
+                    <a href="/" class="d-block">@(UserInfo.RealName??UserInfo.UserName)</a>
+                }
             </div>
         </div>
 
@@ -26,19 +31,24 @@
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <!-- Add icons to the links using the .nav-icon class
                 with font-awesome or any other icon font library -->
-
                 <li class="nav-item">
-                    <a href="/task/all" class="nav-link">
+                    <NavLink href="/node" class="nav-link">
+                        <i class="fas fa-tasks nav-icon"></i>
+                        <p>节点管理</p>
+                    </NavLink>
+                </li>
+                <li class="nav-item">
+                    <NavLink href="/task" class="nav-link">
                         <i class="fas fa-tasks nav-icon"></i>
                         <p>任务列表</p>
-                    </a>
+                    </NavLink>
                 </li>
 
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <NavLink href="#" class="nav-link">
                         <i class="nav-icon fas fa-th"></i>
                         <p>系统消息</p>
-                    </a>
+                    </NavLink>
                 </li>
             </ul>
         </nav>

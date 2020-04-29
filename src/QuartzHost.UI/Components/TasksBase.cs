@@ -29,7 +29,7 @@ namespace QuartzHost.UI.Components
                 OrderBy = "TotalRunCount DESC"
             };
 
-            return await Http.PostHttpAsync<PageResult<List<JobTasksEntity>>>($"job/task/pager", pager, nodeName: await SessionStorage.GetItemAsync<string>("nodename"));
+            return await Http.PostHttpAsync<PageResult<List<JobTasksEntity>>, PageInput>($"job/task/pager", pager, nodeName: await SessionStorage.GetItemAsync<string>("nodename"));
         }
 
         public async Task<Result<JobTaskStatus>> SingleSetting(SingleType type, string name, long sid)

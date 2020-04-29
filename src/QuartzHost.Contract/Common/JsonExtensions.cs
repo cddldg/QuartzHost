@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
@@ -12,17 +14,22 @@ namespace QuartzHost.Contract.Common
 {
     public static class JsonExtensions
     {
+        public static JsonSerializerOptions JsonOptions()
+        {
+            var op = new JsonSerializerOptions { PropertyNamingPolicy = null };
+            op.Converters.Add(new DateTimeConverter());
+            return op;
+        }
+
         //options.JsonSerializerOptions.PropertyNamingPolicy = null;
         //            options.JsonSerializerOptions.Converters.Add(new DateTimeConverter());
         public static string ToJson<T>(this T obj)
         {
-            var op = new JsonSerializerOptions { PropertyNamingPolicy = null };
-            op.Converters.Add(new DateTimeConverter());
             if (obj == null)
                 return null;
             try
             {
-                return JsonSerializer.Serialize(obj, obj.GetType(), op);
+                return JsonSerializer.Serialize(obj, obj.GetType(), JsonOptions());
             }
             catch (Exception)
             {
@@ -32,12 +39,10 @@ namespace QuartzHost.Contract.Common
 
         public static T ToObj<T>(this string json)
         {
-            var op = new JsonSerializerOptions { PropertyNamingPolicy = null };
-            op.Converters.Add(new DateTimeConverter());
             if (string.IsNullOrWhiteSpace(json))
                 return default;
 
-            return JsonSerializer.Deserialize<T>(json, op);
+            return JsonSerializer.Deserialize<T>(json, JsonOptions());
         }
     }
 
@@ -56,6 +61,72 @@ namespace QuartzHost.Contract.Common
                 foreach (var b in hash)
                     sb.Append(b.ToString("x2"));
                 return sb.ToString().ToUpperInvariant();
+            }
+        }
+
+        private const string SKey = "NH4Av@X2";
+
+        /// <summary>
+        /// DES加密字符串
+        /// </summary>
+        /// <param name="pToEncrypt">待加密的字符串</param>
+        /// <param name="sKey">加密密钥,要求为8位</param>
+        /// <returns>加密成功返回加密后的字符串，失败返回源串</returns>
+        public static string DesEncrypt(string pToEncrypt, string sKey = null)
+        {
+            sKey ??= SKey;
+            StringBuilder ret = new StringBuilder();
+            try
+            {
+                DESCryptoServiceProvider des = new DESCryptoServiceProvider();
+                byte[] inputByteArray = Encoding.Default.GetBytes(pToEncrypt);
+                des.Key = ASCIIEncoding.ASCII.GetBytes(sKey);
+                des.IV = ASCIIEncoding.ASCII.GetBytes(sKey);
+                MemoryStream ms = new MemoryStream();
+                CryptoStream cs = new CryptoStream(ms, des.CreateEncryptor(), CryptoStreamMode.Write);
+                cs.Write(inputByteArray, 0, inputByteArray.Length);
+                cs.FlushFinalBlock();
+                foreach (byte b in ms.ToArray())
+                {
+                    ret.AppendFormat("{0:X2}", b);
+                }
+                return ret.ToString();
+            }
+            catch
+            {
+                return pToEncrypt;
+            }
+        }
+
+        /// <summary>
+        /// DES解密字符串
+        /// </summary>
+        /// <param name="pToDecrypt">待解密的字符串</param>
+        /// <param name="sKey">解密密钥,要求为8位,和加密密钥相同</param>
+        /// <returns>解密成功返回解密后的字符串，失败返源串</returns>
+        public static string DesDecrypt(string pToDecrypt, string sKey = null)
+        {
+            sKey ??= SKey;
+            MemoryStream ms = new MemoryStream();
+            try
+            {
+                DESCryptoServiceProvider des = new DESCryptoServiceProvider();
+                byte[] inputByteArray = new byte[pToDecrypt.Length / 2];
+                for (int x = 0; x < pToDecrypt.Length / 2; x++)
+                {
+                    int i = (Convert.ToInt32(pToDecrypt.Substring(x * 2, 2), 16));
+                    inputByteArray[x] = (byte)i;
+                }
+                des.Key = ASCIIEncoding.ASCII.GetBytes(sKey);
+                des.IV = ASCIIEncoding.ASCII.GetBytes(sKey);
+                CryptoStream cs = new CryptoStream(ms, des.CreateDecryptor(), CryptoStreamMode.Write);
+                cs.Write(inputByteArray, 0, inputByteArray.Length);
+                cs.FlushFinalBlock();
+                return System.Text.Encoding.Default.GetString(ms.ToArray());
+            }
+            catch
+            {
+                return pToDecrypt;
             }
         }
     }

@@ -32,9 +32,13 @@ namespace QuartzHost.UI.Components
         [Inject]
         protected NavigationManager Nav { get; set; }
 
+        [Inject]
+        protected ILocalStorage LocalStorage { get; set; }
+
         public async System.Threading.Tasks.Task LogOutAsync()
         {
             await SessionStorage.ClearAsync();
+            await LocalStorage.RemoveItemAsync($"__User");
             Nav.NavigateTo("/login");
         }
     }

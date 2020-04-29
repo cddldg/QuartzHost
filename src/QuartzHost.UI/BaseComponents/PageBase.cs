@@ -29,30 +29,50 @@ namespace QuartzHost.UI.Components
         protected NavigationManager Nav { get; set; }
 
         /// <summary>
-        /// 获得 IJSRuntime 实例
+        /// 获得 SessionStorage 实例
         /// </summary>
         [Inject]
-        protected ISessionStorage SessionStorage { get; set; }
+        public ISessionStorage SessionStorage { get; set; }
+
+        /// <summary>
+        /// 获得 LocalStorage 实例
+        /// </summary>
+        [Inject]
+        protected ILocalStorage LocalStorage { get; set; }
 
         protected Result<T> Results { get; set; }
 
         protected async Task UserCheckAsync()
         {
-            Console.WriteLine("ccId:" + SessionStorage.GetId());
+            Console.WriteLine("UserCheck:" + SessionStorage.GetId());
             var user = await SessionStorage.GetItemAsync<JobUserEntity>(SessionStorage.GetId());
 
             if (user == null || user.Id <= 0)
             {
-                try
+                user = await LocalStorage.GetItemAsync<JobUserEntity>($"__User");
+                if (user != null && user.Id > 0)
                 {
-                    await SessionStorage.RemoveItemAsync(SessionStorage.GetId());
+                    var re = await UserLoginAsync(user.UserName, Secret.DesDecrypt(user.Password));
+                    if (re.Success)
+                        await SessionStorage.SetItemAsync(SessionStorage.GetId(), re.Data);
+                    else
+                        Nav.NavigateTo("/login");
                 }
-                catch
+                else
                 {
                     await SessionStorage.ClearAsync();
+                    Nav.NavigateTo("/login");
                 }
-                Nav.NavigateTo("/login");
             }
+        }
+
+        public async Task<Result<JobUserEntity>> UserLoginAsync(string UserName, string Password)
+        {
+            var input = new Input
+            {
+                Extens = new Dictionary<string, string> { { "UserName", UserName }, { "Password", Secret.DesEncrypt(Password) } }
+            };
+            return await Http.PostHttpAsync<Result<JobUserEntity>, Input>($"job/login", input);
         }
     }
 }

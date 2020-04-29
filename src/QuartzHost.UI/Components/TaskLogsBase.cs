@@ -30,6 +30,7 @@ namespace QuartzHost.UI.Components
 
         public async Task<PageResult<List<JobTraceEntity>>> Pager(int pageIndex = 1, int pageSize = 10)
         {
+            Info ??= "0|";
             Id = Info.Split('|')[0];
             Name = Info.Split('|')[1];
             var pager = new PageInput
@@ -39,7 +40,7 @@ namespace QuartzHost.UI.Components
                 Extens = new Dictionary<string, string> { { "TaskId", Id } }
             };
 
-            return await Http.PostHttpAsync<PageResult<List<JobTraceEntity>>>($"job/task/trace", pager, nodeName: await SessionStorage.GetItemAsync<string>("nodename"));
+            return await Http.PostHttpAsync<PageResult<List<JobTraceEntity>>, PageInput>($"job/task/trace", pager, nodeName: await SessionStorage.GetItemAsync<string>("nodename"));
         }
     }
 }

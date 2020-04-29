@@ -61,7 +61,7 @@ namespace QuartzHost.API
                 .AddJsonOptions(options =>
                 {
                     options.JsonSerializerOptions.PropertyNamingPolicy = null;
-                    //options.JsonSerializerOptions.Converters.Add(new DateTimeConverter());
+                    options.JsonSerializerOptions.Converters.Add(new DateTimeConverter());
                 });
 
             //Cors

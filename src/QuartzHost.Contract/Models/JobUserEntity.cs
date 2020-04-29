@@ -31,6 +31,8 @@ namespace QuartzHost.Contract.Models
         public DateTime CreateTime { get; set; }
 
         public DateTime? LastLoginTime { get; set; }
+
+        public string Img { get; set; }
     }
 
     public enum UserStatus
