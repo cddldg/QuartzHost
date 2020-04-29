@@ -34,7 +34,7 @@ namespace QuartzHost.UI.Components
 
         public async System.Threading.Tasks.Task LogOutAsync()
         {
-            await SessionStorage.RemoveItemAsync(SessionStorage.GetId());
+            await SessionStorage.ClearAsync();
             Nav.NavigateTo("/login");
         }
     }

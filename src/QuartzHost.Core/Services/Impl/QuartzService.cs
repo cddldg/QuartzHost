@@ -579,7 +579,7 @@ namespace QuartzHost.Core.Services.Impl
                 node.AccessProtocol = CoreGlobal.NodeSetting.Protocol;
                 node.Host = $"{CoreGlobal.NodeSetting.IP}:{CoreGlobal.NodeSetting.Port}";
                 node.Priority = CoreGlobal.NodeSetting.Priority;
-                node.Status = 2;
+                node.Status = NodeStatus.Run;
                 node.AccessSecret = Guid.NewGuid().ToString("n");
                 node.LastUpdateTime = DateTime.Now;
                 isSave = await _quartzDao.UpdateJobNodeStatusAsync(node) > 0;
@@ -590,7 +590,7 @@ namespace QuartzHost.Core.Services.Impl
             {
                 if (node != null)
                 {
-                    node.Status = isOnStop ? 0 : 1;
+                    node.Status = isOnStop ? NodeStatus.Down : NodeStatus.Off;
                     isSave = await _quartzDao.UpdateJobNodeStatusAsync(node) > 0;
                     if (isOnStop) node.AccessSecret = null;
                 }

@@ -52,11 +52,15 @@
                                         <td>@item.AccessProtocol</td>
                                         <td>@item.Host</td>
                                         <td>@item.LastUpdateTime</td>
-                                        <td>@item.Status</td>
+                                        <td>@item.StatusName</td>
                                         <td>@item.Priority</td>
                                         <td>@item.GenerID</td>
                                         <td class="center">
-                                            <input class="" type="radio" name="radio1" @onchange="@(async e=>await Startd(item.NodeName))">
+                                            @if (item.Status == NodeStatus.Run)
+                                            {
+                                                <input class="" type="radio" name="radio1" checked="@(item.NodeName==Name)" @onchange="@(async e=>await Startd(item.NodeName))">
+
+                                            }
                                         </td>
                                     </tr>
                                 }
@@ -82,10 +86,4 @@
 <!-- /.content -->
 @code{
 
-    public async Task Startd(string name)
-    {
-
-        await SessionStorage.SetItemAsync("nodename", name);
-        await JSRuntime.DoVoidAsync("toastrs", new[] { "success", "节点选择", $"已选节点：{name}" });
-    }
 }

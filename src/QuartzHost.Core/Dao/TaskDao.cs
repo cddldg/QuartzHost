@@ -64,7 +64,7 @@ namespace QuartzHost.Core.Dao
 
         public async Task<List<JobNodesEntity>> QueryNodesAllAsync()
         {
-            return (await _context.QueryAsync<JobNodesEntity>($"SELECT * FROM JobNodes {NOLOCK} ORDER BY Status DESC,LastUpdateTime  "))?.ToList();
+            return (await _context.QueryAsync<JobNodesEntity>($"SELECT * FROM JobNodes {NOLOCK} ORDER BY Status DESC,LastUpdateTime DESC "))?.ToList();
         }
 
         public Task<int> QueryAllCountAsync(JobTaskStatus? status)

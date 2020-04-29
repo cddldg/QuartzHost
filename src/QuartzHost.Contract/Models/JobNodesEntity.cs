@@ -1,5 +1,7 @@
-﻿using System;
+﻿using QuartzHost.Contract.Common;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
@@ -49,7 +51,9 @@ namespace QuartzHost.Contract.Models
         /// <summary>
         /// 节点状态，0-下线，1-停机，2-运行
         /// </summary>
-        public int Status { get; set; }
+        public NodeStatus Status { get; set; }
+
+        public string StatusName { get => Status.GetDescription(); }
 
         /// <summary>
         /// 权重
@@ -57,5 +61,26 @@ namespace QuartzHost.Contract.Models
         public int Priority { get; set; }
 
         public int GenerID { get; set; }
+    }
+
+    public enum NodeStatus
+    {
+        /// <summary>
+        /// 下线
+        /// </summary>
+        [Description("下线")]
+        Down = 0,
+
+        /// <summary>
+        /// 停机
+        /// </summary>
+        [Description("停机")]
+        Off = 1,
+
+        /// <summary>
+        /// 运行
+        /// </summary>
+        [Description("运行")]
+        Run = 2
     }
 }

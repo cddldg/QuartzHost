@@ -16,7 +16,7 @@ namespace QuartzHost.UI.Common
     public static class HttpJsonExtensions
     {
         public const string TOKEN = "7e07d2b6c1444d6bb94c87547916b18d";
-        public const string ApiHost = "http://localhost:60000/";
+        public static string ApiHost = "http://localhost:60000/";
 
         public static async Task<T> GetHttpJsonAsync<T>(this HttpClient Http, string requestUri, bool isAuth = true)
         {
@@ -29,8 +29,9 @@ namespace QuartzHost.UI.Common
         {
             if (!string.IsNullOrWhiteSpace(nodeName))
             {
-                var token = await GetNodeAsync(Http, nodeName);
-                Http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                var node = await GetNodeAsync(Http, nodeName);
+                Http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", node[0]);
+                ApiHost = node[1];
             }
             var content = await Http.GetStringAsync($"{ApiHost}{requestUri}");
             return content.ToObj<T>();
@@ -46,13 +47,14 @@ namespace QuartzHost.UI.Common
         {
             if (!string.IsNullOrWhiteSpace(nodeName))
             {
-                var token = await GetNodeAsync(Http, nodeName);
-                Http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                var node = await GetNodeAsync(Http, nodeName);
+                Http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", node[0]);
+                ApiHost = node[1];
             }
             return await Http.PostJsonAsync<T>($"{ApiHost}{requestUri}", content);
         }
 
-        private static async Task<string> GetNodeAsync(HttpClient Http, string nodeName)
+        private static async Task<string[]> GetNodeAsync(HttpClient Http, string nodeName)
         {
             var list = CacheHelper.Get<List<JobNodesEntity>>("job_node_all");
             if (list == null || list.Any() == false)
@@ -61,7 +63,12 @@ namespace QuartzHost.UI.Common
                 CacheHelper.Set("job_node_all", model.Data);
                 list = model.Data;
             }
-            return list?.FirstOrDefault(p => p.NodeName == nodeName && p.Status == 2)?.AccessSecret ?? "";
+            var node = list?.FirstOrDefault(p => p.NodeName == nodeName && p.Status == NodeStatus.Run);
+            return new string[]
+            {
+                node?.AccessSecret ?? "",
+                $"{node?.AccessProtocol ?? "http"}://{node?.Host ?? ""}/"
+            };
         }
     }
 }
