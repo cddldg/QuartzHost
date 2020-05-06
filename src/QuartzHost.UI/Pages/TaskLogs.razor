@@ -11,7 +11,7 @@
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="/">首页</a></li>
-                    <li class="breadcrumb-item"><a href="/task/all">任务列表</a></li>
+                    <li class="breadcrumb-item"><a href="/task">任务列表</a></li>
                     <li class="breadcrumb-item active">任务日志</li>
                 </ol>
             </div>
@@ -44,23 +44,23 @@
                         <tbody>
                             @if (Results != null && Results.Data != null)
                             {
-                                foreach (var log in Results.Data)
-                                {
-                                    <tr>
-                                        <td>@log.TraceId</td>
-                                        <td>@log.StartTime.ToString("yyyy-MM-dd HH:mm:ss fff")</td>
-                                        <td>@log.EndTime.Value.ToString("yyyy-MM-dd HH:mm:ss fff")</td>
-                                        <td>@log.ElapsedTime</td>
-                                        <td>@log.ResultName</td>
-                                    </tr>
-                                }
+                            foreach (var log in Results.Data)
+                            {
+                            <tr>
+                                <td>@log.TraceId</td>
+                                <td>@log.StartTime.ToString("yyyy-MM-dd HH:mm:ss fff")</td>
+                                <td>@log.EndTime.Value.ToString("yyyy-MM-dd HH:mm:ss fff")</td>
+                                <td>@log.ElapsedTime</td>
+                                <td>@log.ResultName</td>
+                            </tr>
+                            }
 
                             }
                             else
                             {
-                                <tr>
-                                    <td colspan="7" align="center">Loading...</td>
-                                </tr>
+                            <tr>
+                                <td colspan="7" align="center">Loading...</td>
+                            </tr>
                             }
                         </tbody>
                         <PagerInfo Colspan="7" Total="Results?.Data?.FirstOrDefault()?.Total??0" PageIndex="1" PageSize="10" />

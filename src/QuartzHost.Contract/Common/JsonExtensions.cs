@@ -12,8 +12,10 @@ using System.Text.Json.Serialization;
 
 namespace QuartzHost.Contract.Common
 {
-    public static class JsonExtensions
+    public static class QuartzHostExtensions
     {
+        #region Json
+
         public static JsonSerializerOptions JsonOptions()
         {
             var op = new JsonSerializerOptions { PropertyNamingPolicy = null };
@@ -21,8 +23,6 @@ namespace QuartzHost.Contract.Common
             return op;
         }
 
-        //options.JsonSerializerOptions.PropertyNamingPolicy = null;
-        //            options.JsonSerializerOptions.Converters.Add(new DateTimeConverter());
         public static string ToJson<T>(this T obj)
         {
             if (obj == null)
@@ -44,6 +44,51 @@ namespace QuartzHost.Contract.Common
 
             return JsonSerializer.Deserialize<T>(json, JsonOptions());
         }
+
+        #endregion Json
+
+        #region Function TimeStamp
+
+        /// <summary>
+        /// 获取当前时间戳
+        /// </summary>
+        /// <param name="bflag">true=10位时间戳 false=13 毫秒</param>
+        /// <returns></returns>
+        public static long GetTimeStamp(bool bflag = false)
+        {
+            TimeSpan ts = DateTime.Now.ToUniversalTime() - new DateTime(1970, 1, 1, 0, 0, 0, 0);//ToUniversalTime()转换为标准时区的时间,去掉的话直接就用北京时间
+            var ret = 0L;
+            if (bflag)
+                ret = Convert.ToInt64(ts.TotalSeconds);
+            else
+                ret = Convert.ToInt64(ts.TotalMilliseconds);
+            return ret;
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="timeStamp"></param>
+        /// <param name="bflag">true=10位时间戳 false=13 毫秒</param>
+        /// <returns></returns>
+        public static DateTime TimeStampToTime(long timeStamp, bool bflag = false)
+        {
+            DateTime dtStart = TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1));
+            long lTime;
+            if (bflag)//判断是10位
+            {
+                lTime = Int64.Parse($"{timeStamp}0000000");
+            }
+            else
+            {
+                lTime = Int64.Parse($"{timeStamp}0000");//13位
+            }
+            TimeSpan toNow = new TimeSpan(lTime);
+            DateTime daTime = dtStart.Add(toNow);
+            return daTime;
+        }
+
+        #endregion Function TimeStamp
     }
 
     public static class Secret

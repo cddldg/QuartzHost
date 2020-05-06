@@ -23,28 +23,10 @@ namespace QuartzHost.UI.Common
         {
             if (isAuth) Http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", TOKEN);
 
-            return await Http.GetFromJsonAsync<T>($"{ApiHost}{requestUri}", options: JsonExtensions.JsonOptions());
+            return await Http.GetFromJsonAsync<T>($"{ApiHost}{requestUri}", options: QuartzHostExtensions.JsonOptions());
         }
 
-        //public static async Task<T> GetHttpJsonAsync<T>(this HttpClient Http, string requestUri, string nodeName = "")
-        //{
-        //    if (!string.IsNullOrWhiteSpace(nodeName))
-        //    {
-        //        var node = await GetNodeAsync(Http, nodeName);
-        //        Http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", node[0]);
-        //        ApiHost = node[1];
-        //    }
-        //    var content = await Http.GetStringAsync($"{ApiHost}{requestUri}");
-        //    return content.ToObj<T>();
-        //}
-
-        //public static async Task<T> PostHttpAsync<T>(this HttpClient Http, string requestUri, object content = null, bool isAuth = true)
-        //{
-        //    if (isAuth) Http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", TOKEN);
-        //    return await Http.PostJsonAsync<T>($"{ApiHost}{requestUri}", content);
-        //}
-
-        public static async Task<T> PostHttpAsync<T, B>(this HttpClient Http, string requestUri, B content, string nodeName = "")
+        public static async Task<T> PostHttpAsync<T, C>(this HttpClient Http, string requestUri, C content, string nodeName = "")
         {
             if (!string.IsNullOrWhiteSpace(nodeName))
             {
@@ -52,10 +34,9 @@ namespace QuartzHost.UI.Common
                 Http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", node[0]);
                 ApiHost = node[1];
             }
-            var req = await Http.PostAsJsonAsync<B>($"{ApiHost}{requestUri}", content);
+            var req = await Http.PostAsJsonAsync($"{ApiHost}{requestUri}", content);
             var str = await req.Content.ReadAsStringAsync();
             return str.ToObj<T>();
-            //return await Http.PostJsonAsync<T>($"{ApiHost}{requestUri}", content);
         }
 
         public static async Task<T> PostHttpAsync<T>(this HttpClient Http, string requestUri, object content = null, string nodeName = "")
@@ -69,7 +50,6 @@ namespace QuartzHost.UI.Common
             var req = await Http.PostAsJsonAsync($"{ApiHost}{requestUri}", content);
             var str = await req.Content.ReadAsStringAsync();
             return str.ToObj<T>();
-            //return await Http.PostJsonAsync<T>($"{ApiHost}{requestUri}", content);
         }
 
         private static async Task<string[]> GetNodeAsync(HttpClient Http, string nodeName)

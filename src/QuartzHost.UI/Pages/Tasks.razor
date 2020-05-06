@@ -68,7 +68,7 @@
                                         <td>@task.LastRunTime</td>
                                         <td>@task.NextRunTime</td>
                                         <td>
-                                            <a class="btn btn-outline-primary btn-xs" href="/task/logs/@($"{task.Id}|{task.Title}")">
+                                            <a class="btn btn-outline-primary btn-xs" @onclick="()=>ToLog(task)">
                                                 <i class="fas fa-bars"></i>
                                             </a>
                                             @task.TotalRunCount
@@ -107,5 +107,9 @@
 </section>
 <!-- /.content -->
 @code{
+    public void ToLog(JobTasksEntity task)
+    {
+        Nav.NavigateTo($"/task/logs/{task.Id}|{task.Title}");
+    }
 
 }

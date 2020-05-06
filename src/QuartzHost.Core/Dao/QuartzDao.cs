@@ -9,6 +9,7 @@ using System.Data.SqlClient;
 using System.Data.SQLite;
 using System.Text;
 using System.Threading.Tasks;
+using QuartzHost.Contract.Common;
 
 namespace QuartzHost.Core.Dao
 {
@@ -85,7 +86,7 @@ namespace QuartzHost.Core.Dao
         {
             JobTraceEntity entity = new JobTraceEntity
             {
-                TraceId = CoreGlobal.SnowflakeUniqueId(),
+                TraceId = QuartzHostExtensions.GetTimeStamp(),//CoreGlobal.SnowflakeUniqueId(),
                 TaskId = tid,
                 Node = node,
                 StartTime = DateTime.Now,

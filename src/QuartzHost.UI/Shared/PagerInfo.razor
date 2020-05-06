@@ -9,16 +9,16 @@
                 <div class="col-sm-12 col-md-7">
                     <div class="dataTables_paginate paging_simple_numbers">
                         <ul class="pagination">
-                            <li class="paginate_button page-item previous @Previous.Disabled"><a href="/task/all/@(PageIndex-1)|@PageSize" class="page-link">上页</a></li>
+                            <li class="paginate_button page-item previous @Previous.Disabled"><a href="/task/@(PageIndex-1)|@PageSize" class="page-link">上页</a></li>
 
                             @if (PageSplit.Length > 0)
                             {
                                 foreach (var item in PageSplit)
                                 {
-                                    <li class="paginate_button page-item @(PageIndex==item?"active":"")"><a href="/task/all/@item|@PageSize" class="page-link">@item</a></li>
+                                    <li class="paginate_button page-item @(PageIndex==item?"active":"")"><a href="/task/@item|@PageSize" class="page-link">@item</a></li>
                                 }
                             }
-                            <li class="paginate_button page-item next @Nexts.Disabled" id="example2_next"><a href="/task/all/@(PageIndex+1)|@PageSize" class="page-link">下页</a></li>
+                            <li class="paginate_button page-item next @Nexts.Disabled" id="example2_next"><a href="/task/@(PageIndex+1)|@PageSize" class="page-link">下页</a></li>
                         </ul>
                     </div>
                 </div>

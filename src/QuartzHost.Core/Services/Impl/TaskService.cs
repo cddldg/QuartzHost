@@ -165,7 +165,7 @@ namespace QuartzHost.Core.Services.Impl
 
             try
             {
-                input.JobTasks.Id = CoreGlobal.SnowflakeUniqueId();
+                input.JobTasks.Id = QuartzHostExtensions.GetTimeStamp();// CoreGlobal.SnowflakeUniqueId();
                 input.JobTasks.Status = JobTaskStatus.Stop;
                 result.Data = input.JobTasks.Id;
                 var isOk = await _taskDao.AddAsync(input.JobTasks);
